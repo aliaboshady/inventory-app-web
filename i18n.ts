@@ -1,6 +1,8 @@
 import { createInstance, i18n as I18nInstance } from "i18next";
 import { initReactI18next } from "react-i18next/initReactI18next";
 import resourcesToBackend from "i18next-resources-to-backend";
+import { getCookie } from "@/app/actions/cookies/getCookie.action";
+import { COOKIES_KEYS } from "@/lib/staticKeys";
 
 export const LOCALES = {
   arabic: "ar",
@@ -20,8 +22,6 @@ export const i18nConfig = {
   locales,
   defaultLocale: LOCALES.arabic,
 };
-
-
 
 export default async function initTranslations(
   locale: string,
@@ -62,4 +62,9 @@ export default async function initTranslations(
     resources: { [locale]: i18nInstance.services.resourceStore.data[locale] },
     t: i18nInstance.t,
   };
+}
+
+export async function getTranslation() {
+  const locale = await getCookie(COOKIES_KEYS.locale);
+  return await initTranslations(locale, ["locale"]);
 }

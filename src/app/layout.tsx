@@ -4,6 +4,7 @@ import "./globals.css";
 import { getCookie } from "./actions/cookies/getCookie.action";
 import { COOKIES_KEYS } from "@/lib/staticKeys";
 import initTranslations from "../../i18n";
+import TranslationsProvider from "@/components/providers/TranslationsProvider";
 
 const quicksand = localFont({
   src: "../../public/fonts/Quicksand-VariableFont_wght.ttf",
@@ -20,12 +21,18 @@ export default async function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   const locale = await getCookie(COOKIES_KEYS.locale);
-  const { i18n } = await initTranslations(locale, ["locale"]);
+  const { resources, i18n } = await initTranslations(locale, ["locale"]);
 
   return (
     <html lang={locale} dir={i18n.dir()}>
       <body className={`${quicksand.variable} antialiased`}>
-        {children}
+        <TranslationsProvider
+          resources={resources}
+          locale={locale}
+          namespaces={["locale"]}
+        >
+          {children}
+        </TranslationsProvider>
       </body>
     </html>
   );
