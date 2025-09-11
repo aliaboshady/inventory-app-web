@@ -30,7 +30,7 @@ const PageLayout = ({ children }: { children: React.ReactNode }) => {
 
       <Separator />
 
-      <div className="bg-white w-full h-full border rounded-2xl">
+      <div className="bg-white w-full p-4 flex-1 border rounded-2xl flex">
         {children}
       </div>
     </div>
