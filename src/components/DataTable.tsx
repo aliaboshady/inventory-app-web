@@ -145,7 +145,7 @@ const DataTable = () => {
   return (
     <div className="h-full flex flex-col border border-neutral-200 rounded-xl overflow-hidden">
       <Table>
-        <TableHeader className="bg-neutral-100 h-12">
+        <TableHeader className="bg-neutral-100 h-12 sticky top-0 z-10">
           <TableRow>
             <TableHead className="w-10 h-10 text-center">
               <Checkbox />
