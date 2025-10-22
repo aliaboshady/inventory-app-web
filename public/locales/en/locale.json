@@ -10,10 +10,10 @@
   "GO_TO_DASHBOARD": "Go to dashboard",
   "SUCCESSFULLY_LOGGED": "You are <0>Successfully</0> logged into the Admin <1>Dashboard</1>.",
   "DASHBOARD": "Dashboard",
-  "FORMS": "Forms",
-  "ASSESSMENT_GROUP": "Assessment Group",
+  "SESSIONS": "Sessions",
+  "BENEFICIARIES": "Beneficiaries",
   "ADMINS": "Admins",
-  "CANDIDATES": "Candidates",
+  "PROJECTS": "Projects",
   "SETTINGS": "Settings",
   "NO_DATA_YET": "No data yet!",
   "SUPER_ADMIN": "Super admin"

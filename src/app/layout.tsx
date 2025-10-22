@@ -13,8 +13,8 @@ const quicksand = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "GIZ Forms",
-  description: "GIZ Forms",
+  title: "EGC",
+  description: "EGC",
 };
 
 export default async function RootLayout({

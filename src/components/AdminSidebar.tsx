@@ -17,13 +17,13 @@ import {
   SidebarFooter,
 } from "@/components/ui/sidebar";
 import {
+  BrowsersIcon,
   CaretDoubleLeftIcon,
   CaretDoubleRightIcon,
   ClipboardTextIcon,
   FolderUserIcon,
   GearIcon,
   SquaresFourIcon,
-  UserIcon,
   UsersThreeIcon,
 } from "@phosphor-icons/react/dist/ssr";
 import { useTranslation } from "react-i18next";
@@ -36,13 +36,8 @@ const items = [
     icon: SquaresFourIcon,
   },
   {
-    title: "FORMS",
-    url: "/forms",
-    icon: ClipboardTextIcon,
-  },
-  {
-    title: "ASSESSMENT_GROUP",
-    url: "/assessment-group",
+    title: "BENEFICIARIES",
+    url: "/beneficiaries",
     icon: FolderUserIcon,
   },
   {
@@ -51,9 +46,14 @@ const items = [
     icon: UsersThreeIcon,
   },
   {
-    title: "CANDIDATES",
-    url: "/candidates",
-    icon: UserIcon,
+    title: "SESSIONS",
+    url: "/sessions",
+    icon: ClipboardTextIcon,
+  },
+  {
+    title: "PROJECTS",
+    url: "/projects",
+    icon: BrowsersIcon,
   },
 ];
 
@@ -112,7 +112,7 @@ export function AdminSidebar() {
                       <SidebarMenuButton
                         asChild
                         tooltip={t(item.title)}
-                        className={`py-6 group-data-[collapsible=icon]:p-2 hover:bg-white/10 ${
+                        className={`py-6 group-data-[collapsible=icon]:p-2 hover:bg-white/10 active:bg-secondary/30 ${
                           pathname === item.url && "bg-secondary/30"
                         }`}
                       >

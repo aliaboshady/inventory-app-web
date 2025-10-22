@@ -10,10 +10,10 @@
   "GO_TO_DASHBOARD": "اذهب إلى لوحة التحكم",
   "SUCCESSFULLY_LOGGED": "لقد تم تسجيل دخولك <0>بنجاح</0> إلى <1>لوحة التحكم</1>.",
   "DASHBOARD": "لوحة التحكم",
-  "FORMS": "النماذج",
-  "ASSESSMENT_GROUP": "مجموعة التقييم",
+  "SESSIONS": "الجلسات",
+  "BENEFICIARIES": "المستفيدون",
   "ADMINS": "المشرفون",
-  "CANDIDATES": "المرشحون",
+  "PROJECTS": "المشاريع",
   "SETTINGS": "الإعدادات",
   "NO_DATA_YET": "لا توجد بيانات!",
   "SUPER_ADMIN": "المشرف العام"
