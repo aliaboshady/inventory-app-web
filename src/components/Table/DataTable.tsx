@@ -17,11 +17,14 @@ import {
 import { useState } from "react";
 import { PaginatedResponse, SortType } from "@/model/shared.models";
 import Pagination from "./Pagination";
+import { twMerge } from "tailwind-merge";
 
 export type Column = {
   header: string;
   value: (item: any) => React.ReactNode;
   sortKey?: string;
+  headerClassName?: string;
+  cellClassName?: string;
 };
 
 type Props = {
@@ -103,9 +106,12 @@ const DataTable = ({
             {columns.map((column, i) => (
               <TableHead
                 key={i}
-                className={`w-24 text-black text-nowrap ${
-                  sortBy === column.sortKey ? "font-semibold" : "font-medium"
-                }`}
+                className={twMerge(
+                  `w-24 text-black text-nowrap ps-5 ${
+                    sortBy === column.sortKey ? "font-semibold" : "font-medium"
+                  }`,
+                  column.headerClassName
+                )}
               >
                 <button
                   disabled={!column.sortKey}
@@ -147,7 +153,13 @@ const DataTable = ({
                 )}
 
                 {columns.map((column, i) => (
-                  <TableCell key={i} className="text-nowrap font-medium">
+                  <TableCell
+                    key={i}
+                    className={twMerge(
+                      "text-nowrap font-medium ps-5",
+                      column.cellClassName
+                    )}
+                  >
                     {column.value(item)}
                   </TableCell>
                 ))}
