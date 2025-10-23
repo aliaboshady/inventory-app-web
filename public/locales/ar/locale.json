@@ -16,5 +16,8 @@
   "PROJECTS": "المشاريع",
   "SETTINGS": "الإعدادات",
   "NO_DATA_YET": "لا توجد بيانات!",
-  "SUPER_ADMIN": "المشرف العام"
+  "SUPER_ADMIN": "المشرف العام",
+  "ADMIN": "المشرف",
+  "ACTIVE": "مفعل",
+  "INACTIVE": "غير مفعل"
 }

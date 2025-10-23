@@ -16,5 +16,8 @@
   "PROJECTS": "Projects",
   "SETTINGS": "Settings",
   "NO_DATA_YET": "No data yet!",
-  "SUPER_ADMIN": "Super admin"
+  "SUPER_ADMIN": "Super admin",
+  "ADMIN": "Admin",
+  "ACTIVE": "Active",
+  "INACTIVE": "Inactive"
 }
