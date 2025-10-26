@@ -58,7 +58,7 @@ const Filter = () => {
       </div>
 
       <Button className="h-12 rounded-xl text-lg">
-        <PlusIcon color="white" /> Add admin
+        <PlusIcon color="white" weight="bold" /> Add admin
       </Button>
     </div>
   );

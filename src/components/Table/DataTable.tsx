@@ -9,15 +9,11 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Checkbox } from "@/components/ui/checkbox";
-import {
-  CaretDownIcon,
-  PencilSimpleLineIcon,
-  TrashIcon,
-} from "@phosphor-icons/react/dist/ssr";
+import { CaretDownIcon } from "@phosphor-icons/react/dist/ssr";
 import { useState } from "react";
 import { PaginatedResponse, SortType } from "@/model/shared.models";
-import Pagination from "./Pagination";
 import { twMerge } from "tailwind-merge";
+import Pagination from "./Pagination";
 
 export type Column = {
   header: string;
@@ -130,9 +126,6 @@ const DataTable = ({
                 </button>
               </TableHead>
             ))}
-            <TableHead className="w-20 text-black text-nowrap">
-              Actions
-            </TableHead>
           </TableRow>
         </TableHeader>
 
@@ -163,21 +156,6 @@ const DataTable = ({
                     {column.value(item)}
                   </TableCell>
                 ))}
-
-                <TableCell>
-                  <div className="flex gap-4">
-                    <button>
-                      <PencilSimpleLineIcon
-                        className="fill-neutral-600"
-                        size={18}
-                      />
-                    </button>
-
-                    <button>
-                      <TrashIcon className="fill-red-600" size={18} />
-                    </button>
-                  </div>
-                </TableCell>
               </TableRow>
             ))}
         </TableBody>

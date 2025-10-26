@@ -3,6 +3,7 @@
 import DataTable, { Column } from "@/components/Table/DataTable";
 import Badge from "@/components/Badge";
 import { User } from "@/model/user.models";
+import TableSettings from "./TableSettings";
 
 const testUsers: User[] = [
   {
@@ -179,6 +180,11 @@ const columns: Column[] = [
         {user.status}
       </Badge>
     ),
+  },
+  {
+    header: "",
+    cellClassName: "w-1 max-w-1",
+    value: (user: User) => <TableSettings user={user} onUpdate={() => {}} />,
   },
 ];
 
