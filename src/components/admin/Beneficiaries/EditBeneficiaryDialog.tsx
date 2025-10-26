@@ -1,7 +1,6 @@
 "use client";
 
 import TextInput from "@/components/TextInput";
-import { Dropdown } from "@/components/Dropdown";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -14,11 +13,9 @@ import {
 import { DialogProps } from "@/model/shared.models";
 import { User } from "@/model/user.models";
 import { useTranslation } from "react-i18next";
-import { Label } from "../../ui/label";
 
-const EditAdminDialog = ({ open, setOpen, item }: DialogProps<User>) => {
+const EditBeneficiaryDialog = ({ open, setOpen, item }: DialogProps<User>) => {
   const { t } = useTranslation();
-  const roles = ["ADMIN", "SUPER_ADMIN"];
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -44,16 +41,6 @@ const EditAdminDialog = ({ open, setOpen, item }: DialogProps<User>) => {
             className="w-full"
             isPassword
           />
-
-          <div className="flex flex-col gap-2">
-            <Label>{t("ROLE")}</Label>
-            <Dropdown
-              items={roles}
-              chosenValue={""}
-              placeholder={t("ROLE")}
-              setChosenValue={(val: string | string[]) => {}}
-            />
-          </div>
         </div>
 
         <DialogFooter className="flex flex-row justify-end gap-2">
@@ -68,4 +55,4 @@ const EditAdminDialog = ({ open, setOpen, item }: DialogProps<User>) => {
   );
 };
 
-export default EditAdminDialog;
+export default EditBeneficiaryDialog;

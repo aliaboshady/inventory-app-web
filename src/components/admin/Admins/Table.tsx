@@ -3,7 +3,6 @@
 import DataTable, { Column } from "@/components/Table/DataTable";
 import Badge from "@/components/Badge";
 import { User } from "@/model/user.models";
-import TableSettings from "../../Table/TableSettings";
 import {
   PencilSimpleLineIcon,
   TrashIcon,
