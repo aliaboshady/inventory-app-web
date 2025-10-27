@@ -26,20 +26,19 @@ const EditBeneficiaryDialog = ({ open, setOpen, item }: DialogProps<User>) => {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 py-5">
           <TextInput
-            label={t("USERNAME")}
-            placeholder={t("ENTER_USERNAME")}
+            label={t("Username / case management number")}
+            placeholder={t("Enter Username / case management number")}
             value={""}
             setValue={() => {}}
             className="w-full"
           />
 
           <TextInput
-            label={t("PASSWORD")}
-            placeholder={t("ENTER_PASSWORD")}
+            label={t("Beneficiary Name")}
+            placeholder={t("Enter Beneficiary Name")}
             value={""}
             setValue={() => {}}
             className="w-full"
-            isPassword
           />
         </div>
 
@@ -48,7 +47,7 @@ const EditBeneficiaryDialog = ({ open, setOpen, item }: DialogProps<User>) => {
             <Button variant="secondary">Cancel</Button>
           </DialogClose>
 
-          <Button type="submit">Add</Button>
+          <Button type="submit">Edit</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>

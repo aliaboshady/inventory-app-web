@@ -8,7 +8,7 @@ import { getTailwindColor } from "@/lib/utils";
 import { MagnifyingGlassIcon, PlusIcon } from "@phosphor-icons/react/dist/ssr";
 import { useTranslation } from "react-i18next";
 import { useState } from "react";
-import EditBeneficiaryDialog from "./EditBeneficiaryDialog";
+import AddBeneficiaryDialog from "./AddBeneficiaryDialog";
 
 const Filter = () => {
   const { t } = useTranslation();
@@ -71,7 +71,7 @@ const Filter = () => {
         </Button>
       </div>
 
-      <EditBeneficiaryDialog open={openAddAdmin} setOpen={setOpenAddAdmin} />
+      <AddBeneficiaryDialog open={openAddAdmin} setOpen={setOpenAddAdmin} />
     </>
   );
 };
