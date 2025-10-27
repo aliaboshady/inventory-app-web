@@ -7,7 +7,7 @@ import {
   TrashIcon,
   UserCheckIcon,
 } from "@phosphor-icons/react/dist/ssr";
-import EditSessionDialog from "./EditSessionDialog";
+import AssignToDialog from "./AssignToDialog";
 import ConfirmationDialog from "@/components/ConfirmationDialog";
 import { DialogSettings } from "@/model/shared.models";
 import {
@@ -375,12 +375,12 @@ const settings: DialogSettings[] = [
   {
     label: "Assign to",
     icon: <UserCheckIcon className="fill-neutral-600" size={18} />,
-    dialog: EditSessionDialog,
+    dialog: AssignToDialog,
   },
   {
     label: "Edit session",
     icon: <PencilSimpleLineIcon className="fill-neutral-600" size={18} />,
-    dialog: EditSessionDialog,
+    href: "#",
   },
   {
     label: "Delete",

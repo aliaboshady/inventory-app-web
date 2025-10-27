@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { DotsThreeVerticalIcon } from "@phosphor-icons/react/dist/ssr";
 import { DialogSettings } from "@/model/shared.models";
+import Link from "next/link";
 
 type Props = {
   settings: DialogSettings[];
@@ -42,14 +43,28 @@ export default function TableSettings({ settings, item }: Props) {
               <DropdownMenuItem
                 key={settingIndex}
                 className="rtl:justify-end"
-                onClick={() =>
-                  setOpen((prev) =>
-                    prev.map((val, i) => (i === settingIndex ? true : val))
-                  )
+                onClick={
+                  !setting?.href
+                    ? () =>
+                        setOpen((prev) =>
+                          prev.map((val, i) =>
+                            i === settingIndex ? true : val
+                          )
+                        )
+                    : null
                 }
               >
-                {setting?.icon}
-                {setting?.label}
+                {setting?.href ? (
+                  <Link href={setting?.href} className="flex flex-row gap-1.5">
+                    {setting?.icon}
+                    {setting?.label}
+                  </Link>
+                ) : (
+                  <>
+                    {setting?.icon}
+                    {setting?.label}
+                  </>
+                )}
               </DropdownMenuItem>
             ))}
           </DropdownMenuRadioGroup>
@@ -58,16 +73,18 @@ export default function TableSettings({ settings, item }: Props) {
 
       {extractedSettings.map((setting, i) => {
         const DialogComponent = setting.dialog;
-        return open[i] && (
-          <DialogComponent
-            key={i}
-            open={open[i]}
-            setOpen={(val) =>
-              setOpen((prev) => prev.map((v, j) => (j === i ? val : v)))
-            }
-            item={item}
-            onAction={setting.onAction}
-          />
+        return (
+          open[i] && (
+            <DialogComponent
+              key={i}
+              open={open[i]}
+              setOpen={(val) =>
+                setOpen((prev) => prev.map((v, j) => (j === i ? val : v)))
+              }
+              item={item}
+              onAction={setting.onAction}
+            />
+          )
         );
       })}
     </>

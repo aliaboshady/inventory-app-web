@@ -15,9 +15,9 @@ import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { DialogProps } from "@/model/shared.models";
 import { User } from "@/model/user.models";
-import Image from "next/image";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
+import Image from "next/image";
 
 const AddBeneficiaryDialog = ({ open, setOpen, item }: DialogProps<User>) => {
   const { t } = useTranslation();
@@ -27,7 +27,7 @@ const AddBeneficiaryDialog = ({ open, setOpen, item }: DialogProps<User>) => {
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogContent className="sm:max-w-[800px] w-[calc(100%-2rem)] rounded-lg">
         <DialogHeader className="text-left">
-          <DialogTitle className="text-xl">Edit admin</DialogTitle>
+          <DialogTitle className="text-xl">Add beneficiary</DialogTitle>
 
           <RadioGroup
             defaultValue="individual"

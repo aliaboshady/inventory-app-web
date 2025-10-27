@@ -36,6 +36,7 @@ export type DialogProps<T> = {
 export type DialogSettings = {
   label: string;
   icon: React.ReactNode;
-  dialog: React.ComponentType<DialogProps<any>>;
+  href?: string;
+  dialog?: React.ComponentType<DialogProps<any>>;
   onAction?: (item: any) => void;
 };
