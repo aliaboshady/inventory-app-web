@@ -1,7 +1,6 @@
 import { AdminSidebar } from "@/components/AdminSidebar";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import Navbar from "@/components/Navbar";
-import PageLayout from "@/components/PageLayout";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
@@ -10,7 +9,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         <AdminSidebar />
         <main className="w-full min-w-0">
           <Navbar />
-          <PageLayout>{children}</PageLayout>
+          {children}
         </main>
       </div>
     </SidebarProvider>

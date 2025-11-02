@@ -1,11 +1,12 @@
 import Filter from "@/components/admin/Projects/Filter";
 import Table from "@/components/admin/Projects/Table";
+import PageLayout from "@/components/PageLayout";
 
 export default async function Projects() {
   return (
-    <div className="w-full h-full flex flex-col gap-4">
+    <PageLayout title="PROJECTS">
       <Filter />
       <Table />
-    </div>
+    </PageLayout>
   );
 }
