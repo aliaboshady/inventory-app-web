@@ -1,6 +1,5 @@
 "use client";
 
-import { FormEvent, useState } from "react";
 import { Button } from "../ui/button";
 import { getTailwindColor, handleErrorToast } from "@/lib/utils";
 import { EnvelopeSimpleIcon, KeyIcon } from "@phosphor-icons/react";
@@ -12,6 +11,8 @@ import { useRouter } from "next/navigation";
 import { useTopLoader } from "nextjs-toploader";
 import { ROUTES } from "@/lib/staticKeys";
 import { toast } from "react-toastify";
+import { useFormik } from "formik";
+import { validationSchema } from "@/lib/validation";
 import TextInput from "@/components/TextInput";
 import useRequest from "@/hooks/useRequest";
 
@@ -19,65 +20,80 @@ const Form = () => {
   const router = useRouter();
   const { t } = useTranslation();
   const { start: startTopLoader } = useTopLoader();
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
 
   const { request: requestLogin, isLoading } = useRequest<
     LoginPayload,
     ServerResponse<Auth>
   >(login);
 
-  const handleLogin = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const res = await requestLogin({ username, password });
+  const formik = useFormik({
+    initialValues: { username: "", password: "" },
+    validationSchema: validationSchema.login,
+    onSubmit: async (values) => {
+      const res = await requestLogin(values);
+      if (res?.data) {
+        toast.success(res?.message);
+        startTopLoader();
+        setTimeout(() => router.push(ROUTES.root.url), 200);
+      } else {
+        handleErrorToast(res?.error);
+      }
+    },
+  });
 
-    if (res?.data) {
-      toast.success(res?.message);
-      startTopLoader();
-
-      setTimeout(() => {
-        router.push(ROUTES.root?.url);
-      }, 200);
-    } else {
-      handleErrorToast(res?.error);
-    }
-  };
-
-  const valid = username && password;
+  const {
+    values,
+    errors,
+    touched,
+    handleBlur,
+    handleChange,
+    handleSubmit,
+    isValid,
+  } = formik;
 
   return (
-    <form onSubmit={handleLogin} className="flex flex-col gap-8">
+    <form onSubmit={handleSubmit} className="flex flex-col gap-8">
       <TextInput
         label={t("USERNAME")}
         placeholder={t("ENTER_USERNAME")}
-        value={username}
-        setValue={setUsername}
+        value={values.username}
+        onBlur={handleBlur}
+        onChange={handleChange}
+        name="username"
         labelClassName="text-lg text-primary"
-        inputClassName="h-14 focus:border-primary"
+        inputClassName={`h-14 focus:border-primary ${
+          touched.username && errors.username ? "border-red-500" : ""
+        }`}
         fontSize={20}
         icon={
           <EnvelopeSimpleIcon size={25} color={getTailwindColor("primary")} />
         }
+        error={t(touched.username && errors.username ? errors.username : "")}
       />
 
       <TextInput
         label={t("PASSWORD")}
         placeholder={t("ENTER_PASSWORD")}
-        value={password}
-        setValue={setPassword}
+        value={values.password}
+        onBlur={handleBlur}
+        onChange={handleChange}
+        name="password"
         icon={<KeyIcon size={25} color={getTailwindColor("primary")} />}
         labelClassName="text-lg text-primary"
-        inputClassName="h-14 focus:border-primary"
+        inputClassName={`h-14 focus:border-primary ${
+          touched.password && errors.password ? "border-red-500" : ""
+        }`}
         fontSize={20}
         isPassword
+        error={t(touched.password && errors.password ? errors.password : "")}
       />
 
       <Button
-        disabled={!valid || isLoading}
+        disabled={!isValid || isLoading}
         className={`h-12 rounded-lg text-xl ${
-          valid ? "text-white" : "text-primary"
+          isValid ? "text-white" : "text-primary"
         }`}
-        variant={valid ? "default" : "secondary"}
+        variant={isValid ? "default" : "secondary"}
         type="submit"
       >
         {t("SIGNIN")}
