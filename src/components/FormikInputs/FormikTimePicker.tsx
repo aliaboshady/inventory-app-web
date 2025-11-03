@@ -11,34 +11,39 @@ type Props = {
 };
 
 const FormikTimePicker = ({ formik, name, label, placeholder }: Props) => {
+  const handleIconClick = () => {
+    const input = document.querySelector<HTMLInputElement>(
+      `input[name="${name}"]`
+    );
+    input?.showPicker?.();
+  };
+
   return (
     <div className="flex flex-col gap-2 relative">
       {label && <Label>{label}</Label>}
 
-      <div className="relative">
+      <div className="h-12 w-full bg-white rounded-lg hover:bg-accent border-2 flex flex-row">
         <Input
           type="time"
+          dir="auto"
           placeholder={placeholder}
           value={formik.values[name]}
           onBlur={formik.handleBlur}
           onChange={formik.handleChange}
           name={name}
           className={`
-            h-12 w-full bg-white rounded-lg pr-12 hover:bg-accent border-2
-            [&::-webkit-calendar-picker-indicator]:opacity-0
-            [&::-webkit-calendar-picker-indicator]:absolute
-            [&::-webkit-calendar-picker-indicator]:end-0
-            [&::-webkit-calendar-picker-indicator]:start-[70px]
-            [&::-webkit-calendar-picker-indicator]:w-full
-            [&::-webkit-calendar-picker-indicator]:h-full
-            [&::-webkit-calendar-picker-indicator]:cursor-pointer
+            h-full w-20 border-none shadow-none focus-visible:outline-none focus-visible:ring-0
+            [&::-webkit-calendar-picker-indicator]:hidden
           `}
         />
 
-        <ClockIcon
-          size={18}
-          className="text-primary h-full absolute top-0 bottom-0 end-4 flex items-center justify-center pointer-events-none"
-        />
+        <button
+          type="button"
+          onClick={handleIconClick}
+          className="w-full pe-4 flex items-center justify-end text-primary"
+        >
+          <ClockIcon size={18} />
+        </button>
       </div>
     </div>
   );
