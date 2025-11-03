@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
+import "react-quill-new/dist/quill.snow.css";
 import getTranslation from "../../i18n";
 import TranslationsProvider from "@/components/providers/TranslationsProvider";
 import NextTopLoader from "nextjs-toploader";

@@ -7,6 +7,7 @@ import FormikTextInput from "../FormikInputs/FormikTextInput";
 import FormikDropdown from "../FormikInputs/FormikDropdown";
 import FormikTimePicker from "../FormikInputs/FormikTimePicker";
 import FormikDatePicker from "../FormikInputs/FormikDatePicker";
+import FormikTextArea from "../FormikInputs/FormikTextArea";
 
 const sessionTypes = [
   { value: "RETURNEES", label: "RETURNEES" },
@@ -31,6 +32,7 @@ const SessionDetailsForm = () => {
         ...values,
         dateTime: combined ? combined.toISOString() : "",
       };
+      console.log("Submitted:", finalValues);
     },
   });
 
@@ -59,6 +61,13 @@ const SessionDetailsForm = () => {
       />
 
       <FormikDatePicker formik={formik} name="date" label={t("DATE")} />
+
+      <FormikTextArea
+        formik={formik}
+        name="note"
+        label={t("NOTE")}
+        placeholder={t("ADD_NOTE")}
+      />
 
       <button type="submit" className="h-12 bg-primary text-white rounded-lg">
         {t("SUBMIT")}

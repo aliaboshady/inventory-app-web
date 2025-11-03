@@ -63,3 +63,24 @@
     -ms-overflow-style: none;  /* IE and Edge */
     scrollbar-width: none;  /* Firefox */
 }
+
+/* ReactQuill Stylings */
+.ql-toolbar,
+.ql-container {
+  border: none !important;
+}
+
+.ql-toolbar {
+  border-bottom: 1px solid hsl(var(--border)) !important;
+}
+
+.ql-container .ql-editor {
+  height: 150px;
+  padding: 0.75rem;
+  overflow-y: auto;
+}
+
+.ql-snow .ql-editor.ql-blank::before {
+  font-style: normal !important;
+  color: hsl(var(--muted-foreground)) !important;
+}
