@@ -1,5 +1,6 @@
 "use client";
 
+import { FocusEventHandler } from "react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -33,6 +34,8 @@ type Props = {
   searchValue?: string;
   setSearchValue?: (val: string) => void;
   searchPlaceholder?: string;
+  onBlur?: FocusEventHandler<HTMLDivElement>;
+  error?: string;
 };
 
 export default function Dropdown({
@@ -55,6 +58,8 @@ export default function Dropdown({
   searchValue,
   setSearchValue,
   searchPlaceholder = "SEARCH",
+  onBlur,
+  error,
 }: Props) {
   const { t } = useTranslation();
 
@@ -98,9 +103,9 @@ export default function Dropdown({
         <Button
           variant="outline"
           className={twMerge(
-            `h-12 max-w-full min-w-0 group justify-between outline-none font-normal border-2 ${
+            `h-12 max-w-full min-w-0 group justify-between outline-none font-normal border-2 focus-visible:outline-none focus-visible:ring-0 ${
               !selected && "text-neutral-500"
-            }`,
+            } ${error ? "border-danger focus:border-danger" : ""}`,
             className
           )}
         >
@@ -118,6 +123,7 @@ export default function Dropdown({
       </DropdownMenuTrigger>
 
       <DropdownMenuContent
+        onBlur={onBlur}
         align="start"
         className={twMerge(
           "max-h-72 space-y-1 w-[--radix-dropdown-menu-trigger-width]",
