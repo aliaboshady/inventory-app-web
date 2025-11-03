@@ -2,8 +2,11 @@
 
 import { useFormik } from "formik";
 import { useTranslation } from "react-i18next";
+import { combineLocalDateAndTime } from "@/lib/utils";
 import FormikTextInput from "../FormikInputs/FormikTextInput";
 import FormikDropdown from "../FormikInputs/FormikDropdown";
+import FormikTimePicker from "../FormikInputs/FormikTimePicker";
+import FormikDatePicker from "../FormikInputs/FormikDatePicker";
 
 const sessionTypes = [
   { value: "RETURNEES", label: "RETURNEES" },
@@ -12,16 +15,23 @@ const sessionTypes = [
 
 const SessionDetailsForm = () => {
   const { t } = useTranslation();
+  const now = new Date();
 
   const formik = useFormik({
     initialValues: {
       sessionType: "",
       caseManagementNumber: "",
-      date: "",
-      time: "",
+      date: now,
+      time: now.toISOString().slice(11, 16),
       note: "",
     },
-    onSubmit: async (values) => {},
+    onSubmit: async (values) => {
+      const combined = combineLocalDateAndTime(values.date, values.time);
+      const finalValues = {
+        ...values,
+        dateTime: combined ? combined.toISOString() : "",
+      };
+    },
   });
 
   return (
@@ -40,6 +50,19 @@ const SessionDetailsForm = () => {
         label={t("CASE_MANAGEMENT_NUMBER")}
         placeholder={t("ENTER_CASE_MANAGEMENT_NUMBER")}
       />
+
+      <FormikTimePicker
+        formik={formik}
+        name="time"
+        label={t("TIME")}
+        placeholder={t("ENTER_TIME")}
+      />
+
+      <FormikDatePicker formik={formik} name="date" label={t("DATE")} />
+
+      <button type="submit" className="h-12 bg-primary text-white rounded-lg">
+        {t("SUBMIT")}
+      </button>
     </form>
   );
 };

@@ -125,3 +125,14 @@ export const handleErrorToast = (
     });
   }
 };
+
+export function combineLocalDateAndTime(
+  date?: Date,
+  time?: string
+): Date | null {
+  if (!date || !time) return null;
+  const [hours, minutes] = time.split(":").map(Number);
+  const combined = new Date(date);
+  combined.setHours(hours, minutes, 0, 0);
+  return combined;
+}
