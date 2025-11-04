@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { twMerge } from "tailwind-merge";
 import { useTranslation } from "react-i18next";
-import { PaginatedResponse } from "@/model/shared.models";
+import { PaginatedResponse } from "@/models/shared.model";
 import {
   CaretLineRightIcon,
   CaretRightIcon,

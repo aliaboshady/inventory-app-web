@@ -11,8 +11,8 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
-import { DialogProps } from "@/model/shared.models";
-import { User } from "@/model/user.models";
+import { DialogProps } from "@/models/shared.model";
+import { User } from "@/models/user.model";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 

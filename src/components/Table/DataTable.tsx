@@ -15,7 +15,7 @@ import {
   DialogSettings,
   PaginatedResponse,
   SortType,
-} from "@/model/shared.models";
+} from "@/models/shared.model";
 import { twMerge } from "tailwind-merge";
 import Pagination from "./Pagination";
 import TableSettings from "./TableSettings";

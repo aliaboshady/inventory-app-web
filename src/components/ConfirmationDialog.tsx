@@ -9,7 +9,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { DialogProps } from "@/model/shared.models";
+import { DialogProps } from "@/models/shared.model";
 import { useTranslation } from "react-i18next";
 
 const ConfirmationDialog = ({ open, setOpen, item, onAction }: DialogProps<any>) => {

@@ -1,7 +1,7 @@
 "use client";
 
 import DataTable, { Column } from "@/components/Table/DataTable";
-import { User } from "@/model/user.models";
+import { User } from "@/models/user.model";
 import {
   ArrowBendUpLeftIcon,
   ClipboardTextIcon,
@@ -11,7 +11,7 @@ import {
 import EditProjectDialog from "./EditProjectDialog";
 import MoveSessionDialog from "./MoveSessionDialog";
 import ConfirmationDialog from "@/components/ConfirmationDialog";
-import { DialogSettings } from "@/model/shared.models";
+import { DialogSettings } from "@/models/shared.model";
 import Link from "next/link";
 import { useTranslation } from "react-i18next";
 import { ROUTES } from "@/lib/staticKeys";

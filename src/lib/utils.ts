@@ -3,7 +3,7 @@ import resolveConfig from "tailwindcss/resolveConfig";
 import tailwindConfig from "../../tailwind.config";
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
-import { ErrorResponse } from "@/model/shared.models";
+import { ErrorResponse } from "@/models/shared.model";
 import { toast } from "react-toastify";
 
 const fullConfig = resolveConfig(tailwindConfig);
@@ -136,3 +136,18 @@ export function combineLocalDateAndTime(
   combined.setHours(hours, minutes, 0, 0);
   return combined;
 }
+
+export const getFilter = (
+  filterName: string,
+  value: number | string | boolean,
+  ignore: (number | string)[] = []
+) => {
+  let filter =
+    filterName && value !== null && filterName && value !== ""
+      ? `&${filterName}=${value}`
+      : "";
+  ignore.map((word) => {
+    if (value === word) filter = "";
+  });
+  return filter;
+};

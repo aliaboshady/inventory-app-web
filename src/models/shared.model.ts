@@ -12,7 +12,12 @@ export type ErrorResponse = {
   [key: string]: string[];
 };
 
-export interface IPaginated<T> {
+export type PaginatedPayload = {
+  page: number;
+  limit: number;
+};
+
+export type Paginated<T> = {
   data: T[];
   limit: number;
   totalItems: number;
@@ -20,9 +25,9 @@ export interface IPaginated<T> {
   totalPages: number;
   hasPreviousPage: boolean;
   hasNextPage: boolean;
-}
+};
 
-export type PaginatedResponse<T> = ServerResponse<IPaginated<T>>;
+export type PaginatedResponse<T> = ServerResponse<Paginated<T>>;
 
 export type SortType = "ASC" | "DESC";
 

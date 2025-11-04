@@ -1,7 +1,7 @@
 "use client";
 
 import DataTable, { Column } from "@/components/Table/DataTable";
-import { User } from "@/model/user.models";
+import { User } from "@/models/user.model";
 import {
   PencilSimpleLineIcon,
   TrashIcon,
@@ -9,7 +9,7 @@ import {
 } from "@phosphor-icons/react/dist/ssr";
 import AssignToDialog from "./AssignToDialog";
 import ConfirmationDialog from "@/components/ConfirmationDialog";
-import { DialogSettings } from "@/model/shared.models";
+import { DialogSettings } from "@/models/shared.model";
 import {
   Tooltip,
   TooltipContent,

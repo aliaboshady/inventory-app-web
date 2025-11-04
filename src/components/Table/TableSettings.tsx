@@ -10,7 +10,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { DotsThreeVerticalIcon } from "@phosphor-icons/react/dist/ssr";
-import { DialogSettings } from "@/model/shared.models";
+import { DialogSettings } from "@/models/shared.model";
 import Link from "next/link";
 
 type Props = {

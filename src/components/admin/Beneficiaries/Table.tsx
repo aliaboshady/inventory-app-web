@@ -1,14 +1,14 @@
 "use client";
 
 import DataTable, { Column } from "@/components/Table/DataTable";
-import { User } from "@/model/user.models";
+import { User } from "@/models/user.model";
 import {
   PencilSimpleLineIcon,
   TrashIcon,
 } from "@phosphor-icons/react/dist/ssr";
 import EditBeneficiaryDialog from "./EditBeneficiaryDialog";
 import ConfirmationDialog from "@/components/ConfirmationDialog";
-import { DialogSettings } from "@/model/shared.models";
+import { DialogSettings } from "@/models/shared.model";
 import { useTranslation } from "react-i18next";
 
 const testUsers: User[] = [
