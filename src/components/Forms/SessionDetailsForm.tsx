@@ -40,9 +40,9 @@ const SessionDetailsForm = () => {
   return (
     <form
       onSubmit={formik.handleSubmit}
-      className="flex flex-col gap-x-4 gap-y-8"
+      className="flex flex-col gap-x-4 gap-y-6"
     >
-      <div className="grid grid-cols-2 gap-x-4 gap-y-8">
+      <div className="grid grid-cols-2 gap-x-4 gap-y-6">
         <FormikDropdown
           items={sessionTypes}
           formik={formik}
