@@ -9,6 +9,10 @@ import FormikDropdown from "../FormikInputs/FormikDropdown";
 import FormikTextArea from "../FormikInputs/FormikTextArea";
 import FormikRadioGroup from "../FormikInputs/FormikRadioGroup";
 import FormikCheckboxGroup from "../FormikInputs/FormikCheckboxGroup";
+import { SectionPage, SectionTab } from "./SectionTabs";
+import { useState } from "react";
+import { ClockIcon, UsersThreeIcon } from "@phosphor-icons/react/dist/ssr";
+import { Separator } from "../ui/separator";
 
 const sessionTypes = [
   { value: "RETURNEES", label: "RETURNEES" },
@@ -17,6 +21,7 @@ const sessionTypes = [
 
 const NeedsAssessmentToolForm = () => {
   const { t } = useTranslation();
+  const [activeForm, setActiveForm] = useState(1);
   const now = new Date();
 
   const formik = useFormik({
@@ -44,7 +49,71 @@ const NeedsAssessmentToolForm = () => {
       onSubmit={formik.handleSubmit}
       className="flex flex-col gap-x-4 gap-y-6"
     >
-      <div className="grid grid-cols-2 gap-x-4 gap-y-6">
+      <div className="flex flex-row gap-2 overflow-x-auto scrollbar-thin">
+        <SectionTab
+          id={1}
+          title="Personal Information"
+          activeId={activeForm}
+          setActiveId={setActiveForm}
+        />
+
+        <SectionTab
+          id={2}
+          title="Migration Background"
+          activeId={activeForm}
+          setActiveId={setActiveForm}
+        />
+
+        <SectionTab
+          id={3}
+          title="Education and Economic Background"
+          activeId={activeForm}
+          setActiveId={setActiveForm}
+        />
+
+        <SectionTab
+          id={4}
+          title="Vulnerabilities"
+          activeId={activeForm}
+          setActiveId={setActiveForm}
+        />
+
+        <SectionTab
+          id={5}
+          title="Services Needs"
+          activeId={activeForm}
+          setActiveId={setActiveForm}
+        />
+
+        <SectionTab
+          id={6}
+          title="Case Summary"
+          activeId={activeForm}
+          setActiveId={setActiveForm}
+        />
+      </div>
+
+      <Separator />
+
+      <div className="flex flex-row justify-between items-center gap-6">
+        <div className="w-full flex flex-row justify-between items-center">
+          <div className="flex flex-row gap-2 items-center">
+            <div className="bg-secondary p-1 rounded-full"><ClockIcon className="fill-primary" weight="bold" /></div> <p className="font-bold">Section Timeline</p>
+          </div>
+          <p className="text-sm text-neutral-500">Today at 8:49 AM</p>
+        </div>
+        
+        <div className="w-full flex flex-row justify-between items-center">
+          <div className="flex flex-row gap-2 items-center">
+            <div className="bg-secondary p-1 rounded-full"><UsersThreeIcon className="fill-primary" weight="bold" /></div> <p className="font-bold">Filled By</p>
+          </div>
+          <p className="text-primary underline text-sm">Admin name</p>
+        </div>
+      </div>
+
+      <Separator />
+
+      <SectionPage id={1} activeId={activeForm}>
         <FormikDropdown
           items={sessionTypes}
           formik={formik}
@@ -73,14 +142,16 @@ const NeedsAssessmentToolForm = () => {
           options={sessionTypes}
           label={t("TEMP")}
         />
-      </div>
 
-      <FormikTextArea
-        formik={formik}
-        name="note"
-        label={t("NOTE")}
-        placeholder={t("ADD_NOTE")}
-      />
+        <div className="col-span-2">
+          <FormikTextArea
+            formik={formik}
+            name="note"
+            label={t("NOTE")}
+            placeholder={t("ADD_NOTE")}
+          />
+        </div>
+      </SectionPage>
 
       <div className="flex flex-row justify-end">
         <Button type="submit" className="h-12 w-fit">
