@@ -14,20 +14,16 @@ export type ErrorResponse = {
 
 export type PaginatedPayload = {
   page: number;
-  limit: number;
+  itemsPerPage: number;
 };
 
 export type Paginated<T> = {
   data: T[];
-  limit: number;
+  itemsPerPage: number;
   totalItems: number;
-  page: number;
+  currentPage: number;
   totalPages: number;
-  hasPreviousPage: boolean;
-  hasNextPage: boolean;
 };
-
-export type PaginatedResponse<T> = ServerResponse<Paginated<T>>;
 
 export type SortType = "ASC" | "DESC";
 

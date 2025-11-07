@@ -6,26 +6,20 @@ export type Auth = {
 };
 
 export type UserRole = "ADMIN" | "STAFF";
-export type UserStatus = "ACTIVE" | "INACTIVE";
 
 export type User = {
-  id: string;
-  username: string;
-  role: "ADMIN" | "SUPER_ADMIN";
-  isActive: boolean;
-  language: "EN" | "AR";
-  createdAt: Date;
-  updatedAt: Date;
-  createdBy: {
-    id: string;
-    username: string;
-  };
+  _id: string;
+  email: string;
+  firstName: string;
+  lastName: string;
+  role: UserRole;
+  createdAt: string;
+  updatedAt: string;
 };
 
 export type UsersPayload = PaginatedPayload & {
   search?: string;
   role?: UserRole;
-  isActive?: boolean;
   orderBy?: "createdAt" | "username";
   orderType?: "asc" | "desc";
 };

@@ -9,209 +9,57 @@ import {
 } from "@phosphor-icons/react/dist/ssr";
 import EditUserDialog from "./EditUserDialog";
 import ConfirmationDialog from "@/components/ConfirmationDialog";
-import {
-  DialogSettings,
-  Paginated,
-  ServerResponse,
-} from "@/models/shared.model";
+import { DialogSettings, Paginated } from "@/models/shared.model";
 import { useTranslation } from "react-i18next";
 import { useEffect, useState } from "react";
 import useRequest from "@/hooks/useRequest";
 import { getUsers } from "@/actions/users/getUsers";
-
-const testUsers: User[] = [
-  {
-    id: "0",
-    username: "oliver.james",
-    status: "ACTIVE",
-    role: "ADMIN",
-  },
-  {
-    id: "1",
-    username: "emma.wilson",
-    status: "INACTIVE",
-    role: "SUPER_ADMIN",
-  },
-  { id: "2", username: "liam.miller", status: "ACTIVE", role: "ADMIN" },
-  { id: "3", username: "ava.brown", status: "ACTIVE", role: "ADMIN" },
-  {
-    id: "4",
-    username: "noah.davis",
-    status: "INACTIVE",
-    role: "SUPER_ADMIN",
-  },
-  {
-    id: "5",
-    username: "sophia.garcia",
-    status: "ACTIVE",
-    role: "ADMIN",
-  },
-  {
-    id: "6",
-    username: "elijah.martin",
-    status: "ACTIVE",
-    role: "ADMIN",
-  },
-  {
-    id: "7",
-    username: "isabella.lee",
-    status: "INACTIVE",
-    role: "SUPER_ADMIN",
-  },
-  {
-    id: "8",
-    username: "lucas.walker",
-    status: "ACTIVE",
-    role: "ADMIN",
-  },
-  { id: "9", username: "mia.hall", status: "ACTIVE", role: "ADMIN" },
-  {
-    id: "10",
-    username: "mason.allen",
-    status: "INACTIVE",
-    role: "SUPER_ADMIN",
-  },
-  {
-    id: "11",
-    username: "amelia.young",
-    status: "ACTIVE",
-    role: "ADMIN",
-  },
-  { id: "12", username: "ethan.king", status: "ACTIVE", role: "ADMIN" },
-  {
-    id: "13",
-    username: "charlotte.scott",
-    status: "INACTIVE",
-    role: "SUPER_ADMIN",
-  },
-  {
-    id: "14",
-    username: "logan.green",
-    status: "ACTIVE",
-    role: "ADMIN",
-  },
-  {
-    id: "15",
-    username: "harper.adams",
-    status: "ACTIVE",
-    role: "ADMIN",
-  },
-  {
-    id: "16",
-    username: "lucas.baker",
-    status: "INACTIVE",
-    role: "SUPER_ADMIN",
-  },
-  {
-    id: "17",
-    username: "evelyn.nelson",
-    status: "ACTIVE",
-    role: "ADMIN",
-  },
-  {
-    id: "18",
-    username: "jackson.carter",
-    status: "ACTIVE",
-    role: "ADMIN",
-  },
-  {
-    id: "19",
-    username: "zoe.mitchell",
-    status: "INACTIVE",
-    role: "SUPER_ADMIN",
-  },
-  {
-    id: "20",
-    username: "aiden.roberts",
-    status: "ACTIVE",
-    role: "ADMIN",
-  },
-  {
-    id: "21",
-    username: "chloe.turner",
-    status: "ACTIVE",
-    role: "ADMIN",
-  },
-  {
-    id: "22",
-    username: "caleb.phillips",
-    status: "INACTIVE",
-    role: "SUPER_ADMIN",
-  },
-  { id: "23", username: "lara.evans", status: "ACTIVE", role: "ADMIN" },
-  { id: "24", username: "owen.cole", status: "ACTIVE", role: "ADMIN" },
-  {
-    id: "25",
-    username: "nora.foster",
-    status: "INACTIVE",
-    role: "SUPER_ADMIN",
-  },
-  {
-    id: "26",
-    username: "ryan.hughes",
-    status: "ACTIVE",
-    role: "ADMIN",
-  },
-  { id: "27", username: "ivy.morris", status: "ACTIVE", role: "ADMIN" },
-  {
-    id: "28",
-    username: "leo.ross",
-    status: "INACTIVE",
-    role: "SUPER_ADMIN",
-  },
-  {
-    id: "29",
-    username: "sienna.ward",
-    status: "ACTIVE",
-    role: "ADMIN",
-  },
-];
+import { formatDate } from "@/lib/utils";
 
 const Table = () => {
   const { t } = useTranslation();
   const [page, setPage] = useState(1);
-  const [limit, setLimit] = useState(10);
+  const [itemsPerPage, setItemsPerPage] = useState(10);
 
-  const { request: fetch, data } = useRequest<
-    UsersPayload,
-    ServerResponse<Paginated<User[]>>
-  >(getUsers);
-
-  useEffect(() => {
-    fetch({ page, limit });
-  }, [page, limit]);
+  const { request: fetch, data } = useRequest<UsersPayload, Paginated<User>>(
+    getUsers
+  );
 
   useEffect(() => {
-    console.log("🚀 ~ Table ~ data:", data)
+    fetch({ page, itemsPerPage });
+  }, [page, itemsPerPage]);
+
+  useEffect(() => {
+    console.log("🚀 ~ Table ~ data:", data);
   }, [data]);
 
   const columns: Column[] = [
     {
-      header: () => t("USERNAME"),
-      value: (user: User) => user.username,
-      sortKey: "username",
+      header: () => t("EMAIL"),
+      value: (user: User) => user.email,
+    },
+    {
+      header: () => t("NAME"),
+      value: (user: User) => `${user.firstName} ${user.lastName}`,
+      sortKey: "firstName",
     },
     {
       header: () => t("ROLE"),
       value: (user: User) => (
-        <Badge className={user.role === "ADMIN" && "text-primary bg-secondary"}>
+        <Badge className={user.role === "STAFF" && "text-primary bg-secondary"}>
           {user.role}
         </Badge>
       ),
     },
     {
-      header: () => t("STATUS"),
-      value: (user: User) => (
-        <Badge
-          className={
-            user.status === "ACTIVE"
-              ? "text-success bg-success-foreground"
-              : "text-danger bg-danger-foreground"
-          }
-        >
-          {user.status}
-        </Badge>
-      ),
+      header: () => t("CREATED_AT"),
+      value: (user: User) => formatDate(user?.createdAt),
+      sortKey: "createdAt",
+    },
+    {
+      header: () => t("UPDATE_AT"),
+      value: (user: User) => formatDate(user?.updatedAt),
+      sortKey: "updatedAt",
     },
   ];
 
@@ -225,30 +73,21 @@ const Table = () => {
       label: t("DELETE"),
       icon: <TrashIcon className="fill-red-600" size={18} />,
       dialog: ConfirmationDialog,
-      onAction: (user: User) => console.log("DELETE: ", user?.username),
+      onAction: (user: User) => console.log("DELETE: ", user?.firstName),
     },
   ];
 
   return (
     <DataTable
-      items={testUsers}
+      items={data?.data}
       columns={columns}
       sortBy="username"
       sortType="DESC"
-      itemsPerPage={10}
-      page={1}
-      dataPagination={{
-        data: {
-          data: testUsers,
-          limit: 10,
-          totalItems: 100,
-          page: 1,
-          totalPages: 10,
-          hasPreviousPage: false,
-          hasNextPage: false,
-        },
-        message: "",
-      }}
+      itemsPerPage={itemsPerPage}
+      setItemsPerPage={setItemsPerPage}
+      page={page}
+      setPage={setPage}
+      dataPagination={data}
       settings={settings}
     />
   );

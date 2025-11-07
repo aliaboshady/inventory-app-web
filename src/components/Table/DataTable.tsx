@@ -13,7 +13,7 @@ import { CaretDownIcon } from "@phosphor-icons/react/dist/ssr";
 import { useState } from "react";
 import {
   DialogSettings,
-  PaginatedResponse,
+  Paginated,
   SortType,
 } from "@/models/shared.model";
 import { twMerge } from "tailwind-merge";
@@ -39,7 +39,7 @@ type Props = {
   setPage?: (val: number) => void;
   itemsPerPage?: number;
   setItemsPerPage?: (val: number) => void;
-  dataPagination?: PaginatedResponse<any>;
+  dataPagination?: Paginated<any>;
   settings: DialogSettings[];
 };
 
@@ -64,7 +64,7 @@ const DataTable = ({
 
   const handleSelectAllRows = (checked: boolean) => {
     if (checked) {
-      const allIds = items.map((item) => item.id);
+      const allIds = items.map((item) => item._id);
       setSelected(allIds);
       setSelectedAll(true);
     } else {
@@ -139,14 +139,14 @@ const DataTable = ({
         <TableBody>
           {items &&
             items.map((item) => (
-              <TableRow key={item.id}>
+              <TableRow key={item._id}>
                 {selection && (
                   <TableCell className="w-10 h-10 text-center">
                     <Checkbox
-                      id={item.id}
-                      checked={selected.includes(item.id)}
+                      id={item._id}
+                      checked={selected.includes(item._id)}
                       onCheckedChange={(checked) =>
-                        handleSelectRow(item.id, checked as boolean)
+                        handleSelectRow(item._id, checked as boolean)
                       }
                     />
                   </TableCell>

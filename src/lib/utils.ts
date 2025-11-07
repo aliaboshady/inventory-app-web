@@ -142,8 +142,8 @@ export const getFilter = (
   value: number | string | boolean,
   ignore: (number | string)[] = []
 ) => {
-  if(!value) return "";
-  
+  if (!value) return "";
+
   let filter =
     filterName && value !== null && filterName && value !== ""
       ? `&${filterName}=${value}`
@@ -153,3 +153,18 @@ export const getFilter = (
   });
   return filter;
 };
+
+export function formatDate(isoString?: string | null): string {
+  if (!isoString) return "-"; // or return null, or 'N/A'
+
+  const date = new Date(isoString);
+  if (isNaN(date.getTime())) return "-"; // invalid date check
+
+  return date.toLocaleString("en-US", {
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+}

@@ -7,15 +7,15 @@ import { User, UsersPayload } from "@/models/user.model";
 
 export const getUsers = async ({
   page = 1,
-  limit = 10,
+  itemsPerPage = 10,
   search,
   role,
-}: UsersPayload): Promise<ServerResponse<Paginated<User[]>>> => {
-  return apiClient<ServerResponse<Paginated<User[]>>>(
-    `users?page=${page}&limit=${limit}${getFilter("search", search)}${getFilter(
-      "role",
-      role
-    )}`,
+}: UsersPayload): Promise<Paginated<User>> => {
+  return apiClient<Paginated<User>>(
+    `users?page=${page}&itemsPerPage=${itemsPerPage}${getFilter(
+      "search",
+      search
+    )}${getFilter("role", role)}`,
     {
       method: "GET",
     }

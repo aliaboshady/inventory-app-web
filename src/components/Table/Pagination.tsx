@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { twMerge } from "tailwind-merge";
 import { useTranslation } from "react-i18next";
-import { PaginatedResponse } from "@/models/shared.model";
+import { Paginated } from "@/models/shared.model";
 import {
   CaretLineRightIcon,
   CaretRightIcon,
@@ -13,7 +13,7 @@ import { DropdownItemsPerPage } from "./DropdownItemsPerPage";
 type Props = {
   currentPage: number;
   setPage: (val: number) => void;
-  dataPagination: PaginatedResponse<any>;
+  dataPagination: Paginated<any>;
   itemsPerPage?: number;
   setItemsPerPage?: (val: number) => void;
   className?: string;
@@ -34,7 +34,7 @@ const Pagination = ({
 
   useEffect(() => {
     if (dataPagination) {
-      setTotalPages(dataPagination?.data?.totalPages);
+      setTotalPages(dataPagination?.totalPages);
     }
   }, [dataPagination]);
 
@@ -55,12 +55,11 @@ const Pagination = ({
     (_, i) => startPage + i + 1
   );
 
-  const totalItems = dataPagination?.data?.totalItems;
+  const totalItems = dataPagination?.totalItems;
   const startItem =
-    (currentPage - 1) * dataPagination?.data?.limit +
-    (totalItems > 0 && 1);
+    (currentPage - 1) * dataPagination?.itemsPerPage + (totalItems > 0 && 1);
   const endItem = Math.min(
-    currentPage * dataPagination?.data?.limit,
+    currentPage * dataPagination?.itemsPerPage,
     totalItems
   );
 
