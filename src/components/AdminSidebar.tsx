@@ -114,10 +114,6 @@ export function AdminSidebar() {
           <SideBarButton dir={i18n.dir()} />
         </div>
 
-        <SidebarHeader className="items-center py-4">
-          <Image alt="" src="/images/logo.png" width={50} height={50} />
-        </SidebarHeader>
-
         <SidebarContent>
           <SidebarGroup>
             <SidebarGroupContent>

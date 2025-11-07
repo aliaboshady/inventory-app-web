@@ -155,16 +155,17 @@ export const getFilter = (
 };
 
 export function formatDate(isoString?: string | null): string {
-  if (!isoString) return "-"; // or return null, or 'N/A'
+  if (!isoString) return "-"; // handle null/undefined
 
   const date = new Date(isoString);
   if (isNaN(date.getTime())) return "-"; // invalid date check
 
-  return date.toLocaleString("en-US", {
+  return date.toLocaleString("en-GB", {
     year: "numeric",
-    month: "short",
-    day: "numeric",
+    month: "numeric", // numeric month
+    day: "numeric", // numeric day
     hour: "2-digit",
     minute: "2-digit",
+    hour12: true, // AM/PM format
   });
 }
