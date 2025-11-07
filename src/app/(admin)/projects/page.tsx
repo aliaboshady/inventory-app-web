@@ -1,5 +1,5 @@
-import Filter from "@/components/admin/Projects/Filter";
-import Table from "@/components/admin/Projects/Table";
+import Filter from "@/components/users/Projects/Filter";
+import Table from "@/components/users/Projects/Table";
 import PageLayout from "@/components/PageLayout";
 
 export default async function Projects() {

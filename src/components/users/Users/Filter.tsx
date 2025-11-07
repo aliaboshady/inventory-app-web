@@ -8,7 +8,7 @@ import { getTailwindColor } from "@/lib/utils";
 import { MagnifyingGlassIcon, PlusIcon } from "@phosphor-icons/react/dist/ssr";
 import { useTranslation } from "react-i18next";
 import { useState } from "react";
-import EditAdminDialog from "./EditAdminDialog";
+import EditUserDialog from "./EditUserDialog";
 
 const Filter = () => {
   const { t } = useTranslation();
@@ -75,7 +75,7 @@ const Filter = () => {
         </Button>
       </div>
 
-      <EditAdminDialog open={openAddAdmin} setOpen={setOpenAddAdmin} />
+      <EditUserDialog open={openAddAdmin} setOpen={setOpenAddAdmin} />
     </>
   );
 };

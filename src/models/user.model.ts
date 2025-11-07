@@ -1,3 +1,5 @@
+import { PaginatedPayload } from "./shared.model";
+
 export type Auth = {
   accessToken: string;
   refreshToken: string;
@@ -18,4 +20,12 @@ export type User = {
     id: string;
     username: string;
   };
+};
+
+export type UsersPayload = PaginatedPayload & {
+  search?: string;
+  role?: UserRole;
+  isActive?: boolean;
+  orderBy?: "createdAt" | "username";
+  orderType?: "asc" | "desc";
 };

@@ -17,7 +17,7 @@ import { useTranslation } from "react-i18next";
 import { Label } from "../../ui/label";
 import { useState } from "react";
 
-const EditAdminDialog = ({ open, setOpen, item }: DialogProps<User>) => {
+const EditUserDialog = ({ open, setOpen, item }: DialogProps<User>) => {
   const { t } = useTranslation();
   const [selected, setSelected] = useState([]);
 
@@ -74,4 +74,4 @@ const EditAdminDialog = ({ open, setOpen, item }: DialogProps<User>) => {
   );
 };
 
-export default EditAdminDialog;
+export default EditUserDialog;

@@ -2,15 +2,22 @@
 
 import DataTable, { Column } from "@/components/Table/DataTable";
 import Badge from "@/components/Badge";
-import { User } from "@/models/user.model";
+import { User, UsersPayload } from "@/models/user.model";
 import {
   PencilSimpleLineIcon,
   TrashIcon,
 } from "@phosphor-icons/react/dist/ssr";
-import EditAdminDialog from "./EditAdminDialog";
+import EditUserDialog from "./EditUserDialog";
 import ConfirmationDialog from "@/components/ConfirmationDialog";
-import { DialogSettings } from "@/models/shared.model";
+import {
+  DialogSettings,
+  Paginated,
+  ServerResponse,
+} from "@/models/shared.model";
 import { useTranslation } from "react-i18next";
+import { useEffect, useState } from "react";
+import useRequest from "@/hooks/useRequest";
+import { getUsers } from "@/actions/users/getUsers";
 
 const testUsers: User[] = [
   {
@@ -162,6 +169,21 @@ const testUsers: User[] = [
 
 const Table = () => {
   const { t } = useTranslation();
+  const [page, setPage] = useState(1);
+  const [limit, setLimit] = useState(10);
+
+  const { request: fetch, data } = useRequest<
+    UsersPayload,
+    ServerResponse<Paginated<User[]>>
+  >(getUsers);
+
+  useEffect(() => {
+    fetch({ page, limit });
+  }, [page, limit]);
+
+  useEffect(() => {
+    console.log("🚀 ~ Table ~ data:", data)
+  }, [data]);
 
   const columns: Column[] = [
     {
@@ -197,7 +219,7 @@ const Table = () => {
     {
       label: t("EDIT"),
       icon: <PencilSimpleLineIcon className="fill-neutral-600" size={18} />,
-      dialog: EditAdminDialog,
+      dialog: EditUserDialog,
     },
     {
       label: t("DELETE"),

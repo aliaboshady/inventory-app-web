@@ -51,8 +51,8 @@ const items = [
     icon: FolderUserIcon,
   },
   {
-    title: ROUTES.admins.displayName,
-    url: ROUTES.admins.url,
+    title: ROUTES.users.displayName,
+    url: ROUTES.users.url,
     icon: UsersThreeIcon,
   },
   {
