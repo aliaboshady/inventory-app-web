@@ -15,6 +15,15 @@ export type User = {
   role: UserRole;
   createdAt: string;
   updatedAt: string;
+  password: string;
+};
+
+export type CreateUserPayload = {
+  firstName: string;
+  lastName: string;
+  role: UserRole;
+  email: string;
+  password: string;
 };
 
 export type UsersPayload = PaginatedPayload & {

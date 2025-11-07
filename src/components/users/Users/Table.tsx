@@ -11,42 +11,32 @@ import EditUserDialog from "./EditUserDialog";
 import ConfirmationDialog from "@/components/ConfirmationDialog";
 import { DialogSettings, Paginated } from "@/models/shared.model";
 import { useTranslation } from "react-i18next";
-import { useEffect } from "react";
-import useRequest from "@/hooks/useRequest";
-import { getUsers } from "@/actions/users/getUsers";
+
 import { formatDate } from "@/lib/utils";
 import { deleteUser } from "@/actions/users/deleteUser";
 
 type Props = {
+  data: Paginated<User>;
   setPage: (val: number) => void;
   page: number;
   setItemsPerPage: (val: number) => void;
   itemsPerPage: number;
   role: string;
   search: string;
+  fetch: (payload: UsersPayload) => Promise<Paginated<User>>;
 };
 
 const Table = ({
+  data,
   role,
   search,
   page = 1,
   setPage,
   itemsPerPage = 10,
   setItemsPerPage,
+  fetch,
 }: Props) => {
   const { t } = useTranslation();
-
-  const { request: fetch, data } = useRequest<UsersPayload, Paginated<User>>(
-    getUsers
-  );
-
-  useEffect(() => {
-    fetch({ page, itemsPerPage, role: role as UserRole, search });
-  }, [page, itemsPerPage, role, search]);
-
-  useEffect(() => {
-    console.log("🚀 ~ Table ~ data:", data);
-  }, [data]);
 
   const columns: Column[] = [
     {
@@ -83,8 +73,7 @@ const Table = ({
       label: t("EDIT"),
       icon: <PencilSimpleLineIcon className="fill-neutral-600" size={18} />,
       dialog: EditUserDialog,
-      onAction: async (user: User) => {
-        // await deleteUser(user._id);
+      onAction: async () => {
         fetch({ page, itemsPerPage, role: role as UserRole, search });
       },
       closeOnAction: true,

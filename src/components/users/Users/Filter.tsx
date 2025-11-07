@@ -15,9 +15,10 @@ type Props = {
   setRole: (val: string) => void;
   search: string;
   setSearch: (val: string) => void;
+  onAddUser: () => void;
 };
 
-const Filter = ({ role, setRole, search, setSearch }: Props) => {
+const Filter = ({ role, setRole, search, setSearch, onAddUser }: Props) => {
   const { t } = useTranslation();
   const [openAddAdmin, setOpenAddAdmin] = useState<boolean>(false);
 
@@ -82,7 +83,11 @@ const Filter = ({ role, setRole, search, setSearch }: Props) => {
         </Button>
       </div>
 
-      <EditUserDialog open={openAddAdmin} setOpen={setOpenAddAdmin} />
+      <EditUserDialog
+        open={openAddAdmin}
+        setOpen={setOpenAddAdmin}
+        onAction={onAddUser}
+      />
     </>
   );
 };
