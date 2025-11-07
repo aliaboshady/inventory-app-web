@@ -2,7 +2,7 @@
 
 import DataTable, { Column } from "@/components/Table/DataTable";
 import Badge from "@/components/Badge";
-import { User, UsersPayload } from "@/models/user.model";
+import { User, UserRole, UsersPayload } from "@/models/user.model";
 import {
   PencilSimpleLineIcon,
   TrashIcon,
@@ -11,24 +11,38 @@ import EditUserDialog from "./EditUserDialog";
 import ConfirmationDialog from "@/components/ConfirmationDialog";
 import { DialogSettings, Paginated } from "@/models/shared.model";
 import { useTranslation } from "react-i18next";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import useRequest from "@/hooks/useRequest";
 import { getUsers } from "@/actions/users/getUsers";
 import { formatDate } from "@/lib/utils";
 import { deleteUser } from "@/actions/users/deleteUser";
 
-const Table = () => {
+type Props = {
+  setPage: (val: number) => void;
+  page: number;
+  setItemsPerPage: (val: number) => void;
+  itemsPerPage: number;
+  role: string;
+  search: string;
+};
+
+const Table = ({
+  role,
+  search,
+  page = 1,
+  setPage,
+  itemsPerPage = 10,
+  setItemsPerPage,
+}: Props) => {
   const { t } = useTranslation();
-  const [page, setPage] = useState(1);
-  const [itemsPerPage, setItemsPerPage] = useState(10);
 
   const { request: fetch, data } = useRequest<UsersPayload, Paginated<User>>(
     getUsers
   );
 
   useEffect(() => {
-    fetch({ page, itemsPerPage });
-  }, [page, itemsPerPage]);
+    fetch({ page, itemsPerPage, role: role as UserRole, search });
+  }, [page, itemsPerPage, role, search]);
 
   useEffect(() => {
     console.log("🚀 ~ Table ~ data:", data);
@@ -69,6 +83,11 @@ const Table = () => {
       label: t("EDIT"),
       icon: <PencilSimpleLineIcon className="fill-neutral-600" size={18} />,
       dialog: EditUserDialog,
+      onAction: async (user: User) => {
+        // await deleteUser(user._id);
+        fetch({ page, itemsPerPage, role: role as UserRole, search });
+      },
+      closeOnAction: true,
     },
     {
       label: t("DELETE"),
@@ -76,7 +95,7 @@ const Table = () => {
       dialog: ConfirmationDialog,
       onAction: async (user: User) => {
         await deleteUser(user._id);
-        fetch({ page, itemsPerPage });
+        fetch({ page, itemsPerPage, role: role as UserRole, search });
       },
       closeOnAction: true,
     },

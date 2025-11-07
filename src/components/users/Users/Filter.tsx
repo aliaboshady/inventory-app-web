@@ -10,10 +10,17 @@ import { useTranslation } from "react-i18next";
 import { useState } from "react";
 import EditUserDialog from "./EditUserDialog";
 
-const Filter = () => {
+type Props = {
+  role: string;
+  setRole: (val: string) => void;
+  search: string;
+  setSearch: (val: string) => void;
+};
+
+const Filter = ({ role, setRole, search, setSearch }: Props) => {
   const { t } = useTranslation();
   const [openAddAdmin, setOpenAddAdmin] = useState<boolean>(false);
-  const [selected, setSelected] = useState<string>();
+
   const {
     containerRef,
     outFlags: {
@@ -25,7 +32,7 @@ const Filter = () => {
 
   const roles = [
     { value: "ADMIN", label: "ADMIN" },
-    { value: "SUPER_ADMIN", label: "SUPER_ADMIN" },
+    { value: "STAFF", label: "STAFF" },
   ];
 
   return (
@@ -43,8 +50,8 @@ const Filter = () => {
         >
           <TextInput
             placeholder={t("SEARCH")}
-            value={""}
-            setValue={() => {}}
+            value={search || ""}
+            setValue={setSearch}
             icon={
               <MagnifyingGlassIcon
                 size={25}
@@ -59,9 +66,9 @@ const Filter = () => {
 
           <Dropdown
             items={roles}
-            selected={selected}
+            selected={role}
             placeholder={t("ROLE")}
-            setSelected={setSelected}
+            setSelected={setRole}
             showNoneOption
             className={breakpoint2 ? "w-full" : breakpoint1 ? "w-1/3" : "w-40"}
           />

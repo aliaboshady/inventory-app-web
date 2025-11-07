@@ -1,12 +1,5 @@
-import Filter from "@/components/users/Users/Filter";
-import Table from "@/components/users/Users/Table";
-import PageLayout from "@/components/PageLayout";
+import Layout from "@/components/users/Users/Layout";
 
 export default async function Users() {
-  return (
-    <PageLayout title="USERS">
-      <Filter />
-      <Table />
-    </PageLayout>
-  );
+  return <Layout />;
 }
