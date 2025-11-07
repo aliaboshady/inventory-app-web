@@ -34,6 +34,7 @@ export type DialogProps<T> = {
   setOpen: (val: boolean) => void;
   item?: T;
   onAction?: (item: T) => void;
+  closeOnAction?: boolean;
 };
 
 export type DialogSettings = {
@@ -42,4 +43,5 @@ export type DialogSettings = {
   href?: string;
   dialog?: React.ComponentType<DialogProps<any>>;
   onAction?: (item: any) => void;
+  closeOnAction?: boolean;
 };

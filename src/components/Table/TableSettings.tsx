@@ -83,6 +83,12 @@ export default function TableSettings({ settings, item }: Props) {
               }
               item={item}
               onAction={setting.onAction}
+              closeOnAction={
+                setting.closeOnAction === undefined ||
+                setting.closeOnAction === null
+                  ? true
+                  : setting.closeOnAction
+              }
             />
           )
         );

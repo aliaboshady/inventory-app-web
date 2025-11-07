@@ -105,6 +105,10 @@ export async function apiClient<T>(
 
           const json = await response.json();
 
+          if (!json) {
+            return {} as T;
+          }
+
           return json;
         }
       }
@@ -116,6 +120,11 @@ export async function apiClient<T>(
 
     const json = await response.json();
     console.log("🟢 ➡️ ~ Response of:", endpoint, json);
+
+    if (!json) {
+      return {} as T;
+    }
+
     return json as T;
   } catch (error) {
     console.log("🔴 ➡️ ~ Response of ERROR:", endpoint, error);

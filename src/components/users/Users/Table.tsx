@@ -15,6 +15,7 @@ import { useEffect, useState } from "react";
 import useRequest from "@/hooks/useRequest";
 import { getUsers } from "@/actions/users/getUsers";
 import { formatDate } from "@/lib/utils";
+import { deleteUser } from "@/actions/users/deleteUser";
 
 const Table = () => {
   const { t } = useTranslation();
@@ -73,7 +74,11 @@ const Table = () => {
       label: t("DELETE"),
       icon: <TrashIcon className="fill-red-600" size={18} />,
       dialog: ConfirmationDialog,
-      onAction: (user: User) => console.log("DELETE: ", user?.firstName),
+      onAction: async (user: User) => {
+        await deleteUser(user._id);
+        fetch({ page, itemsPerPage });
+      },
+      closeOnAction: true,
     },
   ];
 

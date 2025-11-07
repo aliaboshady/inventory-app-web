@@ -10,10 +10,18 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { DialogProps } from "@/models/shared.model";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 
-const ConfirmationDialog = ({ open, setOpen, item, onAction }: DialogProps<any>) => {
+const ConfirmationDialog = ({
+  open,
+  setOpen,
+  item,
+  onAction,
+  closeOnAction,
+}: DialogProps<any>) => {
   const { t } = useTranslation();
+  const [isLoading, setIsLoading] = useState(false);
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -24,14 +32,20 @@ const ConfirmationDialog = ({ open, setOpen, item, onAction }: DialogProps<any>)
 
         <DialogFooter className="flex flex-row justify-center gap-2">
           <DialogClose asChild>
-            <Button variant="secondary" className="w-full">
+            <Button disabled={isLoading} variant="secondary" className="w-full">
               {t("CANCEL")}
             </Button>
           </DialogClose>
 
           <Button
-            onClick={() => {
-              onAction?.(item);
+            disabled={isLoading}
+            onClick={async () => {
+              setIsLoading(true);
+              await onAction?.(item);
+              setIsLoading(false);
+              if (closeOnAction) {
+                setOpen(false);
+              }
             }}
             className="w-full"
           >
