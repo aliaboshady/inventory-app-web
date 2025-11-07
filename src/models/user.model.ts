@@ -5,7 +5,7 @@ export type Auth = {
   refreshToken: string;
 };
 
-export type UserRole = "ADMIN" | "SUPER_ADMIN";
+export type UserRole = "ADMIN" | "STAFF";
 export type UserStatus = "ACTIVE" | "INACTIVE";
 
 export type User = {

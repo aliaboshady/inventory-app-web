@@ -10,18 +10,12 @@ export const getUsers = async ({
   limit = 10,
   search,
   role,
-  isActive,
-  orderBy,
-  orderType,
 }: UsersPayload): Promise<ServerResponse<Paginated<User[]>>> => {
   return apiClient<ServerResponse<Paginated<User[]>>>(
-    `users?page=${page}&limit=${limit}${getFilter(
-      "search",
-      search
-    )}${getFilter("role", role)}${getFilter("isActive", isActive)}${getFilter(
-      "orderBy",
-      orderBy
-    )}${getFilter("orderType", orderType)}`,
+    `users?page=${page}&limit=${limit}${getFilter("search", search)}${getFilter(
+      "role",
+      role
+    )}`,
     {
       method: "GET",
     }

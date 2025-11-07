@@ -142,6 +142,8 @@ export const getFilter = (
   value: number | string | boolean,
   ignore: (number | string)[] = []
 ) => {
+  if(!value) return "";
+  
   let filter =
     filterName && value !== null && filterName && value !== ""
       ? `&${filterName}=${value}`
