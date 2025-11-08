@@ -17,6 +17,7 @@ import { useTranslation } from "react-i18next";
 import { Label } from "../../ui/label";
 import { useState } from "react";
 import { createUser } from "@/actions/users/createUser";
+import { editUser } from "@/actions/users/editUser";
 
 const EditUserDialog = ({
   open,
@@ -41,9 +42,17 @@ const EditUserDialog = ({
   ];
 
   const handleSubmit = async () => {
+    setIsLoading(true);
+
     if (item) {
+      await editUser({
+        _id: item?._id,
+        firstName,
+        lastName,
+        email,
+        role: role as UserRole,
+      });
     } else {
-      setIsLoading(true);
       await createUser({
         firstName,
         lastName,
@@ -51,9 +60,9 @@ const EditUserDialog = ({
         password,
         role: role as UserRole,
       });
-      setIsLoading(false);
     }
 
+    setIsLoading(false);
     await onAction?.(item);
     if (closeOnAction) setOpen(false);
   };
@@ -92,14 +101,16 @@ const EditUserDialog = ({
             className="w-full"
           />
 
-          <TextInput
-            label={t("PASSWORD")}
-            placeholder={t("ENTER_PASSWORD")}
-            value={password}
-            setValue={setPassword}
-            className="w-full"
-            isPassword
-          />
+          {!item && (
+            <TextInput
+              label={t("PASSWORD")}
+              placeholder={t("ENTER_PASSWORD")}
+              value={password}
+              setValue={setPassword}
+              className="w-full"
+              isPassword
+            />
+          )}
 
           <div className="flex flex-col gap-2">
             <Label>{t("ROLE")}</Label>

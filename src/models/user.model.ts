@@ -26,6 +26,10 @@ export type CreateUserPayload = {
   password: string;
 };
 
+export type EditUserPayload = Omit<CreateUserPayload, "password"> & {
+  _id: string;
+};
+
 export type UsersPayload = PaginatedPayload & {
   search?: string;
   role?: UserRole;

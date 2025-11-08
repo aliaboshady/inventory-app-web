@@ -46,7 +46,6 @@ const Table = ({
     {
       header: () => t("NAME"),
       value: (user: User) => `${user.firstName} ${user.lastName}`,
-      sortKey: "firstName",
     },
     {
       header: () => t("ROLE"),
@@ -59,12 +58,6 @@ const Table = ({
     {
       header: () => t("CREATED_AT"),
       value: (user: User) => formatDate(user?.createdAt),
-      sortKey: "createdAt",
-    },
-    {
-      header: () => t("UPDATE_AT"),
-      value: (user: User) => formatDate(user?.updatedAt),
-      sortKey: "updatedAt",
     },
   ];
 
