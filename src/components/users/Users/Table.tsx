@@ -4,6 +4,7 @@ import DataTable, { Column } from "@/components/Table/DataTable";
 import Badge from "@/components/Badge";
 import { User, UserRole, UsersPayload } from "@/models/user.model";
 import {
+  KeyIcon,
   PencilSimpleLineIcon,
   TrashIcon,
 } from "@phosphor-icons/react/dist/ssr";
@@ -14,6 +15,7 @@ import { useTranslation } from "react-i18next";
 
 import { formatDate } from "@/lib/utils";
 import { deleteUser } from "@/actions/users/deleteUser";
+import ChangeUserPasswordDialog from "./ChangeUserPasswordDialog";
 
 type Props = {
   data: Paginated<User>;
@@ -66,6 +68,15 @@ const Table = ({
       label: t("EDIT"),
       icon: <PencilSimpleLineIcon className="fill-neutral-600" size={18} />,
       dialog: EditUserDialog,
+      onAction: async () => {
+        fetch({ page, itemsPerPage, role: role as UserRole, search });
+      },
+      closeOnAction: true,
+    },
+    {
+      label: t("CHANGE_PASSWORD"),
+      icon: <KeyIcon className="fill-neutral-600" size={18} />,
+      dialog: ChangeUserPasswordDialog,
       onAction: async () => {
         fetch({ page, itemsPerPage, role: role as UserRole, search });
       },
