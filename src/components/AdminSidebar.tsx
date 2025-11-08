@@ -1,13 +1,6 @@
 "use client";
 
 import { usePathname } from "next/navigation";
-import { Fragment } from "react";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import {
   Sidebar,
   SidebarContent,
@@ -16,22 +9,17 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-  SidebarSeparator,
   SidebarHeader,
   useSidebar,
   SidebarFooter,
+  SidebarSeparator,
 } from "@/components/ui/sidebar";
 import {
-  BrowsersIcon,
   CaretDoubleLeftIcon,
   CaretDoubleRightIcon,
   ClipboardTextIcon,
-  FolderUserIcon,
-  GearIcon,
   SignOutIcon,
   SquaresFourIcon,
-  StarIcon,
-  UserIcon,
   UsersThreeIcon,
 } from "@phosphor-icons/react/dist/ssr";
 import { useTranslation } from "react-i18next";
@@ -111,6 +99,8 @@ export function AdminSidebar({ me }: { me: User }) {
         <SidebarHeader className="items-center py-4">
           <AdminProfileDialog me={me} />
         </SidebarHeader>
+
+        <SidebarSeparator />
 
         <SidebarContent>
           <SidebarGroup>

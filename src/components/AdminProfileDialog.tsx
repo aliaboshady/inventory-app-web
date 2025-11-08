@@ -12,16 +12,14 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { DialogProps } from "@/models/shared.model";
 import { User, UserRole } from "@/models/user.model";
 import { useTranslation } from "react-i18next";
 import { Label } from "./ui/label";
 import { useState } from "react";
-import { createUser } from "@/actions/users/createUser";
-import { editUser } from "@/actions/users/editUser";
 import { SidebarMenuButton } from "./ui/sidebar";
 import { StarIcon, UserIcon } from "@phosphor-icons/react/dist/ssr";
-import { changeUserPassword } from "@/actions/users/changeUserPassword";
+import { updateMe } from "@/actions/users/updateMe";
+import { changeMePassword } from "@/actions/users/changeMePassword";
 
 const AdminProfileDialog = ({ me }: { me: User }) => {
   const { t } = useTranslation();
@@ -29,7 +27,6 @@ const AdminProfileDialog = ({ me }: { me: User }) => {
   const [firstName, setFirstName] = useState(me?.firstName || "");
   const [lastName, setLastName] = useState(me?.lastName || "");
   const [email, setEmail] = useState(me?.email || "");
-  const [password, setPassword] = useState(me?.password || "");
   const [role, setRole] = useState<UserRole>(me?.role || "STAFF");
 
   const [isLoading, setIsLoading] = useState(false);
@@ -42,7 +39,7 @@ const AdminProfileDialog = ({ me }: { me: User }) => {
   const handleSubmit = async () => {
     setIsLoading(true);
 
-    await editUser({
+    await updateMe({
       _id: me?._id,
       firstName,
       lastName,
@@ -58,7 +55,7 @@ const AdminProfileDialog = ({ me }: { me: User }) => {
       <DialogTrigger asChild>
         <SidebarMenuButton
           tooltip={t("PROFILE")}
-          className="py-6 group-data-[collapsible=icon]:p-2 group-data-[collapsible=icon]:-translate-x-4 hover:bg-white/10 active:bg-secondary/30"
+          className="py-6 group-data-[collapsible=icon]:p-2 ltr:group-data-[collapsible=icon]:-translate-x-4 rtl:group-data-[collapsible=icon]:translate-x-4 hover:bg-white/10 active:bg-secondary/30"
         >
           <div className="flex items-center gap-2">
             <div className="relative bg-secondary p-1.5 rounded-full">
@@ -129,9 +126,11 @@ const AdminProfileDialog = ({ me }: { me: User }) => {
             <Button variant="secondary">{t("CANCEL")}</Button>
           </DialogClose>
 
-          <Button disabled={isLoading} onClick={handleSubmit} type="submit">
-            {t("SUBMIT")}
-          </Button>
+          <DialogClose disabled={isLoading} asChild>
+            <Button disabled={isLoading} onClick={handleSubmit} type="submit">
+              {t("SUBMIT")}
+            </Button>
+          </DialogClose>
         </DialogFooter>
       </DialogContent>
     </Dialog>
@@ -148,7 +147,7 @@ const ChangePasswordDialog = ({ me }: { me: User }) => {
 
   const handleSubmit = async () => {
     setIsLoading(true);
-    await changeUserPassword({ _id: me._id, password });
+    await changeMePassword(password);
     setIsLoading(false);
   };
 
@@ -177,9 +176,11 @@ const ChangePasswordDialog = ({ me }: { me: User }) => {
             <Button variant="secondary">{t("CANCEL")}</Button>
           </DialogClose>
 
-          <Button disabled={isLoading} onClick={handleSubmit} type="submit">
-            {t("SUBMIT")}
-          </Button>
+          <DialogClose disabled={isLoading} asChild>
+            <Button disabled={isLoading} onClick={handleSubmit} type="submit">
+              {t("SUBMIT")}
+            </Button>
+          </DialogClose>
         </DialogFooter>
       </DialogContent>
     </Dialog>
