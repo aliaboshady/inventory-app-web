@@ -6,10 +6,8 @@ export const COOKIES_KEYS = {
 export type RoutesType = Record<string, { url: string; displayName: string }>;
 
 export const ROUTES = {
-  root: { url: "/", displayName: "DASHBOARD" },
-  login: { url: "/login", displayName: "LOGIN" },
+  root: { url: "/", displayName: "ITEMS" },
   users: { url: "/users", displayName: "USERS" },
-  beneficiaries: { url: "/beneficiaries", displayName: "BENEFICIARIES" },
-  sessions: { url: "/sessions", displayName: "SESSIONS" },
-  projects: { url: "/projects", displayName: "PROJECTS" },
+  categories: { url: "/categories", displayName: "CATEGORIES" },
+  login: { url: "/login", displayName: "LOGIN" },
 };

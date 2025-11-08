@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -9,17 +8,17 @@ import {
   DropdownMenuRadioItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { CaretDownIcon, GlobeSimpleIcon } from "@phosphor-icons/react";
+import { GlobeSimpleIcon } from "@phosphor-icons/react";
 import { useTranslation } from "react-i18next";
 import { useTopLoader } from "nextjs-toploader";
 import { COOKIES_KEYS } from "@/lib/staticKeys";
 import { getCookie } from "@/actions/cookies/getCookie.action";
 import { setCookie } from "@/actions/cookies/setCookie.action";
+import { SidebarMenuButton } from "./ui/sidebar";
 
 export function DropdownLanguage() {
   const { t } = useTranslation();
   const [currentLocale, setCurrentLocale] = useState("");
-  const [open, setOpen] = useState(false);
   const { start: startTopLoader } = useTopLoader();
 
   useEffect(() => {
@@ -42,20 +41,26 @@ export function DropdownLanguage() {
   };
 
   return (
-    <DropdownMenu onOpenChange={setOpen}>
+    <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button className="group text-primary hover:text-white fill-primary group-hover:fill-white font-medium bg-white">
-          <GlobeSimpleIcon />
+        <SidebarMenuButton
+          tooltip={t("SETTINGS")}
+          className="py-6 group-data-[collapsible=icon]:p-2 hover:bg-white/10 active:bg-primary"
+        >
+          <div className="flex items-center gap-2">
+            <GlobeSimpleIcon className="!w-8 !h-8 fill-white" />
 
-          {t(languages[currentLocale])}
-
-          <CaretDownIcon
-            className={`transition-transform ${open ? "rotate-180" : ""}`}
-          />
-        </Button>
+            <span className="text-xl text-white">
+              {t("LANGUAGE")}
+            </span>
+          </div>
+        </SidebarMenuButton>
       </DropdownMenuTrigger>
 
-      <DropdownMenuContent className="min-w-0 w-fit" onCloseAutoFocus={(e => e.preventDefault())}>
+      <DropdownMenuContent
+        className="min-w-0 w-fit"
+        onCloseAutoFocus={(e) => e.preventDefault()}
+      >
         <DropdownMenuRadioGroup
           value={currentLocale}
           onValueChange={handleChange}

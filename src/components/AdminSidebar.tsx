@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { Fragment } from "react";
 import {
@@ -31,6 +30,8 @@ import {
   GearIcon,
   SignOutIcon,
   SquaresFourIcon,
+  StarIcon,
+  UserIcon,
   UsersThreeIcon,
 } from "@phosphor-icons/react/dist/ssr";
 import { useTranslation } from "react-i18next";
@@ -38,6 +39,9 @@ import { useIsMobile } from "@/hooks/use-mobile";
 import { logout } from "@/actions/auth/logout.action";
 import { useTopLoader } from "nextjs-toploader";
 import { ROUTES } from "@/lib/staticKeys";
+import { User } from "@/models/user.model";
+import { DropdownLanguage } from "./DropdownLanguage";
+import AdminProfileDialog from "./AdminProfileDialog";
 
 const items = [
   {
@@ -46,24 +50,14 @@ const items = [
     icon: SquaresFourIcon,
   },
   {
-    title: ROUTES.beneficiaries.displayName,
-    url: ROUTES.beneficiaries.url,
-    icon: FolderUserIcon,
+    title: ROUTES.categories.displayName,
+    url: ROUTES.categories.url,
+    icon: ClipboardTextIcon,
   },
   {
     title: ROUTES.users.displayName,
     url: ROUTES.users.url,
     icon: UsersThreeIcon,
-  },
-  {
-    title: ROUTES.sessions.displayName,
-    url: ROUTES.sessions.url,
-    icon: ClipboardTextIcon,
-  },
-  {
-    title: ROUTES.projects.displayName,
-    url: ROUTES.projects.url,
-    icon: BrowsersIcon,
   },
 ];
 
@@ -86,7 +80,7 @@ function SideBarButton({ dir }: { dir: "ltr" | "rtl" }) {
   );
 }
 
-export function AdminSidebar() {
+export function AdminSidebar({ me }: { me: User }) {
   const { t, i18n } = useTranslation();
   const { start: startTopLoader } = useTopLoader();
   const isMobile = useIsMobile();
@@ -114,35 +108,31 @@ export function AdminSidebar() {
           <SideBarButton dir={i18n.dir()} />
         </div>
 
+        <SidebarHeader className="items-center py-4">
+          <AdminProfileDialog me={me} />
+        </SidebarHeader>
+
         <SidebarContent>
           <SidebarGroup>
             <SidebarGroupContent>
               <SidebarMenu className="gap-2 group-data-[collapsible=icon]:gap-2">
-                {items.map((item, index) => (
-                  <Fragment key={item.title}>
-                    <SidebarMenuItem>
-                      <SidebarMenuButton
-                        asChild
-                        tooltip={t(item.title)}
-                        className={`py-6 group-data-[collapsible=icon]:p-2 hover:bg-white/10 active:bg-secondary/30 ${
-                          pathname === item.url && "bg-secondary/30"
-                        }`}
-                      >
-                        <a href={item.url}>
-                          <item.icon className="!w-8 !h-8 fill-white" />
-                          <span className="text-xl text-white">
-                            {t(item.title)}
-                          </span>
-                        </a>
-                      </SidebarMenuButton>
-                    </SidebarMenuItem>
-
-                    {index === 0 && (
-                      <div className="group-data-[collapsible=icon]:px-5">
-                        <SidebarSeparator />
-                      </div>
-                    )}
-                  </Fragment>
+                {items.map((item) => (
+                  <SidebarMenuItem key={item.title}>
+                    <SidebarMenuButton
+                      asChild
+                      tooltip={t(item.title)}
+                      className={`py-6 group-data-[collapsible=icon]:p-2 hover:bg-white/10 active:bg-secondary/30 ${
+                        pathname === item.url && "bg-secondary/30"
+                      }`}
+                    >
+                      <a href={item.url}>
+                        <item.icon className="!w-8 !h-8 fill-white" />
+                        <span className="text-xl text-white">
+                          {t(item.title)}
+                        </span>
+                      </a>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
                 ))}
               </SidebarMenu>
             </SidebarGroupContent>
@@ -150,31 +140,18 @@ export function AdminSidebar() {
         </SidebarContent>
 
         <SidebarFooter>
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <SidebarMenuButton
-                tooltip={t("SETTINGS")}
-                className={`py-6 group-data-[collapsible=icon]:p-2 hover:bg-white/10 ${
-                  pathname === "/settings" && "bg-secondary/30"
-                }`}
-              >
-                <div className="flex items-center gap-2">
-                  <GearIcon className="!w-8 !h-8 fill-white" />
-                  <span className="text-xl text-white">{t("SETTINGS")}</span>
-                </div>
-              </SidebarMenuButton>
-            </DropdownMenuTrigger>
+          <DropdownLanguage />
 
-            <DropdownMenuContent>
-              <DropdownMenuItem
-                className="p-1 w-full flex gap-1 items-center"
-                onClick={handleLogout}
-              >
-                <SignOutIcon />
-                <p>{t("SIGN_OUT")}</p>
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
+          <SidebarMenuButton
+            tooltip={t("LOGOUT")}
+            className="py-6 group-data-[collapsible=icon]:p-2 hover:bg-white/10 active:bg-primary"
+            onClick={handleLogout}
+          >
+            <div className="flex items-center gap-2">
+              <SignOutIcon className="!w-8 !h-8 fill-white" />
+              <span className="text-xl text-white">{t("LOGOUT")}</span>
+            </div>
+          </SidebarMenuButton>
         </SidebarFooter>
       </Sidebar>
     </div>
