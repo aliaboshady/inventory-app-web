@@ -19,6 +19,7 @@ type Props = {
   placeholder?: string;
   icon?: React.ReactNode;
   isPassword?: boolean;
+  enableAutofill?: boolean;
   className?: string;
   inputClassName?: string;
   labelClassName?: string;
@@ -38,6 +39,7 @@ const TextInput = ({
   placeholder,
   icon,
   isPassword,
+  enableAutofill = false,
   className,
   inputClassName,
   labelClassName,
@@ -72,6 +74,7 @@ const TextInput = ({
           }}
           onBlur={onBlur}
           onFocus={onFocus}
+          autoComplete={enableAutofill ? "" : "new-password"}
           type={isPassword && !isPasswordShown ? "password" : type}
           placeholder={placeholder}
           className={twMerge(

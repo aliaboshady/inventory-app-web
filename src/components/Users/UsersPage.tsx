@@ -3,15 +3,15 @@
 import { useEffect } from "react";
 import useRequest from "@/hooks/useRequest";
 import { getUsers } from "@/actions/users/getUsers";
-import Filter from "@/components/users/Users/Filter";
-import Table from "@/components/users/Users/Table";
+import Filter from "@/components/Users/Filter";
+import Table from "@/components/Users/Table";
 import PageLayout from "@/components/PageLayout";
 import { useState } from "react";
 import { useDebounce } from "@/hooks/useDebounce";
 import { User, UserRole, UsersPayload } from "@/models/user.model";
 import { Paginated } from "@/models/shared.model";
 
-const Layout = ({ me }: { me: User }) => {
+const UsersPage = ({ me }: { me: User }) => {
   const [page, setPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
   const [role, setRole] = useState<string>();
@@ -64,4 +64,4 @@ const Layout = ({ me }: { me: User }) => {
   );
 };
 
-export default Layout;
+export default UsersPage;

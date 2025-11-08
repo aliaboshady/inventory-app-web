@@ -1,8 +1,8 @@
 import { getMe } from "@/actions/users/getMe";
-import Layout from "@/components/users/Users/Layout";
+import UsersPage from "@/components/Users/UsersPage";
 
 export default async function Users() {
   const me = await getMe();
 
-  return <Layout me={me} />;
+  return <UsersPage me={me} />;
 }

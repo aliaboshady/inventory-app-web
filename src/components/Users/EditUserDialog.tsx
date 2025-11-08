@@ -14,7 +14,7 @@ import {
 import { DialogProps } from "@/models/shared.model";
 import { User, UserRole } from "@/models/user.model";
 import { useTranslation } from "react-i18next";
-import { Label } from "../../ui/label";
+import { Label } from "../ui/label";
 import { useState } from "react";
 import { createUser } from "@/actions/users/createUser";
 import { editUser } from "@/actions/users/editUser";
