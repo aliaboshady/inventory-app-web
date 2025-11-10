@@ -12,6 +12,7 @@ export type User = {
   email: string;
   firstName: string;
   lastName: string;
+  imageURL: string;
   role: UserRole;
   createdAt: string;
   updatedAt: string;

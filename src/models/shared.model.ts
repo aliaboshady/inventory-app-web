@@ -45,3 +45,11 @@ export type DialogSettings = {
   onAction?: (item: any) => void;
   closeOnAction?: boolean;
 };
+
+export type UploadType = "user" | "category" | "item";
+
+export type UploadFilePayload = {
+  type: UploadType;
+  id: string;
+  file: File;
+};

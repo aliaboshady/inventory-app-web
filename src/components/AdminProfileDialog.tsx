@@ -12,7 +12,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { User, UserRole } from "@/models/user.model";
+import { EditUserPayload, User, UserRole } from "@/models/user.model";
 import { useTranslation } from "react-i18next";
 import { Label } from "./ui/label";
 import { useState } from "react";
@@ -20,6 +20,8 @@ import { SidebarMenuButton } from "./ui/sidebar";
 import { StarIcon, UserIcon } from "@phosphor-icons/react/dist/ssr";
 import { updateMe } from "@/actions/users/updateMe";
 import { changeMePassword } from "@/actions/users/changeMePassword";
+import UploadPicture from "./UploadPicture";
+import useRequest from "@/hooks/useRequest";
 
 const AdminProfileDialog = ({ me }: { me: User }) => {
   const { t } = useTranslation();
@@ -28,26 +30,25 @@ const AdminProfileDialog = ({ me }: { me: User }) => {
   const [lastName, setLastName] = useState(me?.lastName || "");
   const [email, setEmail] = useState(me?.email || "");
   const [role, setRole] = useState<UserRole>(me?.role || "STAFF");
-
-  const [isLoading, setIsLoading] = useState(false);
+  const [picture, setPicture] = useState<File>();
 
   const roles = [
     { value: "ADMIN", label: "ADMIN" },
     { value: "STAFF", label: "STAFF" },
   ];
 
-  const handleSubmit = async () => {
-    setIsLoading(true);
+  const { request: updateMeReq, isLoading } = useRequest<EditUserPayload, User>(
+    updateMe
+  );
 
-    await updateMe({
+  const handleSubmit = async () => {
+    await updateMeReq({
       _id: me?._id,
       firstName,
       lastName,
       email,
       role: role as UserRole,
     });
-
-    setIsLoading(false);
   };
 
   return (
@@ -80,6 +81,13 @@ const AdminProfileDialog = ({ me }: { me: User }) => {
         <DialogHeader className="text-left">
           <DialogTitle className="text-xl">{t("EDIT_PROFILE")}</DialogTitle>
         </DialogHeader>
+
+        <UploadPicture
+          me={me}
+          picture={picture}
+          setPicture={setPicture}
+          type="user"
+        />
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 py-5">
           <TextInput

@@ -8,6 +8,15 @@ const nextConfig: NextConfig = {
     defaultLocale: i18nConfig.defaultLocale,
     localeDetection: false,
   },
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "**.supabase.co", // ✅ any Supabase project
+        pathname: "/storage/v1/object/public/**", // ✅ any public file
+      },
+    ],
+  },
 };
 
 export default nextConfig;
