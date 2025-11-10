@@ -22,7 +22,7 @@ export type ItemsPayload = PaginatedPayload & {
 };
 
 export type CreateItemPayload = {
-  category: Category;
+  category: string;
   status: ItemStatus;
   name: string;
   comment: string;
@@ -30,7 +30,7 @@ export type CreateItemPayload = {
 
 export type EditItemPayload = {
   _id: string;
-  category: Category;
+  category: string;
   status: ItemStatus;
   name: string;
   comment: string;

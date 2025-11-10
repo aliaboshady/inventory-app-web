@@ -71,6 +71,10 @@ const Table = ({
       value: (item: Item) => item?.comment,
     },
     {
+      header: () => t("UPDATED_AT"),
+      value: (category: Category) => formatDate(category?.updatedAt),
+    },
+    {
       header: () => t("CREATED_AT"),
       value: (category: Category) => formatDate(category?.createdAt),
     },
