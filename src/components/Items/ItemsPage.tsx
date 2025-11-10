@@ -19,6 +19,7 @@ const ItemsPage = () => {
   const [status, setStatus] = useState<ItemStatus>();
   const [name, setName] = useState<string>("");
   const [debouncedName, setDebouncedName] = useState<string>(name);
+  const [category, setCategory] = useState<string>();
 
   const { request: fetch, data } = useRequest<ItemsPayload, Paginated<Item>>(
     getItems
@@ -31,8 +32,9 @@ const ItemsPage = () => {
       _id: debouncedId,
       status,
       name: debouncedName,
+      category,
     });
-  }, [page, itemsPerPage, debouncedId, status, debouncedName]);
+  }, [page, itemsPerPage, debouncedId, status, debouncedName, category]);
 
   useDebounce(
     () => {
@@ -65,6 +67,8 @@ const ItemsPage = () => {
         setId={setId}
         status={status}
         setStatus={setStatus}
+        category={category}
+        setCategory={setCategory}
         onAddUser={() => fetch({ page, itemsPerPage, name })}
       />
       <Table
