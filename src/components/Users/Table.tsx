@@ -1,7 +1,6 @@
 "use client";
 
 import DataTable, { Column } from "@/components/Table/DataTable";
-import Badge from "@/components/Badge";
 import { User, UserRole, UsersPayload } from "@/models/user.model";
 import {
   KeyIcon,
@@ -12,10 +11,10 @@ import EditUserDialog from "./EditUserDialog";
 import ConfirmationDialog from "@/components/ConfirmationDialog";
 import { DialogSettings, Paginated } from "@/models/shared.model";
 import { useTranslation } from "react-i18next";
-
 import { formatDate } from "@/lib/utils";
 import { deleteUser } from "@/actions/users/deleteUser";
 import ChangeUserPasswordDialog from "./ChangeUserPasswordDialog";
+import { Badge } from "../ui/badge";
 
 type Props = {
   data: Paginated<User>;
@@ -55,7 +54,7 @@ const Table = ({
       header: () => t("ROLE"),
       value: (user: User) => (
         <Badge className={user.role === "STAFF" && "text-primary bg-secondary"}>
-          {user.role}
+          {t(user.role)}
         </Badge>
       ),
     },

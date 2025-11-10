@@ -5,22 +5,25 @@ import {
   PencilSimpleLineIcon,
   TrashIcon,
 } from "@phosphor-icons/react/dist/ssr";
-import EditCategoryDialog from "./EditCategoryDialog";
+import EditItemDialog from "./EditItemDialog";
 import ConfirmationDialog from "@/components/ConfirmationDialog";
 import { DialogSettings, Paginated } from "@/models/shared.model";
 import { useTranslation } from "react-i18next";
+
 import { formatDate } from "@/lib/utils";
 import { CategoriesPayload, Category } from "@/models/category.model";
 import { deleteCategory } from "@/actions/categories/deleteCategory";
+import { Item } from "@/models/item.model";
+import { Badge } from "../ui/badge";
 
 type Props = {
-  data: Paginated<Category>;
+  data: Paginated<Item>;
   setPage: (val: number) => void;
   page: number;
   setItemsPerPage: (val: number) => void;
   itemsPerPage: number;
   name: string;
-  fetch: (payload: CategoriesPayload) => Promise<Paginated<Category>>;
+  fetch: (payload: CategoriesPayload) => Promise<Paginated<Item>>;
 };
 
 const Table = ({
@@ -36,8 +39,36 @@ const Table = ({
 
   const columns: Column[] = [
     {
-      header: () => t("EMAIL"),
-      value: (category: Category) => category.name,
+      header: () => t("ID"),
+      value: (item: Item) => item?._id,
+    },
+    {
+      header: () => t("CATEGORY"),
+      value: (item: Item) => item?.category?.name,
+    },
+    {
+      header: () => t("STATUS"),
+      value: (item: Item) => (
+        <Badge
+          className={
+            item?.status === "IN_WAREHOUSE"
+              ? "text-success bg-success-foreground"
+              : item?.status === "OUT_OF_WAREHOUSE"
+              ? "text-primary bg-secondary/70"
+              : "text-danger bg-danger-foreground"
+          }
+        >
+          {item?.status}
+        </Badge>
+      ),
+    },
+    {
+      header: () => t("NAME"),
+      value: (item: Item) => item?.name,
+    },
+    {
+      header: () => t("COMMENT"),
+      value: (item: Item) => item?.comment,
     },
     {
       header: () => t("CREATED_AT"),
@@ -49,7 +80,7 @@ const Table = ({
     {
       label: t("EDIT"),
       icon: <PencilSimpleLineIcon className="fill-neutral-600" size={18} />,
-      dialog: EditCategoryDialog,
+      dialog: EditItemDialog,
       onAction: async () => {
         fetch({ page, itemsPerPage, name });
       },

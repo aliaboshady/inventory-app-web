@@ -23,15 +23,19 @@ const CategoriesPage = () => {
   >(getCategories);
 
   useEffect(() => {
-    fetch({ page, itemsPerPage, name });
-  }, [page, itemsPerPage, name]);
+    fetch({ page, itemsPerPage, name: debouncedSearch });
+  }, [page, itemsPerPage, debouncedSearch]);
 
-  useDebounce(() => {
-    if (name !== debouncedSearch) {
-      setPage(1);
-    }
-    setDebouncedSearch(name);
-  }, 500);
+  useDebounce(
+    () => {
+      if (name !== debouncedSearch) {
+        setPage(1);
+      }
+      setDebouncedSearch(name);
+    },
+    500,
+    [name]
+  );
 
   return (
     <PageLayout title="CATEGORIES">
