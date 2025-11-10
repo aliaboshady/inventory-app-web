@@ -20,6 +20,7 @@ import useRequest from "@/hooks/useRequest";
 import { getCategories } from "@/actions/categories/getCategories";
 import { editItem } from "@/actions/items/editItem";
 import { createItem } from "@/actions/items/createItem";
+import { Label } from "../ui/label";
 
 const EditItemDialog = ({
   open,
@@ -31,7 +32,7 @@ const EditItemDialog = ({
   const { t } = useTranslation();
 
   const [name, setName] = useState(item?.name || "");
-  const [status, setStatus] = useState<ItemStatus>(item?.status);
+  const [status, setStatus] = useState<ItemStatus>(item?.status || "UNKNOWN");
   const [category, setCategory] = useState<string>(item?.category?._id || "");
   const [comment, setComment] = useState<string>(item?.comment || "");
   const [isLoading, setIsLoading] = useState(false);
@@ -129,35 +130,41 @@ const EditItemDialog = ({
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <TextInput
+            label={t("NAME")}
             placeholder={t("ENTER_NAME")}
             value={name}
             setValue={setName}
           />
 
           <TextInput
+            label={t("COMMENT")}
             placeholder={t("ENTER_COMMENT")}
             value={comment}
             setValue={setComment}
           />
 
-          <Dropdown
-            items={statuses}
-            selected={status}
-            setSelected={(val: any) => setStatus(val)}
-            placeholder="STATUS"
-            showNoneOption
-          />
+          <div className="flex flex-col gap-2">
+            <Label>{t("STATUS")}</Label>
+            <Dropdown
+              items={statuses}
+              selected={status}
+              setSelected={(val: any) => setStatus(val)}
+              placeholder="STATUS"
+            />
+          </div>
 
-          <Dropdown
-            items={categories}
-            selected={category}
-            setSelected={(val: any) => setCategory(val)}
-            placeholder="CATEGORY"
-            showNoneOption
-            disabled={!categories || categories?.length === 0}
-            loadingData={isLoadingCategories}
-            onReachTheEnd={handleFetchCategories}
-          />
+          <div className="flex flex-col gap-2">
+            <Label>{t("CATEGORY")}</Label>
+            <Dropdown
+              items={categories}
+              selected={category}
+              setSelected={(val: any) => setCategory(val)}
+              placeholder="SELECT_CATEGORY"
+              disabled={!categories || categories?.length === 0}
+              loadingData={isLoadingCategories}
+              onReachTheEnd={handleFetchCategories}
+            />
+          </div>
         </div>
 
         <DialogFooter className="flex flex-row justify-end gap-2">

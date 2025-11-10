@@ -9,12 +9,10 @@ import EditItemDialog from "./EditItemDialog";
 import ConfirmationDialog from "@/components/ConfirmationDialog";
 import { DialogSettings, Paginated } from "@/models/shared.model";
 import { useTranslation } from "react-i18next";
-
 import { formatDate } from "@/lib/utils";
-import { CategoriesPayload, Category } from "@/models/category.model";
-import { deleteCategory } from "@/actions/categories/deleteCategory";
-import { Item } from "@/models/item.model";
+import { Item, ItemsPayload } from "@/models/item.model";
 import { Badge } from "../ui/badge";
+import { deleteItem } from "@/actions/items/deleteItem";
 
 type Props = {
   data: Paginated<Item>;
@@ -23,7 +21,7 @@ type Props = {
   setItemsPerPage: (val: number) => void;
   itemsPerPage: number;
   name: string;
-  fetch: (payload: CategoriesPayload) => Promise<Paginated<Item>>;
+  fetch: (payload: ItemsPayload) => Promise<Paginated<Item>>;
 };
 
 const Table = ({
@@ -72,11 +70,11 @@ const Table = ({
     },
     {
       header: () => t("UPDATED_AT"),
-      value: (category: Category) => formatDate(category?.updatedAt),
+      value: (item: Item) => formatDate(item?.updatedAt),
     },
     {
       header: () => t("CREATED_AT"),
-      value: (category: Category) => formatDate(category?.createdAt),
+      value: (item: Item) => formatDate(item?.createdAt),
     },
   ];
 
@@ -94,8 +92,8 @@ const Table = ({
       label: t("DELETE"),
       icon: <TrashIcon className="fill-red-600" size={18} />,
       dialog: ConfirmationDialog,
-      onAction: async (category: Category) => {
-        await deleteCategory(category._id);
+      onAction: async (item: Item) => {
+        await deleteItem(item._id);
         fetch({ page, itemsPerPage, name });
       },
       closeOnAction: true,
