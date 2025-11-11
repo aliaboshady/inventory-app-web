@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { COOKIES_KEYS, ROUTES } from "./lib/staticKeys";
 import { isTokenExpired } from "./lib/tokenUtils";
+import { i18nConfig } from "../i18n";
 
 export async function middleware(request: NextRequest) {
   if (request.method === "POST") {
@@ -8,9 +9,20 @@ export async function middleware(request: NextRequest) {
   }
 
   const url = request.nextUrl.clone();
+  const response = NextResponse.next();
 
   let accessToken = request.cookies.get(COOKIES_KEYS.accessToken)?.value;
   let isAccessTokenValid = !isTokenExpired(accessToken);
+
+  const hasLocaleCookie = request.cookies.has(COOKIES_KEYS.locale);
+  if (!hasLocaleCookie) {
+    const cookieRes = response.cookies.set(COOKIES_KEYS.locale, i18nConfig.defaultLocale, {
+      path: "/",
+      sameSite: "lax",
+      httpOnly: true,
+      maxAge: 60 * 60 * 24 * 7, // 7 days
+    });
+  }
 
   if (!isAccessTokenValid && url.pathname !== ROUTES.login?.url) {
     const loginUrl = new URL(ROUTES.login?.url, request.url);
@@ -22,7 +34,7 @@ export async function middleware(request: NextRequest) {
     return NextResponse.redirect(session);
   }
 
-  return NextResponse.next();
+  return response;
 }
 
 export const config = {
