@@ -6,7 +6,7 @@ import { getTailwindColor } from "@/lib/utils";
 import { MagnifyingGlassIcon, PlusIcon } from "@phosphor-icons/react/dist/ssr";
 import { useTranslation } from "react-i18next";
 import { useState } from "react";
-import EditCategoryDialog from "./EditCategoryDialog";
+import EditColorDialog from "./EditColorDialog";
 
 type Props = {
   name: string;
@@ -39,11 +39,11 @@ const Filter = ({ name, setName, onAddUser }: Props) => {
           onClick={() => setOpenAddAdmin(true)}
           className="h-12 rounded-xl text-lg"
         >
-          <PlusIcon color="white" weight="bold" /> {t("ADD_CATEGORY")}
+          <PlusIcon color="white" weight="bold" /> {t("ADD_COLOR")}
         </Button>
       </div>
 
-      <EditCategoryDialog
+      <EditColorDialog
         open={openAddAdmin}
         setOpen={setOpenAddAdmin}
         onAction={onAddUser}

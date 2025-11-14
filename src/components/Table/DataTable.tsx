@@ -57,7 +57,6 @@ const DataTable = ({
   dataPagination,
   settings,
 }: Props) => {
-  console.log("🚀 ~ DataTable ~ items:", items)
   const [selectedAll, setSelectedAll] = useState<"indeterminate" | boolean>(
     false
   );

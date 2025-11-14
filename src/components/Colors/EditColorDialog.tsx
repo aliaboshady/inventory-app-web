@@ -13,35 +13,38 @@ import {
 import { DialogProps } from "@/models/shared.model";
 import { useTranslation } from "react-i18next";
 import { useState } from "react";
-import { Category } from "@/models/category.model";
-import { editCategory } from "@/actions/categories/editCategory";
-import { createCategory } from "@/actions/categories/createCategory";
-import UploadPicture from "../UploadPicture";
+import { Color } from "@/models/color.model";
+import { editColor } from "@/actions/colors/editColor";
+import { createColor } from "@/actions/colors/createColor";
+import { Input } from "../ui/input";
+import { Label } from "../ui/label";
 
-const EditCategoryDialog = ({
+const EditColorDialog = ({
   open,
   setOpen,
   item,
   onAction,
   closeOnAction = true,
-}: DialogProps<Category>) => {
+}: DialogProps<Color>) => {
   const { t } = useTranslation();
 
   const [name, setName] = useState(item?.name || "");
-  const [picture, setPicture] = useState<File>();
+  const [color, setColor] = useState(item?.color || "#000000");
   const [isLoading, setIsLoading] = useState(false);
 
   const handleSubmit = async () => {
     setIsLoading(true);
 
     if (item) {
-      await editCategory({
+      await editColor({
         _id: item?._id,
         name,
+        color,
       });
     } else {
-      await createCategory({
+      await createColor({
         name,
+        color,
       });
     }
 
@@ -55,20 +58,9 @@ const EditCategoryDialog = ({
       <DialogContent className="sm:max-w-[800px] w-[calc(100%-2rem)] rounded-lg">
         <DialogHeader className="text-left">
           <DialogTitle className="text-xl">
-            {t(item ? "EDIT_CATEGORY" : "ADD_CATEGORY")}
+            {t(item ? "EDIT_COLOR" : "ADD_COLOR")}
           </DialogTitle>
         </DialogHeader>
-
-        {item && (
-          <UploadPicture
-            id={item?._id}
-            imageURL={item?.imageURL}
-            picture={picture}
-            setPicture={setPicture}
-            type="category"
-            onUpload={() => onAction?.(item)}
-          />
-        )}
 
         <TextInput
           label={t("NAME")}
@@ -77,6 +69,16 @@ const EditCategoryDialog = ({
           setValue={setName}
           className="w-full"
         />
+
+        <div className="w-full flex flex-col gap-2">
+          <Label>{t("COLOR")}</Label>
+          <Input
+            type="color"
+            className="w-20 p-0 border-none"
+            value={color}
+            onChange={(e) => setColor(e.target.value)}
+          />
+        </div>
 
         <DialogFooter className="flex flex-row justify-end gap-2">
           <DialogClose disabled={isLoading} asChild>
@@ -92,4 +94,4 @@ const EditCategoryDialog = ({
   );
 };
 
-export default EditCategoryDialog;
+export default EditColorDialog;

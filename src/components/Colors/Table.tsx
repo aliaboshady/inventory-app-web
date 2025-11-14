@@ -1,64 +1,33 @@
 "use client";
 
-import DataTable, { Column } from "@/components/Table/DataTable";
 import {
   PencilSimpleLineIcon,
   TrashIcon,
 } from "@phosphor-icons/react/dist/ssr";
-import EditCategoryDialog from "./EditCategoryDialog";
+import EditColorDialog from "./EditColorDialog";
 import ConfirmationDialog from "@/components/ConfirmationDialog";
-import { DialogSettings, Paginated } from "@/models/shared.model";
+import { DialogSettings } from "@/models/shared.model";
 import { useTranslation } from "react-i18next";
-import { formatDate } from "@/lib/utils";
-import { deleteCategory } from "@/actions/categories/deleteCategory";
 import { Color, ColorsPayload } from "@/models/color.model";
+import ColorCard from "./ColorCard";
+import { deleteColor } from "@/actions/colors/deleteColor";
 
 type Props = {
   data: Color[];
-  setPage: (val: number) => void;
-  page: number;
-  setItemsPerPage: (val: number) => void;
-  itemsPerPage: number;
   name: string;
   fetch: (payload: ColorsPayload) => Promise<Color[]>;
 };
 
-const Table = ({
-  data,
-  name,
-  page = 1,
-  setPage,
-  itemsPerPage = 10,
-  setItemsPerPage,
-  fetch,
-}: Props) => {
+const Table = ({ data, name, fetch }: Props) => {
   const { t } = useTranslation();
-
-  const columns: Column[] = [
-    {
-      header: () => t("NAME"),
-      value: (color: Color) =>
-        color?.name,
-        // <Avatar
-        //   label={color?.name}
-        //   src={color?.imageURL}
-        //   type="color"
-        //   className="w-16 h-16"
-        // />
-    },
-    {
-      header: () => t("CREATED_AT"),
-      value: (color: Color) => formatDate(color?.createdAt),
-    },
-  ];
 
   const settings: DialogSettings[] = [
     {
       label: t("EDIT"),
       icon: <PencilSimpleLineIcon className="fill-neutral-600" size={18} />,
-      dialog: EditCategoryDialog,
+      dialog: EditColorDialog,
       onAction: async () => {
-        fetch({ page, itemsPerPage, name });
+        fetch({ search: name });
       },
       closeOnAction: true,
     },
@@ -66,24 +35,20 @@ const Table = ({
       label: t("DELETE"),
       icon: <TrashIcon className="fill-red-600" size={18} />,
       dialog: ConfirmationDialog,
-      onAction: async (category: Color) => {
-        await deleteCategory(category._id);
-        fetch({ page, itemsPerPage, name });
+      onAction: async (color: Color) => {
+        await deleteColor(color._id);
+        fetch({ search: name });
       },
       closeOnAction: true,
     },
   ];
 
   return (
-    <DataTable
-      items={data}
-      columns={columns}
-      itemsPerPage={itemsPerPage}
-      setItemsPerPage={setItemsPerPage}
-      page={page}
-      setPage={setPage}
-      settings={settings}
-    />
+    <div className="w-full overflow-auto flex flex-wrap gap-4">
+      {data?.map((color, i) => (
+        <ColorCard key={i} color={color} settings={settings} />
+      ))}
+    </div>
   );
 };
 
