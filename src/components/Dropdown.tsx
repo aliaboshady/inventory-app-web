@@ -14,10 +14,16 @@ import { twMerge } from "tailwind-merge";
 import { useTranslation } from "react-i18next";
 import { Input } from "@/components/ui/input";
 
+export type DropdownItem = {
+  value: string;
+  label: string;
+  labelNode?: React.ReactNode;
+};
+
 type Props = {
   selected: string | string[];
   setSelected: ((val: string) => void) | ((val: string[]) => void);
-  items: { label: string; value: string }[];
+  items: DropdownItem[];
   noneOptionValue?: string;
   allOptionValue?: string;
   showNoneOption?: boolean;
@@ -78,9 +84,16 @@ export default function Dropdown({
         .join(", ");
     }
 
+    const selectedItem = items?.find((item) => item.value === selected);
+
     const selectedValue =
-      items?.find((item) => item.value === selected)?.label || selected;
-    return t(selectedValue);
+      selectedItem?.labelNode || selectedItem?.label || selected;
+
+    return typeof selectedValue === "string" ? (
+      <p className="truncate">{t(selectedValue)}</p>
+    ) : (
+      selectedValue
+    );
   };
 
   const handleSelectMultiple = (item: string) => {
@@ -109,7 +122,7 @@ export default function Dropdown({
             className
           )}
         >
-          <p className="truncate">{renderSelectedText()}</p>
+          {renderSelectedText()}
 
           {loadingData ? (
             <CircleNotchIcon className="animate-spin fill-primary" />
@@ -223,7 +236,11 @@ export default function Dropdown({
                   isSelected ? "bg-secondary text-primary" : ""
                 )}
               >
-                <p className="truncate">{t(item.label)}</p>
+                {item.labelNode ? (
+                  item.labelNode
+                ) : (
+                  <p className="truncate">{t(item.label)}</p>
+                )}
               </DropdownMenuItem>
             );
           })
@@ -238,7 +255,11 @@ export default function Dropdown({
                   selected === item.value && "bg-secondary text-primary"
                 }`}
               >
-                <p className="truncate">{t(item.label)}</p>
+                {item.labelNode ? (
+                  item.labelNode
+                ) : (
+                  <p className="truncate">{t(item.label)}</p>
+                )}
               </DropdownMenuItem>
             ))}
           </>

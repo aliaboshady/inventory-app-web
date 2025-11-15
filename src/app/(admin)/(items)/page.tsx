@@ -1,5 +1,8 @@
+import { getColors } from "@/actions/colors/getColors";
 import ItemsPage from "@/components/Items/ItemsPage";
 
 export default async function Items() {
-  return <ItemsPage />;
+  const colors = await getColors({});
+
+  return <ItemsPage colors={colors} />;
 }

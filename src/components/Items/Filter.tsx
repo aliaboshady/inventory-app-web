@@ -8,11 +8,12 @@ import { useTranslation } from "react-i18next";
 import { useEffect, useState } from "react";
 import EditItemDialog from "./EditItemDialog";
 import { ItemStatus } from "@/models/item.model";
-import Dropdown from "../Dropdown";
+import Dropdown, { DropdownItem } from "../Dropdown";
 import useRequest from "@/hooks/useRequest";
 import { getCategories } from "@/actions/categories/getCategories";
 import { Paginated } from "@/models/shared.model";
 import { CategoriesPayload, Category } from "@/models/category.model";
+import { Color } from "@/models/color.model";
 
 type Props = {
   name: string;
@@ -24,6 +25,9 @@ type Props = {
   category: string;
   setCategory: (val: string) => void;
   onAddUser: () => void;
+  colors: Color[];
+  color: string;
+  setColor: (val: string) => void;
 };
 
 const Filter = ({
@@ -36,6 +40,9 @@ const Filter = ({
   category,
   setCategory,
   onAddUser,
+  colors,
+  color,
+  setColor,
 }: Props) => {
   const { t } = useTranslation();
   const [openAddAdmin, setOpenAddAdmin] = useState<boolean>(false);
@@ -62,6 +69,18 @@ const Filter = ({
       setCategoriesPage((prev) => prev + 1);
     }
   };
+
+  const mappedColors: DropdownItem[] =
+    colors?.map((c) => ({
+      value: c._id,
+      label: c.name,
+      labelNode: (
+        <div className="flex flex-row items-center gap-4">
+          <div className="w-8 h-4" style={{ backgroundColor: c.color }} />
+          <p className="truncate">{c.name}</p>
+        </div>
+      ),
+    })) || [];
 
   const statuses = [
     {
@@ -127,16 +146,21 @@ const Filter = ({
           items={categories}
           selected={category}
           setSelected={(val: any) => setCategory(val)}
-          placeholder="CATEGORY"
+          placeholder="SELECT_CATEGORY"
           showNoneOption
           disabled={!categories || categories?.length === 0}
           loadingData={isLoadingCategories}
           onReachTheEnd={handleFetchCategories}
         />
 
-        <Button variant="outline" className="h-12 text-lg">
-          Attributes
-        </Button>
+        <Dropdown
+          items={mappedColors}
+          selected={color}
+          setSelected={(val: any) => setColor(val)}
+          placeholder="SELECT_COLOR"
+          showNoneOption
+          disabled={!colors || colors?.length === 0}
+        />
 
         <Button onClick={() => setOpenAddAdmin(true)} className="h-12 text-lg">
           <PlusIcon color="white" weight="bold" /> {t("ADD_ITEM")}

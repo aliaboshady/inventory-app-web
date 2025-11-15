@@ -11,8 +11,9 @@ import { useDebounce } from "@/hooks/useDebounce";
 import { Paginated } from "@/models/shared.model";
 import { getItems } from "@/actions/items/getItems";
 import { ItemsPayload, Item, ItemStatus } from "@/models/item.model";
+import { Color } from "@/models/color.model";
 
-const ItemsPage = () => {
+const ItemsPage = ({ colors }: { colors: Color[] }) => {
   const searchParams = useSearchParams();
   const queryId = searchParams.get("id");
 
@@ -24,6 +25,7 @@ const ItemsPage = () => {
   const [name, setName] = useState<string>("");
   const [debouncedName, setDebouncedName] = useState<string>(name);
   const [category, setCategory] = useState<string>();
+  const [color, setColor] = useState<string>();
 
   const { request: fetch, data } = useRequest<ItemsPayload, Paginated<Item>>(
     getItems
@@ -38,7 +40,7 @@ const ItemsPage = () => {
       name: debouncedName,
       category,
     });
-  }, [page, itemsPerPage, debouncedId, status, debouncedName, category]);
+  }, [page, itemsPerPage, debouncedId, status, debouncedName, category, color]);
 
   useDebounce(
     () => {
@@ -74,6 +76,9 @@ const ItemsPage = () => {
         category={category}
         setCategory={setCategory}
         onAddUser={() => fetch({ page, itemsPerPage, name })}
+        colors={colors}
+        color={color}
+        setColor={setColor}
       />
       <Table
         data={data}

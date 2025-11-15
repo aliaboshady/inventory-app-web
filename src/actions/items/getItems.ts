@@ -12,6 +12,7 @@ export const getItems = async ({
   name,
   category,
   status,
+  color,
 }: ItemsPayload): Promise<Paginated<Item>> => {
   return apiClient<Paginated<Item>>(
     `items?page=${page}&itemsPerPage=${itemsPerPage}${getFilter(
@@ -20,7 +21,7 @@ export const getItems = async ({
     )}${getFilter("name", name)}${getFilter("category", category)}${getFilter(
       "status",
       status
-    )}`,
+    )}${getFilter("color", color)}`,
     {
       method: "GET",
     }

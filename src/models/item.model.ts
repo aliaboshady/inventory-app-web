@@ -18,6 +18,7 @@ export type ItemsPayload = PaginatedPayload & {
   _id?: string;
   name?: string;
   category?: string;
+  color?: string;
   status?: ItemStatus;
 };
 
