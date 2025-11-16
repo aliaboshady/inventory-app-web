@@ -60,7 +60,7 @@ const AdminProfileDialog = ({ me }: { me: User }) => {
           className="py-6 group-data-[collapsible=icon]:p-2 ltr:group-data-[collapsible=icon]:-translate-x-4 rtl:group-data-[collapsible=icon]:translate-x-4 hover:bg-white/10 active:bg-secondary/30"
         >
           <div className="flex items-center gap-2 ltr:-translate-x-1 rtl:translate-x-1">
-            <div className="relative bg-neutral-300 rounded-full w-10 h-10">
+            <div className="flex justify-center items-center relative bg-neutral-300 rounded-full w-10 h-10">
               {me?.imageURL ? (
                 <div className="relative w-full h-full overflow-hidden rounded-full">
                   <Image

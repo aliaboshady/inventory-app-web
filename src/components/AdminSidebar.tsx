@@ -21,7 +21,7 @@ import {
   SignOutIcon,
   SquaresFourIcon,
   UsersThreeIcon,
-  PaletteIcon
+  PaletteIcon,
 } from "@phosphor-icons/react/dist/ssr";
 import { useTranslation } from "react-i18next";
 import { useIsMobile } from "@/hooks/use-mobile";
@@ -145,7 +145,9 @@ export function AdminSidebar({ me }: { me: User }) {
           >
             <div className="flex items-center gap-2">
               <SignOutIcon className="!w-8 !h-8 fill-white" />
-              <span className="text-xl text-white">{t("LOGOUT")}</span>
+              <span className="text-xl text-white text-nowrap">
+                {t("LOGOUT")}
+              </span>
             </div>
           </SidebarMenuButton>
         </SidebarFooter>

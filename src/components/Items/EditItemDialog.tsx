@@ -243,29 +243,41 @@ const EditItemDialog = ({
           </div>
 
           <div className="flex flex-row gap-2">
-            <TextInput
-              label={t("WIDTH")}
-              placeholder={t("ENTER_WIDTH")}
-              value={width as any}
-              setValue={setWidth as any}
-              type="number"
-            />
+            <div className="flex flex-col gap-2">
+              <Label>{t("WIDTH")}</Label>
+              <div dir="ltr">
+                <TextInput
+                  placeholder={t("ENTER_WIDTH")}
+                  value={width as any}
+                  setValue={setWidth as any}
+                  type="number"
+                />
+              </div>
+            </div>
 
-            <TextInput
-              label={t("LENGTH")}
-              placeholder={t("ENTER_LENGTH")}
-              value={length as any}
-              setValue={setLength as any}
-              type="number"
-            />
+            <div className="flex flex-col gap-2">
+              <Label>{t("LENGTH")}</Label>
+              <div dir="ltr">
+                <TextInput
+                  placeholder={t("ENTER_LENGTH")}
+                  value={length as any}
+                  setValue={setLength as any}
+                  type="number"
+                />
+              </div>
+            </div>
 
-            <TextInput
-              label={t("HEIGHT")}
-              placeholder={t("ENTER_HEIGHT")}
-              value={height as any}
-              setValue={setHeight as any}
-              type="number"
-            />
+            <div className="flex flex-col gap-2">
+              <Label>{t("HEIGHT")}</Label>
+              <div dir="ltr">
+                <TextInput
+                  placeholder={t("ENTER_HEIGHT")}
+                  value={height as any}
+                  setValue={setHeight as any}
+                  type="number"
+                />
+              </div>
+            </div>
           </div>
         </div>
 

@@ -49,7 +49,11 @@ const Table = ({
     },
     {
       header: () => t("CREATED_AT"),
-      value: (category: Category) => formatDate(category?.createdAt),
+      value: (category: Category) => (
+        <p dir="ltr" className="rtl:text-end">
+          {formatDate(category?.createdAt)}
+        </p>
+      ),
     },
   ];
 

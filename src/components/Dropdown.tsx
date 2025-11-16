@@ -227,6 +227,7 @@ export default function Dropdown({
             return (
               <DropdownMenuItem
                 key={item?.value}
+                dir="auto"
                 onSelect={(e) => {
                   e.preventDefault();
                   handleSelectMultiple(item?.value);
@@ -251,6 +252,7 @@ export default function Dropdown({
               <DropdownMenuItem
                 key={item.value}
                 onClick={() => handleSelectSingle(item.value)}
+                dir="auto"
                 className={`truncate hover:!bg-secondary/30 hover:!text-primary ${
                   selected === item.value && "bg-secondary text-primary"
                 }`}

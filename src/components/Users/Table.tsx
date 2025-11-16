@@ -68,7 +68,11 @@ const Table = ({
     },
     {
       header: () => t("CREATED_AT"),
-      value: (user: User) => formatDate(user?.createdAt),
+      value: (user: User) => (
+        <p dir="ltr" className="rtl:text-end">
+          {formatDate(user?.createdAt)}
+        </p>
+      ),
     },
   ];
 

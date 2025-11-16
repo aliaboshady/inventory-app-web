@@ -76,7 +76,7 @@ const Table = ({
               : "text-danger bg-danger-foreground"
           }
         >
-          {item?.status}
+          {t(item?.status)}
         </Badge>
       ),
     },
@@ -98,15 +98,27 @@ const Table = ({
     },
     {
       header: () => t("WIDTH_CM"),
-      value: (item: Item) => item?.width || 0,
+      value: (item: Item) => (
+        <p dir="ltr" className="rtl:text-end">
+          {item?.width || 0}
+        </p>
+      ),
     },
     {
       header: () => t("LENGTH_CM"),
-      value: (item: Item) => item?.length || 0,
+      value: (item: Item) => (
+        <p dir="ltr" className="rtl:text-end">
+          {item?.length || 0}
+        </p>
+      ),
     },
     {
       header: () => t("HEIGHT_CM"),
-      value: (item: Item) => item?.height || 0,
+      value: (item: Item) => (
+        <p dir="ltr" className="rtl:text-end">
+          {item?.height || 0}
+        </p>
+      ),
     },
     {
       header: () => t("COMMENT"),
@@ -114,11 +126,19 @@ const Table = ({
     },
     {
       header: () => t("UPDATED_AT"),
-      value: (item: Item) => formatDate(item?.updatedAt),
+      value: (item: Item) => (
+        <p dir="ltr" className="rtl:text-end">
+          {formatDate(item?.updatedAt)}
+        </p>
+      ),
     },
     {
       header: () => t("CREATED_AT"),
-      value: (item: Item) => formatDate(item?.createdAt),
+      value: (item: Item) => (
+        <p dir="ltr" className="rtl:text-end">
+          {formatDate(item?.createdAt)}
+        </p>
+      ),
     },
   ];
 

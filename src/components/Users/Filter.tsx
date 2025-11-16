@@ -82,7 +82,7 @@ const Filter = ({ role, setRole, search, setSearch, onAddUser, me }: Props) => {
             onClick={() => setOpenAddAdmin(true)}
             className="h-12 rounded-xl text-lg"
           >
-            <PlusIcon color="white" weight="bold" /> {t("ADD_ADMIN")}
+            <PlusIcon color="white" weight="bold" /> {t("ADD_USER")}
           </Button>
         )}
       </div>
