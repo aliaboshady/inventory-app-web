@@ -144,7 +144,7 @@ export function AdminSidebar({ me }: { me: User }) {
             onClick={handleLogout}
           >
             <div className="flex items-center gap-2">
-              <SignOutIcon className="!w-8 !h-8 fill-white" />
+              <SignOutIcon className="!w-8 !h-8 fill-white ltr:rotate-180" />
               <span className="text-xl text-white text-nowrap">
                 {t("LOGOUT")}
               </span>

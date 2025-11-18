@@ -37,7 +37,9 @@ const ColorsPage = () => {
         setName={setName}
         onAddUser={() => fetch({ search: debouncedSearch })}
       />
-      <Table data={data} fetch={fetch} name={debouncedSearch} />
+      <div className="h-[calc(100vh-15rem)]">
+        <Table data={data} fetch={fetch} name={debouncedSearch} />
+      </div>
     </PageLayout>
   );
 };

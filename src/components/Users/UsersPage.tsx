@@ -54,17 +54,19 @@ const UsersPage = ({ me }: { me: User }) => {
         }
         me={me}
       />
-      <Table
-        data={data}
-        fetch={fetch}
-        page={page}
-        setPage={setPage}
-        itemsPerPage={itemsPerPage}
-        setItemsPerPage={setItemsPerPage}
-        role={role}
-        search={debouncedSearch}
-        me={me}
-      />
+      <div className="h-[calc(100vh-15rem)]">
+        <Table
+          data={data}
+          fetch={fetch}
+          page={page}
+          setPage={setPage}
+          itemsPerPage={itemsPerPage}
+          setItemsPerPage={setItemsPerPage}
+          role={role}
+          search={debouncedSearch}
+          me={me}
+        />
+      </div>
     </PageLayout>
   );
 };

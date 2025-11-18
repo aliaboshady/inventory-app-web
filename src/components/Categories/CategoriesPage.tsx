@@ -44,15 +44,17 @@ const CategoriesPage = () => {
         setName={setName}
         onAddUser={() => fetch({ page, itemsPerPage, name })}
       />
-      <Table
-        data={data}
-        fetch={fetch}
-        page={page}
-        setPage={setPage}
-        itemsPerPage={itemsPerPage}
-        setItemsPerPage={setItemsPerPage}
-        name={debouncedSearch}
-      />
+      <div className="h-[calc(100vh-15rem)]">
+        <Table
+          data={data}
+          fetch={fetch}
+          page={page}
+          setPage={setPage}
+          itemsPerPage={itemsPerPage}
+          setItemsPerPage={setItemsPerPage}
+          name={debouncedSearch}
+        />
+      </div>
     </PageLayout>
   );
 };

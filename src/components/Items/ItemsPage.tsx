@@ -39,7 +39,7 @@ const ItemsPage = ({ colors }: { colors: Color[] }) => {
       status,
       name: debouncedName,
       category,
-      color
+      color,
     });
   }, [page, itemsPerPage, debouncedId, status, debouncedName, category, color]);
 
@@ -81,16 +81,18 @@ const ItemsPage = ({ colors }: { colors: Color[] }) => {
         color={color}
         setColor={setColor}
       />
-      <Table
-        data={data}
-        fetch={fetch}
-        page={page}
-        setPage={setPage}
-        itemsPerPage={itemsPerPage}
-        setItemsPerPage={setItemsPerPage}
-        name={debouncedName}
-        id={debouncedId}
-      />
+      <div className="h-[calc(100vh-19rem)]">
+        <Table
+          data={data}
+          fetch={fetch}
+          page={page}
+          setPage={setPage}
+          itemsPerPage={itemsPerPage}
+          setItemsPerPage={setItemsPerPage}
+          name={debouncedName}
+          id={debouncedId}
+        />
+      </div>
     </PageLayout>
   );
 };
