@@ -43,12 +43,18 @@ const EditUserDialog = ({
   const [picture, setPicture] = useState<File>();
 
   const { request: createUserReq, isLoading: isLoadingCreatingUser } =
-    useRequest<CreateUserPayload, User>(createUser);
+    useRequest<CreateUserPayload, User>(createUser, {
+      showSuccessToast: true,
+      successToastMessage: "USER_CREATE_SUCCESSFUL",
+    });
 
   const { request: editUserReq, isLoading: isLoadingEditingUser } = useRequest<
     EditUserPayload,
     User
-  >(editUser);
+  >(editUser, {
+    showSuccessToast: true,
+    successToastMessage: "USER_EDIT_SUCCESSFUL",
+  });
 
   const roles = [
     { value: "ADMIN", label: "ADMIN" },

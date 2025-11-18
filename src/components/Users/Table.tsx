@@ -17,6 +17,7 @@ import { deleteUser } from "@/actions/users/deleteUser";
 import ChangeUserPasswordDialog from "./ChangeUserPasswordDialog";
 import { Badge } from "../ui/badge";
 import Avatar from "../Avatar";
+import useRequest from "@/hooks/useRequest";
 
 type Props = {
   data: Paginated<User>;
@@ -42,6 +43,11 @@ const Table = ({
   me,
 }: Props) => {
   const { t } = useTranslation();
+
+  const { request: deleteUserReq } = useRequest<string, void>(deleteUser, {
+    showSuccessToast: true,
+    successToastMessage: "USER_DELETE_SUCCESSFUL",
+  });
 
   const columns: Column[] = [
     {
@@ -100,7 +106,7 @@ const Table = ({
       icon: <TrashIcon className="fill-red-600" size={18} />,
       dialog: ConfirmationDialog,
       onAction: async (user: User) => {
-        await deleteUser(user._id);
+        await deleteUserReq(user._id);
         fetch({ page, itemsPerPage, role: role as UserRole, search });
       },
       closeOnAction: true,

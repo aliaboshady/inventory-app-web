@@ -1,5 +1,6 @@
 import { useTopLoader } from "nextjs-toploader";
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { toast } from "react-toastify";
 
 type RequestOptions<R> = {
@@ -30,6 +31,7 @@ const useRequest = <P, R>(
     errorToastMessage,
   }: RequestOptions<R> = {}
 ) => {
+  const { t } = useTranslation();
   const [data, setData] = useState<R | null>(null);
   const [isLoading, setIsLoading] = useState(fetchOnMount);
   const [error, setError] = useState<Error | null>(null);
@@ -47,11 +49,11 @@ const useRequest = <P, R>(
       result = await queryFn(payload);
 
       if (showErrorToast && (result as any)?.error) {
-        toast.error(errorToastMessage || (result as any)?.message);
+        toast.error(t(errorToastMessage) || t((result as any)?.message));
       } else if ((result as any)?.error === undefined) {
         setData(result);
         onSuccess?.(result);
-        if (showSuccessToast) toast.success(successToastMessage);
+        if (showSuccessToast) toast.success(t(successToastMessage));
       }
 
       return result;
@@ -59,7 +61,7 @@ const useRequest = <P, R>(
       const typedError = err instanceof Error ? err : new Error(String(err));
       setError(typedError);
       onError?.(typedError);
-      if (showErrorToast) toast.success(typedError?.message);
+      if (showErrorToast) toast.success(t(typedError?.message));
     } finally {
       doneTopLoader();
       setIsLoading(false);

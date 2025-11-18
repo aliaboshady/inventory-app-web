@@ -13,6 +13,7 @@ import { formatDate } from "@/lib/utils";
 import { CategoriesPayload, Category } from "@/models/category.model";
 import { deleteCategory } from "@/actions/categories/deleteCategory";
 import Avatar from "../Avatar";
+import useRequest from "@/hooks/useRequest";
 
 type Props = {
   data: Paginated<Category>;
@@ -34,6 +35,14 @@ const Table = ({
   fetch,
 }: Props) => {
   const { t } = useTranslation();
+
+  const { request: deleteCategoryReq } = useRequest<string, void>(
+    deleteCategory,
+    {
+      showSuccessToast: true,
+      successToastMessage: "CATEGORY_DELETE_SUCCESSFUL",
+    }
+  );
 
   const columns: Column[] = [
     {
@@ -72,7 +81,7 @@ const Table = ({
       icon: <TrashIcon className="fill-red-600" size={18} />,
       dialog: ConfirmationDialog,
       onAction: async (category: Category) => {
-        await deleteCategory(category._id);
+        await deleteCategoryReq(category._id);
         fetch({ page, itemsPerPage, name });
       },
       closeOnAction: true,

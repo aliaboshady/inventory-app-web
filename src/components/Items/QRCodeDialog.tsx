@@ -29,7 +29,11 @@ const QRCodeDialog = ({ item, onAction }: Props) => {
   const [status, setStatus] = useState<ItemStatus>(item?.status || "UNKNOWN");
 
   const { request: editItemReq, isLoading } = useRequest<EditItemPayload, Item>(
-    editItem
+    editItem,
+    {
+      showSuccessToast: true,
+      successToastMessage: "ITEM_EDIT_SUCCESSFUL",
+    }
   );
 
   const handleSubmit = async () => {

@@ -20,7 +20,7 @@ const LoginForm = () => {
     login,
     {
       showSuccessToast: true,
-      successToastMessage: "Login successful",
+      successToastMessage: "LOGIN_SUCCESSFUL",
       onSuccess: () => setTimeout(() => router.push(ROUTES.root.url), 200),
     }
   );

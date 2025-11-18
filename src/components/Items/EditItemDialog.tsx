@@ -55,12 +55,18 @@ const EditItemDialog = ({
   const [colors, setColors] = useState<DropdownItem[]>([]);
 
   const { request: createItemReq, isLoading: isLoadingCreatingItem } =
-    useRequest<CreateItemPayload, Item>(createItem);
+    useRequest<CreateItemPayload, Item>(createItem, {
+      showSuccessToast: true,
+      successToastMessage: "ITEM_CREATE_SUCCESSFUL",
+    });
 
   const { request: editItemReq, isLoading: isLoadingEditingItem } = useRequest<
     EditItemPayload,
     Item
-  >(editItem);
+  >(editItem, {
+    showSuccessToast: true,
+    successToastMessage: "ITEM_EDIT_SUCCESSFUL",
+  });
 
   const { request: fetchCategories, isLoading: isLoadingCategories } =
     useRequest<CategoriesPayload, Paginated<Category>>(getCategories);

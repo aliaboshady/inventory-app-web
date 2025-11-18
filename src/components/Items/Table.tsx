@@ -15,6 +15,7 @@ import { Badge } from "../ui/badge";
 import { deleteItem } from "@/actions/items/deleteItem";
 import Avatar from "../Avatar";
 import QRCodeDialog from "./QRCodeDialog";
+import useRequest from "@/hooks/useRequest";
 
 type Props = {
   data: Paginated<Item>;
@@ -38,6 +39,11 @@ const Table = ({
   fetch,
 }: Props) => {
   const { t } = useTranslation();
+
+  const { request: deleteItemReq } = useRequest<string, void>(deleteItem, {
+    showSuccessToast: true,
+    successToastMessage: "ITEM_DELETE_SUCCESSFUL",
+  });
 
   const columns: Column[] = [
     {
@@ -157,7 +163,7 @@ const Table = ({
       icon: <TrashIcon className="fill-red-600" size={18} />,
       dialog: ConfirmationDialog,
       onAction: async (item: Item) => {
-        await deleteItem(item._id);
+        await deleteItemReq(item._id);
         fetch({ page, itemsPerPage, name });
       },
       closeOnAction: true,

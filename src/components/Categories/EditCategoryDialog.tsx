@@ -36,10 +36,16 @@ const EditCategoryDialog = ({
   const [picture, setPicture] = useState<File>();
 
   const { request: createCategoryReq, isLoading: isLoadingCreatingCategory } =
-    useRequest<CreateCategoryPayload, Category>(createCategory);
+    useRequest<CreateCategoryPayload, Category>(createCategory, {
+      showSuccessToast: true,
+      successToastMessage: "CATEGORY_CREATE_SUCCESSFUL",
+    });
 
   const { request: editCategoryReq, isLoading: isLoadingEditingCategory } =
-    useRequest<EditCategoryPayload, Category>(editCategory);
+    useRequest<EditCategoryPayload, Category>(editCategory, {
+      showSuccessToast: true,
+      successToastMessage: "CATEGORY_EDIT_SUCCESSFUL",
+    });
 
   const handleSubmit = async () => {
     if (item) {

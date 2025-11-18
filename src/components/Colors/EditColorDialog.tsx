@@ -37,10 +37,16 @@ const EditColorDialog = ({
   const [color, setColor] = useState(item?.color || "#000000");
 
   const { request: createColorReq, isLoading: isLoadingCreatingColor } =
-    useRequest<CreateColorPayload, Color>(createColor);
+    useRequest<CreateColorPayload, Color>(createColor, {
+      showSuccessToast: true,
+      successToastMessage: "COLOR_CREATE_SUCCESSFUL",
+    });
 
   const { request: editColorReq, isLoading: isLoadingEditingColor } =
-    useRequest<EditColorPayload, Color>(editColor);
+    useRequest<EditColorPayload, Color>(editColor, {
+      showSuccessToast: true,
+      successToastMessage: "COLOR_EDIT_SUCCESSFUL",
+    });
 
   const handleSubmit = async () => {
     if (item) {

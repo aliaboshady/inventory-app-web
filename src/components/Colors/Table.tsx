@@ -11,6 +11,7 @@ import { useTranslation } from "react-i18next";
 import { Color, ColorsPayload } from "@/models/color.model";
 import ColorCard from "./ColorCard";
 import { deleteColor } from "@/actions/colors/deleteColor";
+import useRequest from "@/hooks/useRequest";
 
 type Props = {
   data: Color[];
@@ -20,6 +21,11 @@ type Props = {
 
 const Table = ({ data, name, fetch }: Props) => {
   const { t } = useTranslation();
+
+  const { request: deleteColorReq } = useRequest<string, void>(deleteColor, {
+    showSuccessToast: true,
+    successToastMessage: "COLOR_DELETE_SUCCESSFUL",
+  });
 
   const settings: DialogSettings[] = [
     {
@@ -36,7 +42,7 @@ const Table = ({ data, name, fetch }: Props) => {
       icon: <TrashIcon className="fill-red-600" size={18} />,
       dialog: ConfirmationDialog,
       onAction: async (color: Color) => {
-        await deleteColor(color._id);
+        await deleteColorReq(color._id);
         fetch({ search: name });
       },
       closeOnAction: true,
