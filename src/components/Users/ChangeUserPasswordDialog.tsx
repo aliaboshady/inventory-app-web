@@ -11,10 +11,11 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { DialogProps } from "@/models/shared.model";
-import { User } from "@/models/user.model";
+import { ChangeUserPasswordPayload, User } from "@/models/user.model";
 import { useTranslation } from "react-i18next";
 import { useState } from "react";
 import { changeUserPassword } from "@/actions/users/changeUserPassword";
+import useRequest from "@/hooks/useRequest";
 
 const ChangeUserPasswordDialog = ({
   open,
@@ -26,12 +27,14 @@ const ChangeUserPasswordDialog = ({
   const { t } = useTranslation();
 
   const [password, setPassword] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
+
+  const { request: changeUserPasswordReq, isLoading } = useRequest<
+    ChangeUserPasswordPayload,
+    User
+  >(changeUserPassword);
 
   const handleSubmit = async () => {
-    setIsLoading(true);
-    await changeUserPassword({ _id: item._id, password });
-    setIsLoading(false);
+    await changeUserPasswordReq({ _id: item._id, password });
     await onAction?.(item);
     if (closeOnAction) setOpen(false);
   };

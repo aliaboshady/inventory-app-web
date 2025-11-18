@@ -7,9 +7,7 @@ import { useTranslation } from "react-i18next";
 import { login, LoginPayload } from "@/actions/auth/login.action";
 import { Auth } from "@/models/user.model";
 import { useRouter } from "next/navigation";
-import { useTopLoader } from "nextjs-toploader";
 import { ROUTES } from "@/lib/staticKeys";
-import { toast } from "react-toastify";
 import { useFormik } from "formik";
 import TextInput from "@/components/TextInput";
 import useRequest from "@/hooks/useRequest";
@@ -17,24 +15,20 @@ import useRequest from "@/hooks/useRequest";
 const LoginForm = () => {
   const router = useRouter();
   const { t } = useTranslation();
-  const { start: startTopLoader } = useTopLoader();
 
   const { request: requestLogin, isLoading } = useRequest<LoginPayload, Auth>(
-    login
+    login,
+    {
+      showSuccessToast: true,
+      successToastMessage: "Login successful",
+      onSuccess: () => setTimeout(() => router.push(ROUTES.root.url), 200),
+    }
   );
 
   const formik = useFormik({
     initialValues: { email: "", password: "" },
     onSubmit: async (values) => {
       const res = await requestLogin(values);
-      if (res?.accessToken) {
-        toast.success("Login Succeed");
-        startTopLoader();
-        setTimeout(() => router.push(ROUTES.root.url), 200);
-      }
-      // else {
-      //   handleErrorToast(res?.error);
-      // }
     },
   });
 

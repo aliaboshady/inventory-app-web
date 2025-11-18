@@ -44,8 +44,8 @@ export type EditItemPayload = {
   status?: ItemStatus;
   name?: string;
   comment?: string;
-  color: string;
-  width: number;
-  length: number;
-  height: number;
+  color?: string;
+  width?: number;
+  length?: number;
+  height?: number;
 };

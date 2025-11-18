@@ -14,7 +14,12 @@ import { DialogProps, Paginated } from "@/models/shared.model";
 import { useTranslation } from "react-i18next";
 import { useEffect, useState } from "react";
 import { CategoriesPayload, Category } from "@/models/category.model";
-import { Item, ItemStatus } from "@/models/item.model";
+import {
+  CreateItemPayload,
+  EditItemPayload,
+  Item,
+  ItemStatus,
+} from "@/models/item.model";
 import Dropdown, { DropdownItem } from "../Dropdown";
 import useRequest from "@/hooks/useRequest";
 import { getCategories } from "@/actions/categories/getCategories";
@@ -42,13 +47,20 @@ const EditItemDialog = ({
   const [length, setLength] = useState<number>(item?.length || 0);
   const [height, setHeight] = useState<number>(item?.height || 0);
   const [comment, setComment] = useState<string>(item?.comment || "");
-  const [isLoading, setIsLoading] = useState(false);
   const [picture, setPicture] = useState<File>();
   const [categoriesPage, setCategoriesPage] = useState<number>(1);
   const [categories, setCategories] = useState<
     { value: string; label: string }[]
   >([]);
   const [colors, setColors] = useState<DropdownItem[]>([]);
+
+  const { request: createItemReq, isLoading: isLoadingCreatingItem } =
+    useRequest<CreateItemPayload, Item>(createItem);
+
+  const { request: editItemReq, isLoading: isLoadingEditingItem } = useRequest<
+    EditItemPayload,
+    Item
+  >(editItem);
 
   const { request: fetchCategories, isLoading: isLoadingCategories } =
     useRequest<CategoriesPayload, Paginated<Category>>(getCategories);
@@ -139,10 +151,8 @@ const EditItemDialog = ({
   }, [item]);
 
   const handleSubmit = async () => {
-    setIsLoading(true);
-
     if (item) {
-      await editItem({
+      await editItemReq({
         _id: item?._id,
         name,
         category,
@@ -154,7 +164,7 @@ const EditItemDialog = ({
         height,
       });
     } else {
-      await createItem({
+      await createItemReq({
         name,
         category,
         comment,
@@ -166,7 +176,6 @@ const EditItemDialog = ({
       });
     }
 
-    setIsLoading(false);
     await onAction?.(item);
     if (closeOnAction) setOpen(false);
   };
@@ -282,11 +291,18 @@ const EditItemDialog = ({
         </div>
 
         <DialogFooter className="flex flex-row justify-end gap-2">
-          <DialogClose disabled={isLoading} asChild>
+          <DialogClose
+            disabled={isLoadingEditingItem || isLoadingCreatingItem}
+            asChild
+          >
             <Button variant="secondary">{t("CANCEL")}</Button>
           </DialogClose>
 
-          <Button disabled={isLoading} onClick={handleSubmit} type="submit">
+          <Button
+            disabled={isLoadingEditingItem || isLoadingCreatingItem}
+            onClick={handleSubmit}
+            type="submit"
+          >
             {t(item ? "EDIT" : "ADD")}
           </Button>
         </DialogFooter>

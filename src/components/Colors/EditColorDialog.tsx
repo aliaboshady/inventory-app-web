@@ -13,11 +13,16 @@ import {
 import { DialogProps } from "@/models/shared.model";
 import { useTranslation } from "react-i18next";
 import { useState } from "react";
-import { Color } from "@/models/color.model";
+import {
+  Color,
+  CreateColorPayload,
+  EditColorPayload,
+} from "@/models/color.model";
 import { editColor } from "@/actions/colors/editColor";
 import { createColor } from "@/actions/colors/createColor";
 import { Input } from "../ui/input";
 import { Label } from "../ui/label";
+import useRequest from "@/hooks/useRequest";
 
 const EditColorDialog = ({
   open,
@@ -30,25 +35,27 @@ const EditColorDialog = ({
 
   const [name, setName] = useState(item?.name || "");
   const [color, setColor] = useState(item?.color || "#000000");
-  const [isLoading, setIsLoading] = useState(false);
+
+  const { request: createColorReq, isLoading: isLoadingCreatingColor } =
+    useRequest<CreateColorPayload, Color>(createColor);
+
+  const { request: editColorReq, isLoading: isLoadingEditingColor } =
+    useRequest<EditColorPayload, Color>(editColor);
 
   const handleSubmit = async () => {
-    setIsLoading(true);
-
     if (item) {
-      await editColor({
+      await editColorReq({
         _id: item?._id,
         name,
         color,
       });
     } else {
-      await createColor({
+      await createColorReq({
         name,
         color,
       });
     }
 
-    setIsLoading(false);
     await onAction?.(item);
     if (closeOnAction) setOpen(false);
   };
@@ -81,11 +88,18 @@ const EditColorDialog = ({
         </div>
 
         <DialogFooter className="flex flex-row justify-end gap-2">
-          <DialogClose disabled={isLoading} asChild>
+          <DialogClose
+            disabled={isLoadingCreatingColor || isLoadingEditingColor}
+            asChild
+          >
             <Button variant="secondary">{t("CANCEL")}</Button>
           </DialogClose>
 
-          <Button disabled={isLoading} onClick={handleSubmit} type="submit">
+          <Button
+            disabled={isLoadingCreatingColor || isLoadingEditingColor}
+            onClick={handleSubmit}
+            type="submit"
+          >
             {t(item ? "EDIT" : "ADD")}
           </Button>
         </DialogFooter>

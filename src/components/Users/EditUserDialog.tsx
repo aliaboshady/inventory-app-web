@@ -12,13 +12,19 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { DialogProps } from "@/models/shared.model";
-import { User, UserRole } from "@/models/user.model";
+import {
+  CreateUserPayload,
+  EditUserPayload,
+  User,
+  UserRole,
+} from "@/models/user.model";
 import { useTranslation } from "react-i18next";
 import { Label } from "../ui/label";
 import { useState } from "react";
 import { createUser } from "@/actions/users/createUser";
 import { editUser } from "@/actions/users/editUser";
 import UploadPicture from "../UploadPicture";
+import useRequest from "@/hooks/useRequest";
 
 const EditUserDialog = ({
   open,
@@ -35,7 +41,14 @@ const EditUserDialog = ({
   const [password, setPassword] = useState(item?.password || "");
   const [role, setRole] = useState<UserRole>(item?.role || "STAFF");
   const [picture, setPicture] = useState<File>();
-  const [isLoading, setIsLoading] = useState(false);
+
+  const { request: createUserReq, isLoading: isLoadingCreatingUser } =
+    useRequest<CreateUserPayload, User>(createUser);
+
+  const { request: editUserReq, isLoading: isLoadingEditingUser } = useRequest<
+    EditUserPayload,
+    User
+  >(editUser);
 
   const roles = [
     { value: "ADMIN", label: "ADMIN" },
@@ -43,10 +56,8 @@ const EditUserDialog = ({
   ];
 
   const handleSubmit = async () => {
-    setIsLoading(true);
-
     if (item) {
-      await editUser({
+      await editUserReq({
         _id: item?._id,
         firstName,
         lastName,
@@ -54,7 +65,7 @@ const EditUserDialog = ({
         role: role as UserRole,
       });
     } else {
-      await createUser({
+      await createUserReq({
         firstName,
         lastName,
         email,
@@ -63,7 +74,6 @@ const EditUserDialog = ({
       });
     }
 
-    setIsLoading(false);
     await onAction?.(item);
     if (closeOnAction) setOpen(false);
   };
@@ -136,11 +146,18 @@ const EditUserDialog = ({
         </div>
 
         <DialogFooter className="flex flex-row justify-end gap-2">
-          <DialogClose disabled={isLoading} asChild>
+          <DialogClose
+            disabled={isLoadingCreatingUser || isLoadingEditingUser}
+            asChild
+          >
             <Button variant="secondary">{t("CANCEL")}</Button>
           </DialogClose>
 
-          <Button disabled={isLoading} onClick={handleSubmit} type="submit">
+          <Button
+            disabled={isLoadingCreatingUser || isLoadingEditingUser}
+            onClick={handleSubmit}
+            type="submit"
+          >
             {t(item ? "EDIT" : "ADD")}
           </Button>
         </DialogFooter>

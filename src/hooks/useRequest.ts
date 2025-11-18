@@ -1,4 +1,3 @@
-import { ErrorResponse } from "@/models/shared.model";
 import { useTopLoader } from "nextjs-toploader";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
@@ -12,6 +11,8 @@ type RequestOptions<R> = {
   showTopLoader?: boolean;
   showSuccessToast?: boolean;
   showErrorToast?: boolean;
+  successToastMessage?: string;
+  errorToastMessage?: string;
 };
 
 const useRequest = <P, R>(
@@ -25,6 +26,8 @@ const useRequest = <P, R>(
     showTopLoader = true,
     showSuccessToast = false,
     showErrorToast = true,
+    successToastMessage,
+    errorToastMessage,
   }: RequestOptions<R> = {}
 ) => {
   const [data, setData] = useState<R | null>(null);
@@ -42,17 +45,15 @@ const useRequest = <P, R>(
     try {
       if (showTopLoader) startTopLoader();
       result = await queryFn(payload);
-      setData(result);
-      onSuccess?.(result);
 
-      if (showSuccessToast && (result as any)?.message) {
-        toast.success((result as any)?.message);
+      if (showErrorToast && (result as any)?.error) {
+        toast.error(errorToastMessage || (result as any)?.message);
+      } else if ((result as any)?.error === undefined) {
+        setData(result);
+        onSuccess?.(result);
+        if (showSuccessToast) toast.success(successToastMessage);
       }
 
-      const errors: ErrorResponse = (result as any)?.error;
-      if (showErrorToast && errors) {
-        errors?.general?.map((error) => toast.error(error));
-      }
       return result;
     } catch (err: any) {
       const typedError = err instanceof Error ? err : new Error(String(err));

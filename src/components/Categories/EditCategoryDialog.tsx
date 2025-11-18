@@ -13,10 +13,15 @@ import {
 import { DialogProps } from "@/models/shared.model";
 import { useTranslation } from "react-i18next";
 import { useState } from "react";
-import { Category } from "@/models/category.model";
+import {
+  Category,
+  CreateCategoryPayload,
+  EditCategoryPayload,
+} from "@/models/category.model";
 import { editCategory } from "@/actions/categories/editCategory";
 import { createCategory } from "@/actions/categories/createCategory";
 import UploadPicture from "../UploadPicture";
+import useRequest from "@/hooks/useRequest";
 
 const EditCategoryDialog = ({
   open,
@@ -29,23 +34,25 @@ const EditCategoryDialog = ({
 
   const [name, setName] = useState(item?.name || "");
   const [picture, setPicture] = useState<File>();
-  const [isLoading, setIsLoading] = useState(false);
+
+  const { request: createCategoryReq, isLoading: isLoadingCreatingCategory } =
+    useRequest<CreateCategoryPayload, Category>(createCategory);
+
+  const { request: editCategoryReq, isLoading: isLoadingEditingCategory } =
+    useRequest<EditCategoryPayload, Category>(editCategory);
 
   const handleSubmit = async () => {
-    setIsLoading(true);
-
     if (item) {
-      await editCategory({
+      await editCategoryReq({
         _id: item?._id,
         name,
       });
     } else {
-      await createCategory({
+      await createCategoryReq({
         name,
       });
     }
 
-    setIsLoading(false);
     await onAction?.(item);
     if (closeOnAction) setOpen(false);
   };
@@ -79,11 +86,18 @@ const EditCategoryDialog = ({
         />
 
         <DialogFooter className="flex flex-row justify-end gap-2">
-          <DialogClose disabled={isLoading} asChild>
+          <DialogClose
+            disabled={isLoadingCreatingCategory || isLoadingEditingCategory}
+            asChild
+          >
             <Button variant="secondary">{t("CANCEL")}</Button>
           </DialogClose>
 
-          <Button disabled={isLoading} onClick={handleSubmit} type="submit">
+          <Button
+            disabled={isLoadingCreatingCategory || isLoadingEditingCategory}
+            onClick={handleSubmit}
+            type="submit"
+          >
             {t(item ? "EDIT" : "ADD")}
           </Button>
         </DialogFooter>
