@@ -20,7 +20,7 @@ export async function apiClient<T>(
 
   // If authentication is required, handle access token
   if (!skipAuth) {
-    let accessToken = await getAccessToken();
+    const accessToken = await getAccessToken();
 
     // If we have a valid token, add it to the headers
     if (accessToken) {

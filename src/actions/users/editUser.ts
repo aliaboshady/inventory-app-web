@@ -6,7 +6,7 @@ import { User, EditUserPayload } from "@/models/user.model";
 export const editUser = async (payload: EditUserPayload): Promise<User> => {
   const { _id, ...newPayload } = payload;
 
-  return apiClient<User>(`users/${payload._id}`, {
+  return apiClient<User>(`users/${_id}`, {
     method: "PATCH",
     body: JSON.stringify(newPayload),
   });

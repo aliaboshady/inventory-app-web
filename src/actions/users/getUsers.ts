@@ -2,7 +2,7 @@
 
 import { apiClient } from "@/lib/apiClient";
 import { getFilter } from "@/lib/utils";
-import { Paginated, ServerResponse } from "@/models/shared.model";
+import { Paginated } from "@/models/shared.model";
 import { User, UsersPayload } from "@/models/user.model";
 
 export const getUsers = async ({

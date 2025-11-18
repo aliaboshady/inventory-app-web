@@ -11,8 +11,8 @@ export async function middleware(request: NextRequest) {
   const url = request.nextUrl.clone();
   const response = NextResponse.next();
 
-  let accessToken = request.cookies.get(COOKIES_KEYS.accessToken)?.value;
-  let isAccessTokenValid = !isTokenExpired(accessToken);
+  const accessToken = request.cookies.get(COOKIES_KEYS.accessToken)?.value;
+  const isAccessTokenValid = !isTokenExpired(accessToken);
 
   const hasLocaleCookie = request.cookies.has(COOKIES_KEYS.locale);
   if (!hasLocaleCookie) {

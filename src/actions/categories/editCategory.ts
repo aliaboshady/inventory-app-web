@@ -8,7 +8,7 @@ export const editCategory = async (
 ): Promise<Category> => {
   const { _id, ...newPayload } = payload;
 
-  return apiClient<Category>(`categories/${payload._id}`, {
+  return apiClient<Category>(`categories/${_id}`, {
     method: "PATCH",
     body: JSON.stringify(newPayload),
   });
