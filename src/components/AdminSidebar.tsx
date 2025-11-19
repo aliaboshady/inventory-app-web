@@ -44,14 +44,14 @@ const items = [
     icon: ClipboardTextIcon,
   },
   {
-    title: ROUTES.users.displayName,
-    url: ROUTES.users.url,
-    icon: UsersThreeIcon,
-  },
-  {
     title: ROUTES.colors.displayName,
     url: ROUTES.colors.url,
     icon: PaletteIcon,
+  },
+  {
+    title: ROUTES.users.displayName,
+    url: ROUTES.users.url,
+    icon: UsersThreeIcon,
   },
 ];
 
