@@ -9,7 +9,7 @@ import PageLayout from "@/components/PageLayout";
 import { useState } from "react";
 import { useDebounce } from "@/hooks/useDebounce";
 import { User, UserRole, UsersPayload } from "@/models/user.model";
-import { Paginated } from "@/models/shared.model";
+import { Paginated, ServerResponse } from "@/models/shared.model";
 
 const UsersPage = ({ me }: { me: User }) => {
   const [page, setPage] = useState(1);
@@ -18,9 +18,10 @@ const UsersPage = ({ me }: { me: User }) => {
   const [search, setSearch] = useState<string>("");
   const [debouncedSearch, setDebouncedSearch] = useState<string>(search);
 
-  const { request: fetch, data } = useRequest<UsersPayload, Paginated<User>>(
-    getUsers
-  );
+  const { request: fetch, data } = useRequest<
+    UsersPayload,
+    ServerResponse<Paginated<User>>
+  >(getUsers);
 
   useEffect(() => {
     fetch({
@@ -56,7 +57,7 @@ const UsersPage = ({ me }: { me: User }) => {
       />
       <div className="h-[calc(100vh-15rem)]">
         <Table
-          data={data}
+          data={data?.data}
           fetch={fetch}
           page={page}
           setPage={setPage}

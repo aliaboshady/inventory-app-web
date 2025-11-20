@@ -10,7 +10,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { DialogProps } from "@/models/shared.model";
+import { DialogProps, ServerResponse } from "@/models/shared.model";
 import { useTranslation } from "react-i18next";
 import { useState } from "react";
 import {
@@ -36,13 +36,16 @@ const EditCategoryDialog = ({
   const [picture, setPicture] = useState<File>();
 
   const { request: createCategoryReq, isLoading: isLoadingCreatingCategory } =
-    useRequest<CreateCategoryPayload, Category>(createCategory, {
-      showSuccessToast: true,
-      successToastMessage: "CATEGORY_CREATE_SUCCESSFUL",
-    });
+    useRequest<CreateCategoryPayload, ServerResponse<Category>>(
+      createCategory,
+      {
+        showSuccessToast: true,
+        successToastMessage: "CATEGORY_CREATE_SUCCESSFUL",
+      }
+    );
 
   const { request: editCategoryReq, isLoading: isLoadingEditingCategory } =
-    useRequest<EditCategoryPayload, Category>(editCategory, {
+    useRequest<EditCategoryPayload, ServerResponse<Category>>(editCategory, {
       showSuccessToast: true,
       successToastMessage: "CATEGORY_EDIT_SUCCESSFUL",
     });

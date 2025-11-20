@@ -1,3 +1,4 @@
+import { ServerResponse } from "@/models/shared.model";
 import { useTopLoader } from "nextjs-toploader";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -37,31 +38,49 @@ const useRequest = <P, R>(
   const [error, setError] = useState<Error | null>(null);
   const { start: startTopLoader, done: doneTopLoader } = useTopLoader();
 
-  const request = async (payload: P): Promise<R> => {
+  const request = async (payload: P): Promise<R | undefined> => {
     setIsLoading(true);
     onStart?.();
     setError(null);
 
-    let result;
-
     try {
       if (showTopLoader) startTopLoader();
-      result = await queryFn(payload);
 
-      if (showErrorToast && (result as any)?.error) {
-        toast.error(t(errorToastMessage) || t((result as any)?.message));
-      } else if ((result as any)?.error === undefined) {
-        setData(result);
-        onSuccess?.(result);
-        if (showSuccessToast) toast.success(t(successToastMessage));
+      const result = await queryFn(payload);
+
+      // ❌ Check for backend error manually
+      if ((result as any)?.error) {
+        const errorMessage =
+          (result as any)?.message || errorToastMessage || "Error";
+        const typedError = new Error(errorMessage);
+
+        setError(typedError);
+        onError?.(typedError);
+
+        if (showErrorToast) {
+          toast.error(t(errorMessage));
+        }
+
+        return undefined;
+      }
+
+      // ✅ Success
+      setData(result);
+      onSuccess?.(result);
+      if (showSuccessToast) {
+        toast.success(t(successToastMessage || "Success"));
       }
 
       return result;
     } catch (err: any) {
+      // Network / unexpected errors
       const typedError = err instanceof Error ? err : new Error(String(err));
       setError(typedError);
       onError?.(typedError);
-      if (showErrorToast) toast.success(t(typedError?.message));
+      if (showErrorToast) {
+        toast.error(t(typedError.message || errorToastMessage || "Error"));
+      }
+      return undefined;
     } finally {
       doneTopLoader();
       setIsLoading(false);

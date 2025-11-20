@@ -9,14 +9,16 @@ import { useState } from "react";
 import { useDebounce } from "@/hooks/useDebounce";
 import { getColors } from "@/actions/colors/getColors";
 import { Color, ColorsPayload } from "@/models/color.model";
+import { ServerResponse } from "@/models/shared.model";
 
 const ColorsPage = () => {
   const [name, setName] = useState<string>("");
   const [debouncedSearch, setDebouncedSearch] = useState<string>(name);
 
-  const { request: fetch, data } = useRequest<ColorsPayload, Color[]>(
-    getColors
-  );
+  const { request: fetch, data } = useRequest<
+    ColorsPayload,
+    ServerResponse<Color[]>
+  >(getColors);
 
   useEffect(() => {
     fetch({ search: debouncedSearch });
@@ -38,7 +40,7 @@ const ColorsPage = () => {
         onAddUser={() => fetch({ search: debouncedSearch })}
       />
       <div className="h-[calc(100vh-15rem)]">
-        <Table data={data} fetch={fetch} name={debouncedSearch} />
+        <Table data={data?.data} fetch={fetch} name={debouncedSearch} />
       </div>
     </PageLayout>
   );

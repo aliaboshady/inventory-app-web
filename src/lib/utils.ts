@@ -3,8 +3,6 @@ import resolveConfig from "tailwindcss/resolveConfig";
 import tailwindConfig from "../../tailwind.config";
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
-import { ErrorResponse } from "@/models/shared.model";
-import { toast } from "react-toastify";
 
 const fullConfig = resolveConfig(tailwindConfig);
 
@@ -99,32 +97,6 @@ export function styleSplitText(
     ? text
     : React.createElement(React.Fragment, null, ...nodes);
 }
-
-export const handleErrorToast = (
-  error: ErrorResponse,
-  showNonGeneralErrors: boolean = false
-) => {
-  if (!error) return;
-
-  // ✅ Always show general errors first (if present)
-  if (Array.isArray(error.general)) {
-    error.general.forEach((msg) => {
-      toast.error(msg);
-    });
-  }
-
-  // ✅ If showGeneralOnly is false, also show field-specific errors
-  if (showNonGeneralErrors) {
-    Object.entries(error).forEach(([key, messages]) => {
-      if (key === "general") return; // skip general (already shown)
-      if (!Array.isArray(messages)) return;
-
-      messages.forEach((msg) => {
-        toast.error(msg);
-      });
-    });
-  }
-};
 
 export function combineLocalDateAndTime(
   date?: Date,

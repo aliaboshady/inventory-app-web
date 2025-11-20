@@ -23,6 +23,7 @@ import { changeMePassword } from "@/actions/users/changeMePassword";
 import UploadPicture from "./UploadPicture";
 import useRequest from "@/hooks/useRequest";
 import Image from "next/image";
+import { ServerResponse } from "@/models/shared.model";
 
 const AdminProfileDialog = ({ me }: { me: User }) => {
   const { t } = useTranslation();
@@ -38,9 +39,10 @@ const AdminProfileDialog = ({ me }: { me: User }) => {
     { value: "STAFF", label: "STAFF" },
   ];
 
-  const { request: updateMeReq, isLoading } = useRequest<EditUserPayload, User>(
-    updateMe
-  );
+  const { request: updateMeReq, isLoading } = useRequest<
+    EditUserPayload,
+    ServerResponse<User>
+  >(updateMe);
 
   const handleSubmit = async () => {
     await updateMeReq({

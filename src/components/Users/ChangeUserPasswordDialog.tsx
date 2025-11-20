@@ -10,7 +10,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { DialogProps } from "@/models/shared.model";
+import { DialogProps, ServerResponse } from "@/models/shared.model";
 import { ChangeUserPasswordPayload, User } from "@/models/user.model";
 import { useTranslation } from "react-i18next";
 import { useState } from "react";
@@ -30,7 +30,7 @@ const ChangeUserPasswordDialog = ({
 
   const { request: changeUserPasswordReq, isLoading } = useRequest<
     ChangeUserPasswordPayload,
-    User
+    ServerResponse<User>
   >(changeUserPassword);
 
   const handleSubmit = async () => {

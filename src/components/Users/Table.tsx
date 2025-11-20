@@ -10,7 +10,11 @@ import {
 } from "@phosphor-icons/react/dist/ssr";
 import EditUserDialog from "./EditUserDialog";
 import ConfirmationDialog from "@/components/ConfirmationDialog";
-import { DialogSettings, Paginated } from "@/models/shared.model";
+import {
+  DialogSettings,
+  Paginated,
+  ServerResponse,
+} from "@/models/shared.model";
 import { useTranslation } from "react-i18next";
 import { formatDate } from "@/lib/utils";
 import { deleteUser } from "@/actions/users/deleteUser";
@@ -27,7 +31,7 @@ type Props = {
   itemsPerPage: number;
   role: string;
   search: string;
-  fetch: (payload: UsersPayload) => Promise<Paginated<User>>;
+  fetch: (payload: UsersPayload) => Promise<ServerResponse<Paginated<User>>>;
   me: User;
 };
 
@@ -44,10 +48,13 @@ const Table = ({
 }: Props) => {
   const { t } = useTranslation();
 
-  const { request: deleteUserReq } = useRequest<string, void>(deleteUser, {
-    showSuccessToast: true,
-    successToastMessage: "USER_DELETE_SUCCESSFUL",
-  });
+  const { request: deleteUserReq } = useRequest<string, ServerResponse<void>>(
+    deleteUser,
+    {
+      showSuccessToast: true,
+      successToastMessage: "USER_DELETE_SUCCESSFUL",
+    }
+  );
 
   const columns: Column[] = [
     {

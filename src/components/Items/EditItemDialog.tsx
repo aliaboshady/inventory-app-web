@@ -10,7 +10,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { DialogProps, Paginated } from "@/models/shared.model";
+import { DialogProps, Paginated, ServerResponse } from "@/models/shared.model";
 import { useTranslation } from "react-i18next";
 import { useEffect, useState } from "react";
 import { CategoriesPayload, Category } from "@/models/category.model";
@@ -55,25 +55,27 @@ const EditItemDialog = ({
   const [colors, setColors] = useState<DropdownItem[]>([]);
 
   const { request: createItemReq, isLoading: isLoadingCreatingItem } =
-    useRequest<CreateItemPayload, Item>(createItem, {
+    useRequest<CreateItemPayload, ServerResponse<Item>>(createItem, {
       showSuccessToast: true,
       successToastMessage: "ITEM_CREATE_SUCCESSFUL",
     });
 
   const { request: editItemReq, isLoading: isLoadingEditingItem } = useRequest<
     EditItemPayload,
-    Item
+    ServerResponse<Item>
   >(editItem, {
     showSuccessToast: true,
     successToastMessage: "ITEM_EDIT_SUCCESSFUL",
   });
 
   const { request: fetchCategories, isLoading: isLoadingCategories } =
-    useRequest<CategoriesPayload, Paginated<Category>>(getCategories);
+    useRequest<CategoriesPayload, ServerResponse<Paginated<Category>>>(
+      getCategories
+    );
 
   const { request: fetchColors, isLoading: isLoadingColors } = useRequest<
     ColorsPayload,
-    Color[]
+    ServerResponse<Color[]>
   >(getColors);
 
   const handleFetchCategories = async () => {
@@ -82,8 +84,8 @@ const EditItemDialog = ({
       itemsPerPage: 20,
     });
 
-    if (newData?.data?.length) {
-      const mapped = newData.data.map((c) => ({
+    if (newData?.data?.data?.length) {
+      const mapped = newData.data.data.map((c) => ({
         value: c._id,
         label: c.name,
       }));
@@ -97,8 +99,8 @@ const EditItemDialog = ({
   const handleFetchColors = async () => {
     const newData = await fetchColors({});
 
-    if (newData?.length) {
-      const mapped = newData.map((c) => ({
+    if (newData?.data?.length) {
+      const mapped = newData.data.map((c) => ({
         value: c._id,
         labelNode: (
           <div className="flex flex-row items-center gap-4">

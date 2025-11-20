@@ -146,5 +146,6 @@
   "NO_FILE_PROVIDED": "لم يتم تقديم أي ملف",
   "NO_FILE_UPLOADED": "لم يتم رفع أي ملف",
   "CATEGORY_IS_REQUIRED": "الفئة مطلوبة",
-  "YOU_DO_NOT_HAVE_PERMISSION": "ليس لديك الصلاحية"
+  "YOU_DO_NOT_HAVE_PERMISSION": "ليس لديك الصلاحية",
+  "INVALID_EMAIL_FORMAT": "صيغة البريد الإلكتروني غير صحيحة"
 }

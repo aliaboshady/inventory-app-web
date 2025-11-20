@@ -3,7 +3,7 @@
 import { apiClient } from "@/lib/apiClient";
 import { getFilter } from "@/lib/utils";
 import { Item, ItemsPayload } from "@/models/item.model";
-import { Paginated } from "@/models/shared.model";
+import { Paginated, ServerResponse } from "@/models/shared.model";
 
 export const getItems = async ({
   page = 1,
@@ -13,7 +13,7 @@ export const getItems = async ({
   category,
   status,
   color,
-}: ItemsPayload): Promise<Paginated<Item>> => {
+}: ItemsPayload): Promise<ServerResponse<Paginated<Item>>> => {
   return apiClient<Paginated<Item>>(
     `items?page=${page}&itemsPerPage=${itemsPerPage}${getFilter(
       "id",

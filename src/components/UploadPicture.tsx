@@ -9,7 +9,11 @@ import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { Label } from "./ui/label";
 import { useTranslation } from "react-i18next";
-import { UploadFilePayload, UploadType } from "@/models/shared.model";
+import {
+  ServerResponse,
+  UploadFilePayload,
+  UploadType,
+} from "@/models/shared.model";
 import { uploadFile } from "@/actions/upload/uploadFile";
 
 type Props = {
@@ -33,7 +37,7 @@ const UploadPicture = ({
 
   const { request: uploadPicture, isLoading: uploadLoading } = useRequest<
     UploadFilePayload,
-    void
+    ServerResponse<void>
   >(uploadFile, { showSuccessToast: true });
 
   const handlePictureFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {

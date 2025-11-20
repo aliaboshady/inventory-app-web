@@ -12,7 +12,7 @@ export default async function Layout({
   return (
     <SidebarProvider defaultOpen>
       <div className="flex w-full max-w-full">
-        <AdminSidebar me={me} />
+        <AdminSidebar me={me?.data} />
         <main className="w-full min-w-0 h-screen overflow-y-auto">
           {children}
         </main>

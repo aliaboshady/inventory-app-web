@@ -10,7 +10,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { DialogProps } from "@/models/shared.model";
+import { DialogProps, ServerResponse } from "@/models/shared.model";
 import { useTranslation } from "react-i18next";
 import { useState } from "react";
 import {
@@ -37,13 +37,13 @@ const EditColorDialog = ({
   const [color, setColor] = useState(item?.color || "#000000");
 
   const { request: createColorReq, isLoading: isLoadingCreatingColor } =
-    useRequest<CreateColorPayload, Color>(createColor, {
+    useRequest<CreateColorPayload, ServerResponse<Color>>(createColor, {
       showSuccessToast: true,
       successToastMessage: "COLOR_CREATE_SUCCESSFUL",
     });
 
   const { request: editColorReq, isLoading: isLoadingEditingColor } =
-    useRequest<EditColorPayload, Color>(editColor, {
+    useRequest<EditColorPayload, ServerResponse<Color>>(editColor, {
       showSuccessToast: true,
       successToastMessage: "COLOR_EDIT_SUCCESSFUL",
     });

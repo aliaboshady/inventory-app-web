@@ -7,7 +7,11 @@ import {
 } from "@phosphor-icons/react/dist/ssr";
 import EditCategoryDialog from "./EditCategoryDialog";
 import ConfirmationDialog from "@/components/ConfirmationDialog";
-import { DialogSettings, Paginated } from "@/models/shared.model";
+import {
+  DialogSettings,
+  Paginated,
+  ServerResponse,
+} from "@/models/shared.model";
 import { useTranslation } from "react-i18next";
 import { formatDate } from "@/lib/utils";
 import { CategoriesPayload, Category } from "@/models/category.model";
@@ -22,7 +26,9 @@ type Props = {
   setItemsPerPage: (val: number) => void;
   itemsPerPage: number;
   name: string;
-  fetch: (payload: CategoriesPayload) => Promise<Paginated<Category>>;
+  fetch: (
+    payload: CategoriesPayload
+  ) => Promise<ServerResponse<Paginated<Category>>>;
 };
 
 const Table = ({
@@ -36,13 +42,13 @@ const Table = ({
 }: Props) => {
   const { t } = useTranslation();
 
-  const { request: deleteCategoryReq } = useRequest<string, void>(
-    deleteCategory,
-    {
-      showSuccessToast: true,
-      successToastMessage: "CATEGORY_DELETE_SUCCESSFUL",
-    }
-  );
+  const { request: deleteCategoryReq } = useRequest<
+    string,
+    ServerResponse<void>
+  >(deleteCategory, {
+    showSuccessToast: true,
+    successToastMessage: "CATEGORY_DELETE_SUCCESSFUL",
+  });
 
   const columns: Column[] = [
     {

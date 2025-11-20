@@ -7,7 +7,7 @@ import Table from "@/components/Categories/Table";
 import PageLayout from "@/components/PageLayout";
 import { useState } from "react";
 import { useDebounce } from "@/hooks/useDebounce";
-import { Paginated } from "@/models/shared.model";
+import { Paginated, ServerResponse } from "@/models/shared.model";
 import { getCategories } from "@/actions/categories/getCategories";
 import { CategoriesPayload, Category } from "@/models/category.model";
 
@@ -19,7 +19,7 @@ const CategoriesPage = () => {
 
   const { request: fetch, data } = useRequest<
     CategoriesPayload,
-    Paginated<Category>
+    ServerResponse<Paginated<Category>>
   >(getCategories);
 
   useEffect(() => {
@@ -46,7 +46,7 @@ const CategoriesPage = () => {
       />
       <div className="h-[calc(100vh-15rem)]">
         <Table
-          data={data}
+          data={data?.data}
           fetch={fetch}
           page={page}
           setPage={setPage}

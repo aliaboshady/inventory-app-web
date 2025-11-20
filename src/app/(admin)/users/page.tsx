@@ -4,5 +4,5 @@ import UsersPage from "@/components/Users/UsersPage";
 export default async function Users() {
   const me = await getMe();
 
-  return <UsersPage me={me} />;
+  return <UsersPage me={me?.data} />;
 }

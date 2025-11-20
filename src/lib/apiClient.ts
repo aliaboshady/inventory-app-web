@@ -1,7 +1,8 @@
 "use server";
 
+import { ServerResponse } from "@/models/shared.model";
 import { ROUTES } from "./staticKeys";
-import { getAccessToken, isTokenExpired, clearTokens } from "./tokenUtils";
+import { getAccessToken, clearTokens } from "./tokenUtils";
 import { redirect } from "next/navigation";
 
 interface FetchOptions extends RequestInit {
@@ -12,26 +13,22 @@ interface FetchOptions extends RequestInit {
 export async function apiClient<T>(
   endpoint: string,
   options: FetchOptions = {}
-): Promise<T> {
+): Promise<ServerResponse<T>> {
   const { skipAuth = false, redirectToLogin = true, ...fetchOptions } = options;
 
-  // Clone headers to avoid readonly issues
   const headers = new Headers(fetchOptions.headers);
 
-  // If authentication is required, handle access token
+  // --- Add Authorization if needed ---
   if (!skipAuth) {
-    const accessToken = await getAccessToken();
-
-    // If we have a valid token, add it to the headers
-    if (accessToken) {
-      headers.set("Authorization", `Bearer ${accessToken}`);
-    } else {
-      // No token available, redirect to login
-      if (redirectToLogin) redirect(ROUTES.login?.url);
+    const token = await getAccessToken();
+    if (token) {
+      headers.set("Authorization", `Bearer ${token}`);
+    } else if (redirectToLogin) {
+      redirect(ROUTES.login.url);
     }
   }
 
-  // Set content type if not already set and it's not a GET request
+  // --- Set JSON Content-Type when needed ---
   if (
     !headers.has("Content-Type") &&
     fetchOptions.method &&
@@ -41,39 +38,47 @@ export async function apiClient<T>(
     headers.set("Content-Type", "application/json");
   }
 
-  // Create the final options object with the processed headers
-  const finalOptions = {
-    ...fetchOptions,
-    headers,
-  };
-
-  // Make the API request
   try {
-    console.log(
-      "🔵 ⬅️ ~ Intercepting request to httpClient:",
-      endpoint,
-      finalOptions
-    );
+    console.log("🔵 ⬅️ Request to:", endpoint, fetchOptions);
+
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_BASE_URL}/${endpoint}`,
-      finalOptions
+      {
+        ...fetchOptions,
+        headers,
+      }
     );
 
+    const json = await response.json().catch(() => {});
+    console.log("🟢 ➡️ Response from:", endpoint, json);
+
+    // Auto-logout on 401
     if (response.status === 401 && !skipAuth) {
+      console.log("🔴 401 Unauthorized — clearing tokens and redirecting");
       await clearTokens();
-      if (redirectToLogin) redirect(ROUTES.login?.url);
+      if (redirectToLogin) redirect(ROUTES.login.url);
     }
 
-    const json = await response.json();
-    console.log("🟢 ➡️ ~ Response of:", endpoint, json);
-
-    if (!json) {
-      return {} as T;
+    // ❌ ERROR RESPONSE
+    if (!response.ok) {
+      console.log("🔴 ➡️ API error:", json?.message || "SERVER_ERROR");
+      return {
+        error: true,
+        message: json?.message || "SERVER_ERROR",
+      };
     }
 
-    return json as T;
-  } catch (error) {
-    console.log("🔴 ➡️ ~ Response of ERROR:", endpoint, error);
-    throw error;
+    // ✅ SUCCESS RESPONSE
+    return {
+      error: false,
+      data: json as T,
+      message: json?.message, // backend success message if exists
+    };
+  } catch (err: any) {
+    console.log("🔴 ➡️ Network / fetch error:", err);
+    return {
+      error: true,
+      message: err?.message || "NETWORK_ERROR",
+    };
   }
 }

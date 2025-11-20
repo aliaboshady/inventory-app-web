@@ -11,7 +11,7 @@ import { ItemStatus } from "@/models/item.model";
 import Dropdown, { DropdownItem } from "../Dropdown";
 import useRequest from "@/hooks/useRequest";
 import { getCategories } from "@/actions/categories/getCategories";
-import { Paginated } from "@/models/shared.model";
+import { Paginated, ServerResponse } from "@/models/shared.model";
 import { CategoriesPayload, Category } from "@/models/category.model";
 import { Color } from "@/models/color.model";
 
@@ -52,7 +52,9 @@ const Filter = ({
   >([]);
 
   const { request: fetchCategories, isLoading: isLoadingCategories } =
-    useRequest<CategoriesPayload, Paginated<Category>>(getCategories);
+    useRequest<CategoriesPayload, ServerResponse<Paginated<Category>>>(
+      getCategories
+    );
 
   const handleFetchCategories = async () => {
     const newData = await fetchCategories({
@@ -60,8 +62,8 @@ const Filter = ({
       itemsPerPage: 20,
     });
 
-    if (newData?.data?.length) {
-      const mapped = newData.data.map((c) => ({
+    if (newData?.data?.data?.length) {
+      const mapped = newData.data.data.map((c) => ({
         value: c._id,
         label: c.name,
       }));

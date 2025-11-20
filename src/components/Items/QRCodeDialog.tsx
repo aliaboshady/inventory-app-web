@@ -16,6 +16,7 @@ import { EditItemPayload, Item, ItemStatus } from "@/models/item.model";
 import { useTranslation } from "react-i18next";
 import useRequest from "@/hooks/useRequest";
 import { editItem } from "@/actions/items/editItem";
+import { ServerResponse } from "@/models/shared.model";
 
 type Props = {
   item: Item;
@@ -28,13 +29,13 @@ const QRCodeDialog = ({ item, onAction }: Props) => {
   const qrValue = `http://localhost:3000?id=${item?._id}`;
   const [status, setStatus] = useState<ItemStatus>(item?.status || "UNKNOWN");
 
-  const { request: editItemReq, isLoading } = useRequest<EditItemPayload, Item>(
-    editItem,
-    {
-      showSuccessToast: true,
-      successToastMessage: "ITEM_EDIT_SUCCESSFUL",
-    }
-  );
+  const { request: editItemReq, isLoading } = useRequest<
+    EditItemPayload,
+    ServerResponse<Item>
+  >(editItem, {
+    showSuccessToast: true,
+    successToastMessage: "ITEM_EDIT_SUCCESSFUL",
+  });
 
   const handleSubmit = async () => {
     await editItemReq({ _id: item?._id, status });

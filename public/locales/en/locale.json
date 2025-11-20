@@ -146,5 +146,6 @@
   "NO_FILE_PROVIDED": "No file provided",
   "NO_FILE_UPLOADED": "No file uploaded",
   "CATEGORY_IS_REQUIRED": "Category is required",
-  "YOU_DO_NOT_HAVE_PERMISSION": "You do not have permission"
+  "YOU_DO_NOT_HAVE_PERMISSION": "You do not have permission",
+  "INVALID_EMAIL_FORMAT": "Invalid email format"
 }

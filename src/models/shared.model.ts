@@ -3,13 +3,7 @@ export type NameId = { name?: string; id?: string };
 export type ServerResponse<T> = {
   data?: T;
   message?: string;
-  error?: ErrorResponse;
-};
-
-export type ErrorResponse = {
-  general: string[];
-} & {
-  [key: string]: string[];
+  error?: boolean;
 };
 
 export type PaginatedPayload = {

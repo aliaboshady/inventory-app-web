@@ -9,6 +9,7 @@ import { Auth } from "@/models/user.model";
 import { useRouter } from "next/navigation";
 import { ROUTES } from "@/lib/staticKeys";
 import { useFormik } from "formik";
+import { ServerResponse } from "@/models/shared.model";
 import TextInput from "@/components/TextInput";
 import useRequest from "@/hooks/useRequest";
 
@@ -16,14 +17,14 @@ const LoginForm = () => {
   const router = useRouter();
   const { t } = useTranslation();
 
-  const { request: requestLogin, isLoading } = useRequest<LoginPayload, Auth>(
-    login,
-    {
-      showSuccessToast: true,
-      successToastMessage: "LOGIN_SUCCESSFUL",
-      onSuccess: () => setTimeout(() => router.push(ROUTES.root.url), 200),
-    }
-  );
+  const { request: requestLogin, isLoading } = useRequest<
+    LoginPayload,
+    ServerResponse<Auth>
+  >(login, {
+    showSuccessToast: true,
+    successToastMessage: "LOGIN_SUCCESSFUL",
+    onSuccess: () => setTimeout(() => router.push(ROUTES.root.url), 200),
+  });
 
   const formik = useFormik({
     initialValues: { email: "", password: "" },

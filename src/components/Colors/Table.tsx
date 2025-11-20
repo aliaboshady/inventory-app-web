@@ -6,7 +6,7 @@ import {
 } from "@phosphor-icons/react/dist/ssr";
 import EditColorDialog from "./EditColorDialog";
 import ConfirmationDialog from "@/components/ConfirmationDialog";
-import { DialogSettings } from "@/models/shared.model";
+import { DialogSettings, ServerResponse } from "@/models/shared.model";
 import { useTranslation } from "react-i18next";
 import { Color, ColorsPayload } from "@/models/color.model";
 import ColorCard from "./ColorCard";
@@ -16,16 +16,19 @@ import useRequest from "@/hooks/useRequest";
 type Props = {
   data: Color[];
   name: string;
-  fetch: (payload: ColorsPayload) => Promise<Color[]>;
+  fetch: (payload: ColorsPayload) => Promise<ServerResponse<Color[]>>;
 };
 
 const Table = ({ data, name, fetch }: Props) => {
   const { t } = useTranslation();
 
-  const { request: deleteColorReq } = useRequest<string, void>(deleteColor, {
-    showSuccessToast: true,
-    successToastMessage: "COLOR_DELETE_SUCCESSFUL",
-  });
+  const { request: deleteColorReq } = useRequest<string, ServerResponse<void>>(
+    deleteColor,
+    {
+      showSuccessToast: true,
+      successToastMessage: "COLOR_DELETE_SUCCESSFUL",
+    }
+  );
 
   const settings: DialogSettings[] = [
     {

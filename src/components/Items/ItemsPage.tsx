@@ -8,7 +8,7 @@ import Table from "@/components/Items/Table";
 import PageLayout from "@/components/PageLayout";
 import { useState } from "react";
 import { useDebounce } from "@/hooks/useDebounce";
-import { Paginated } from "@/models/shared.model";
+import { Paginated, ServerResponse } from "@/models/shared.model";
 import { getItems } from "@/actions/items/getItems";
 import { ItemsPayload, Item, ItemStatus } from "@/models/item.model";
 import { Color } from "@/models/color.model";
@@ -27,9 +27,11 @@ const ItemsPage = ({ colors }: { colors: Color[] }) => {
   const [category, setCategory] = useState<string>();
   const [color, setColor] = useState<string>();
 
-  const { request: fetch, data } = useRequest<ItemsPayload, Paginated<Item>>(
-    getItems
-  );
+  const { request: fetch, data } = useRequest<
+    ItemsPayload,
+    ServerResponse<Paginated<Item>>
+  >(getItems);
+  console.log("🚀 ~ ItemsPage ~ data:", data)
 
   useEffect(() => {
     fetch({
@@ -83,7 +85,7 @@ const ItemsPage = ({ colors }: { colors: Color[] }) => {
       />
       <div className="h-[calc(100vh-19rem)]">
         <Table
-          data={data}
+          data={data?.data}
           fetch={fetch}
           page={page}
           setPage={setPage}

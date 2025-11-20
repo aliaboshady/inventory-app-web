@@ -7,7 +7,11 @@ import {
 } from "@phosphor-icons/react/dist/ssr";
 import EditItemDialog from "./EditItemDialog";
 import ConfirmationDialog from "@/components/ConfirmationDialog";
-import { DialogSettings, Paginated } from "@/models/shared.model";
+import {
+  DialogSettings,
+  Paginated,
+  ServerResponse,
+} from "@/models/shared.model";
 import { useTranslation } from "react-i18next";
 import { formatDate } from "@/lib/utils";
 import { Item, ItemsPayload } from "@/models/item.model";
@@ -25,7 +29,7 @@ type Props = {
   itemsPerPage: number;
   name: string;
   id: string;
-  fetch: (payload: ItemsPayload) => Promise<Paginated<Item>>;
+  fetch: (payload: ItemsPayload) => Promise<ServerResponse<Paginated<Item>>>;
 };
 
 const Table = ({
@@ -40,10 +44,13 @@ const Table = ({
 }: Props) => {
   const { t } = useTranslation();
 
-  const { request: deleteItemReq } = useRequest<string, void>(deleteItem, {
-    showSuccessToast: true,
-    successToastMessage: "ITEM_DELETE_SUCCESSFUL",
-  });
+  const { request: deleteItemReq } = useRequest<string, ServerResponse<void>>(
+    deleteItem,
+    {
+      showSuccessToast: true,
+      successToastMessage: "ITEM_DELETE_SUCCESSFUL",
+    }
+  );
 
   const columns: Column[] = [
     {

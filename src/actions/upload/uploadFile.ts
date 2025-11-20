@@ -1,9 +1,11 @@
 "use server";
 
 import { apiClient } from "@/lib/apiClient";
-import { UploadFilePayload } from "@/models/shared.model";
+import { ServerResponse, UploadFilePayload } from "@/models/shared.model";
 
-export const uploadFile = async (payload: UploadFilePayload): Promise<void> => {
+export const uploadFile = async (
+  payload: UploadFilePayload
+): Promise<ServerResponse<void>> => {
   const { file, type, id } = payload;
 
   const formData = new FormData();
