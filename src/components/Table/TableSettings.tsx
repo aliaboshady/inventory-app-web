@@ -55,7 +55,14 @@ export default function TableSettings({ settings, item }: Props) {
                 }
               >
                 {setting?.href ? (
-                  <Link href={setting?.href} className="flex flex-row gap-1.5">
+                  <Link
+                    href={
+                      typeof setting?.href === "string"
+                        ? setting?.href
+                        : setting?.href(item)
+                    }
+                    className="flex flex-row gap-1.5"
+                  >
                     {setting?.icon}
                     {setting?.label}
                   </Link>
@@ -78,17 +85,11 @@ export default function TableSettings({ settings, item }: Props) {
             <DialogComponent
               key={i}
               open={open[i]}
-              setOpen={(val) =>
+              setOpen={(val: boolean) =>
                 setOpen((prev) => prev.map((v, j) => (j === i ? val : v)))
               }
               item={item}
-              onAction={setting.onAction}
-              closeOnAction={
-                setting.closeOnAction === undefined ||
-                setting.closeOnAction === null
-                  ? true
-                  : setting.closeOnAction
-              }
+              {...setting.props}
             />
           )
         );

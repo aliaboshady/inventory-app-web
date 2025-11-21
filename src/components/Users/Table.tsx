@@ -94,29 +94,32 @@ const Table = ({
       label: t("EDIT"),
       icon: <PencilSimpleLineIcon className="fill-neutral-600" size={18} />,
       dialog: EditUserDialog,
-      onAction: async () => {
-        fetch({ page, itemsPerPage, role: role as UserRole, search });
+      props: {
+        onAction: async () => {
+          fetch({ page, itemsPerPage, role: role as UserRole, search });
+        },
       },
-      closeOnAction: true,
     },
     {
       label: t("CHANGE_PASSWORD"),
       icon: <KeyIcon className="fill-neutral-600" size={18} />,
       dialog: ChangeUserPasswordDialog,
-      onAction: async () => {
-        fetch({ page, itemsPerPage, role: role as UserRole, search });
+      props: {
+        onAction: async () => {
+          fetch({ page, itemsPerPage, role: role as UserRole, search });
+        },
       },
-      closeOnAction: true,
     },
     {
       label: t("DELETE"),
       icon: <TrashIcon className="fill-red-600" size={18} />,
       dialog: ConfirmationDialog,
-      onAction: async (user: User) => {
-        await deleteUserReq(user._id);
-        fetch({ page, itemsPerPage, role: role as UserRole, search });
+      props: {
+        onAction: async (user: User) => {
+          await deleteUserReq(user._id);
+          fetch({ page, itemsPerPage, role: role as UserRole, search });
+        },
       },
-      closeOnAction: true,
     },
   ];
 

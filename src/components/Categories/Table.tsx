@@ -77,20 +77,22 @@ const Table = ({
       label: t("EDIT"),
       icon: <PencilSimpleLineIcon className="fill-neutral-600" size={18} />,
       dialog: EditCategoryDialog,
-      onAction: async () => {
-        fetch({ page, itemsPerPage, name });
+      props: {
+        onAction: async () => {
+          fetch({ page, itemsPerPage, name });
+        },
       },
-      closeOnAction: true,
     },
     {
       label: t("DELETE"),
       icon: <TrashIcon className="fill-red-600" size={18} />,
       dialog: ConfirmationDialog,
-      onAction: async (category: Category) => {
-        await deleteCategoryReq(category._id);
-        fetch({ page, itemsPerPage, name });
+      props: {
+        onAction: async (category: Category) => {
+          await deleteCategoryReq(category._id);
+          fetch({ page, itemsPerPage, name });
+        },
       },
-      closeOnAction: true,
     },
   ];
 

@@ -79,7 +79,7 @@ export default function Dropdown({
 
     if (Array.isArray(selected)) {
       return items
-        .filter((val) => selected.includes(val.value))
+        ?.filter((val) => selected.includes(val.value))
         .map((val) => val.label)
         .join(", ");
     }
@@ -198,13 +198,13 @@ export default function Dropdown({
                 <DropdownMenuItem
                   onClick={(e) => {
                     e.preventDefault();
-                    const allValues = items.map((item) => item.value);
+                    const allValues = items?.map((item) => item.value);
                     (setSelected as (val: string[]) => void)(allValues);
                   }}
                   className={twMerge(
                     "w-full justify-center hover:!bg-secondary/30 hover:!text-primary",
                     Array.isArray(selected) &&
-                      selected.length === items.length &&
+                      selected.length === items?.length &&
                       "bg-secondary text-primary"
                   )}
                 >
@@ -220,7 +220,7 @@ export default function Dropdown({
         {/* Multi Select */}
         {multiSelect ? (
           items &&
-          items.map((item) => {
+          items?.map((item) => {
             const isSelected =
               Array.isArray(selected) && selected.includes(item?.value);
 
@@ -248,7 +248,7 @@ export default function Dropdown({
         ) : (
           <>
             {/* Single Select */}
-            {items.map((item) => (
+            {items?.map((item) => (
               <DropdownMenuItem
                 key={item.value}
                 onClick={() => handleSelectSingle(item.value)}

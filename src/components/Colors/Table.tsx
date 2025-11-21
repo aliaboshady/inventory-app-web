@@ -35,20 +35,22 @@ const Table = ({ data, name, fetch }: Props) => {
       label: t("EDIT"),
       icon: <PencilSimpleLineIcon className="fill-neutral-600" size={18} />,
       dialog: EditColorDialog,
-      onAction: async () => {
-        fetch({ search: name });
+      props: {
+        onAction: async () => {
+          fetch({ search: name });
+        },
       },
-      closeOnAction: true,
     },
     {
       label: t("DELETE"),
       icon: <TrashIcon className="fill-red-600" size={18} />,
       dialog: ConfirmationDialog,
-      onAction: async (color: Color) => {
-        await deleteColorReq(color._id);
-        fetch({ search: name });
+      props: {
+        onAction: async (color: Color) => {
+          await deleteColorReq(color._id);
+          fetch({ search: name });
+        },
       },
-      closeOnAction: true,
     },
   ];
 

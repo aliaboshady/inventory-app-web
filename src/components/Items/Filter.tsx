@@ -5,15 +5,10 @@ import { Button } from "@/components/ui/button";
 import { getTailwindColor } from "@/lib/utils";
 import { MagnifyingGlassIcon, PlusIcon } from "@phosphor-icons/react/dist/ssr";
 import { useTranslation } from "react-i18next";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import EditItemDialog from "./EditItemDialog";
 import { ItemStatus } from "@/models/item.model";
 import Dropdown, { DropdownItem } from "../Dropdown";
-import useRequest from "@/hooks/useRequest";
-import { getCategories } from "@/actions/categories/getCategories";
-import { Paginated, ServerResponse } from "@/models/shared.model";
-import { CategoriesPayload, Category } from "@/models/category.model";
-import { Color } from "@/models/color.model";
 
 type Props = {
   name: string;
@@ -25,7 +20,8 @@ type Props = {
   category: string;
   setCategory: (val: string) => void;
   onAddUser: () => void;
-  colors: Color[];
+  colors: DropdownItem[];
+  categories: DropdownItem[];
   color: string;
   setColor: (val: string) => void;
 };
@@ -41,48 +37,12 @@ const Filter = ({
   setCategory,
   onAddUser,
   colors,
+  categories,
   color,
   setColor,
 }: Props) => {
   const { t } = useTranslation();
   const [openAddAdmin, setOpenAddAdmin] = useState<boolean>(false);
-  const [categoriesPage, setCategoriesPage] = useState<number>(1);
-  const [categories, setCategories] = useState<
-    { value: string; label: string }[]
-  >([]);
-
-  const { request: fetchCategories, isLoading: isLoadingCategories } =
-    useRequest<CategoriesPayload, ServerResponse<Paginated<Category>>>(
-      getCategories
-    );
-
-  const handleFetchCategories = async () => {
-    const newData = await fetchCategories({
-      page: categoriesPage,
-      itemsPerPage: 20,
-    });
-
-    if (newData?.data?.data?.length) {
-      const mapped = newData.data.data.map((c) => ({
-        value: c._id,
-        label: c.name,
-      }));
-      setCategories((prev) => [...prev, ...mapped]);
-      setCategoriesPage((prev) => prev + 1);
-    }
-  };
-
-  const mappedColors: DropdownItem[] =
-    colors?.map((c) => ({
-      value: c._id,
-      label: c.name,
-      labelNode: (
-        <div className="flex flex-row items-center gap-4">
-          <div className="w-8 h-4" style={{ backgroundColor: c.color }} />
-          <p className="truncate">{c.name}</p>
-        </div>
-      ),
-    })) || [];
 
   const statuses = [
     {
@@ -98,16 +58,6 @@ const Filter = ({
       label: "UNKNOWN",
     },
   ];
-
-  useEffect(() => {
-    const init = async () => {
-      setCategories([]);
-      setCategory("");
-      setCategoriesPage(1);
-      await handleFetchCategories();
-    };
-    init();
-  }, []);
 
   return (
     <>
@@ -151,12 +101,10 @@ const Filter = ({
           placeholder="SELECT_CATEGORY"
           showNoneOption
           disabled={!categories || categories?.length === 0}
-          loadingData={isLoadingCategories}
-          onReachTheEnd={handleFetchCategories}
         />
 
         <Dropdown
-          items={mappedColors}
+          items={colors}
           selected={color}
           setSelected={(val: any) => setColor(val)}
           placeholder="SELECT_COLOR"
@@ -173,6 +121,8 @@ const Filter = ({
         open={openAddAdmin}
         setOpen={setOpenAddAdmin}
         onAction={onAddUser}
+        colors={colors}
+        categories={categories}
       />
     </>
   );

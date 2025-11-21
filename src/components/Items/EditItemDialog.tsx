@@ -10,10 +10,9 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { DialogProps, Paginated, ServerResponse } from "@/models/shared.model";
+import { DialogProps, ServerResponse } from "@/models/shared.model";
 import { useTranslation } from "react-i18next";
-import { useEffect, useState } from "react";
-import { CategoriesPayload, Category } from "@/models/category.model";
+import { useState } from "react";
 import {
   CreateItemPayload,
   EditItemPayload,
@@ -22,13 +21,15 @@ import {
 } from "@/models/item.model";
 import Dropdown, { DropdownItem } from "../Dropdown";
 import useRequest from "@/hooks/useRequest";
-import { getCategories } from "@/actions/categories/getCategories";
 import { editItem } from "@/actions/items/editItem";
 import { createItem } from "@/actions/items/createItem";
 import { Label } from "../ui/label";
 import UploadPicture from "../UploadPicture";
-import { getColors } from "@/actions/colors/getColors";
-import { Color, ColorsPayload } from "@/models/color.model";
+
+type Props = DialogProps<Item> & {
+  colors: DropdownItem[];
+  categories: DropdownItem[];
+};
 
 const EditItemDialog = ({
   open,
@@ -36,7 +37,9 @@ const EditItemDialog = ({
   item,
   onAction,
   closeOnAction = true,
-}: DialogProps<Item>) => {
+  colors,
+  categories,
+}: Props) => {
   const { t } = useTranslation();
 
   const [name, setName] = useState(item?.name || "");
@@ -48,12 +51,6 @@ const EditItemDialog = ({
   const [height, setHeight] = useState<number>(item?.height || 0);
   const [comment, setComment] = useState<string>(item?.comment || "");
   const [picture, setPicture] = useState<File>();
-  const [categoriesPage, setCategoriesPage] = useState<number>(1);
-  const [categories, setCategories] = useState<
-    { value: string; label: string }[]
-  >([]);
-  const [colors, setColors] = useState<DropdownItem[]>([]);
-
   const { request: createItemReq, isLoading: isLoadingCreatingItem } =
     useRequest<CreateItemPayload, ServerResponse<Item>>(createItem, {
       showSuccessToast: true,
@@ -67,53 +64,6 @@ const EditItemDialog = ({
     showSuccessToast: true,
     successToastMessage: "ITEM_EDIT_SUCCESSFUL",
   });
-
-  const { request: fetchCategories, isLoading: isLoadingCategories } =
-    useRequest<CategoriesPayload, ServerResponse<Paginated<Category>>>(
-      getCategories
-    );
-
-  const { request: fetchColors, isLoading: isLoadingColors } = useRequest<
-    ColorsPayload,
-    ServerResponse<Color[]>
-  >(getColors);
-
-  const handleFetchCategories = async () => {
-    const newData = await fetchCategories({
-      page: categoriesPage,
-      itemsPerPage: 20,
-    });
-
-    if (newData?.data?.data?.length) {
-      const mapped = newData.data.data.map((c) => ({
-        value: c._id,
-        label: c.name,
-      }));
-      setCategories((prev) => [...prev, ...mapped]);
-      setCategoriesPage((prev) => prev + 1);
-      return mapped;
-    }
-    return [];
-  };
-
-  const handleFetchColors = async () => {
-    const newData = await fetchColors({});
-
-    if (newData?.data?.length) {
-      const mapped = newData.data.map((c) => ({
-        value: c._id,
-        labelNode: (
-          <div className="flex flex-row items-center gap-4">
-            <div className="w-8 h-4" style={{ backgroundColor: c?.color }} />
-            <p className="truncate">{c?.name}</p>
-          </div>
-        ),
-      }));
-      setColors(mapped as DropdownItem[]);
-      return mapped;
-    }
-    return [];
-  };
 
   const statuses = [
     {
@@ -129,34 +79,6 @@ const EditItemDialog = ({
       label: "UNKNOWN",
     },
   ];
-
-  useEffect(() => {
-    const initCategories = async () => {
-      setCategories([]);
-      setCategoriesPage(1);
-      const newCategories = await handleFetchCategories();
-
-      // If editing an item, set the category to match one of the fetched options
-      if (item?.category?._id) {
-        const found = newCategories?.find((c) => c.value === item.category._id);
-        if (found) setCategory(found.value);
-        else setCategory(item.category._id); // fallback if not in first page
-      }
-    };
-
-    const initColors = async () => {
-      setColors([]);
-      const newColors = await handleFetchColors();
-
-      if (item?.color?._id) {
-        const found = newColors?.find((c) => c.value === item.color._id);
-        if (found) setColor(found.value);
-        else setColor(item.color._id); // fallback if not in first page
-      }
-    };
-    initCategories();
-    initColors();
-  }, [item]);
 
   const handleSubmit = async () => {
     if (item) {
@@ -241,8 +163,6 @@ const EditItemDialog = ({
               setSelected={(val: any) => setCategory(val)}
               placeholder="SELECT_CATEGORY"
               disabled={!categories || categories?.length === 0}
-              loadingData={isLoadingCategories}
-              onReachTheEnd={handleFetchCategories}
             />
           </div>
 
@@ -255,7 +175,6 @@ const EditItemDialog = ({
               placeholder="SELECT_COLOR"
               showNoneOption
               disabled={!colors || colors?.length === 0}
-              loadingData={isLoadingColors}
             />
           </div>
 

@@ -12,8 +12,17 @@ import { Paginated, ServerResponse } from "@/models/shared.model";
 import { getItems } from "@/actions/items/getItems";
 import { ItemsPayload, Item, ItemStatus } from "@/models/item.model";
 import { Color } from "@/models/color.model";
+import { DropdownItem } from "../Dropdown";
+import { Category } from "@/models/category.model";
+import Avatar from "../Avatar";
 
-const ItemsPage = ({ colors }: { colors: Color[] }) => {
+const ItemsPage = ({
+  colors,
+  categories,
+}: {
+  colors: Color[];
+  categories: Category[];
+}) => {
   const searchParams = useSearchParams();
   const queryId = searchParams.get("id");
 
@@ -27,11 +36,29 @@ const ItemsPage = ({ colors }: { colors: Color[] }) => {
   const [category, setCategory] = useState<string>();
   const [color, setColor] = useState<string>();
 
+  const mappedColors: DropdownItem[] =
+    colors?.map((c) => ({
+      value: c._id,
+      label: c.name,
+      labelNode: (
+        <div className="flex flex-row items-center gap-4">
+          <div className="w-8 h-4" style={{ backgroundColor: c.color }} />
+          <p className="truncate">{c.name}</p>
+        </div>
+      ),
+    })) || [];
+
+  const mappedCategories: DropdownItem[] =
+    categories?.map((c) => ({
+      value: c._id,
+      label: c.name,
+      labelNode: <Avatar label={c?.name} src={c?.imageURL} type="category" />,
+    })) || [];
+
   const { request: fetch, data } = useRequest<
     ItemsPayload,
     ServerResponse<Paginated<Item>>
   >(getItems);
-  console.log("🚀 ~ ItemsPage ~ data:", data)
 
   useEffect(() => {
     fetch({
@@ -79,9 +106,10 @@ const ItemsPage = ({ colors }: { colors: Color[] }) => {
         category={category}
         setCategory={setCategory}
         onAddUser={() => fetch({ page, itemsPerPage, name })}
-        colors={colors}
+        colors={mappedColors}
         color={color}
         setColor={setColor}
+        categories={mappedCategories}
       />
       <div className="h-[calc(100vh-19rem)]">
         <Table
@@ -93,6 +121,8 @@ const ItemsPage = ({ colors }: { colors: Color[] }) => {
           setItemsPerPage={setItemsPerPage}
           name={debouncedName}
           id={debouncedId}
+          colors={mappedColors}
+          categories={mappedCategories}
         />
       </div>
     </PageLayout>

@@ -20,6 +20,7 @@ import { deleteItem } from "@/actions/items/deleteItem";
 import Avatar from "../Avatar";
 import QRCodeDialog from "./QRCodeDialog";
 import useRequest from "@/hooks/useRequest";
+import { DropdownItem } from "../Dropdown";
 
 type Props = {
   data: Paginated<Item>;
@@ -30,6 +31,8 @@ type Props = {
   name: string;
   id: string;
   fetch: (payload: ItemsPayload) => Promise<ServerResponse<Paginated<Item>>>;
+  colors: DropdownItem[];
+  categories: DropdownItem[];
 };
 
 const Table = ({
@@ -41,6 +44,8 @@ const Table = ({
   itemsPerPage = 10,
   setItemsPerPage,
   fetch,
+  colors,
+  categories,
 }: Props) => {
   const { t } = useTranslation();
 
@@ -160,20 +165,24 @@ const Table = ({
       label: t("EDIT"),
       icon: <PencilSimpleLineIcon className="fill-neutral-600" size={18} />,
       dialog: EditItemDialog,
-      onAction: async () => {
-        fetch({ page, itemsPerPage, name });
+      props: {
+        onAction: async () => {
+          fetch({ page, itemsPerPage, name });
+        },
+        colors,
+        categories,
       },
-      closeOnAction: true,
     },
     {
       label: t("DELETE"),
       icon: <TrashIcon className="fill-red-600" size={18} />,
       dialog: ConfirmationDialog,
-      onAction: async (item: Item) => {
-        await deleteItemReq(item._id);
-        fetch({ page, itemsPerPage, name });
+      props: {
+        onAction: async (item: Item) => {
+          await deleteItemReq(item._id);
+          fetch({ page, itemsPerPage, name });
+        },
       },
-      closeOnAction: true,
     },
   ];
 

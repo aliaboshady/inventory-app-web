@@ -18,7 +18,7 @@ const ConfirmationDialog = ({
   setOpen,
   item,
   onAction,
-  closeOnAction,
+  closeOnAction = true,
 }: DialogProps<any>) => {
   const { t } = useTranslation();
   const [isLoading, setIsLoading] = useState(false);
