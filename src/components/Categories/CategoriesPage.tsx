@@ -1,15 +1,15 @@
 "use client";
 
 import { useEffect } from "react";
-import useRequest from "@/hooks/useRequest";
-import Filter from "@/components/Categories/Filter";
-import Table from "@/components/Categories/Table";
-import PageLayout from "@/components/PageLayout";
 import { useState } from "react";
 import { useDebounce } from "@/hooks/useDebounce";
 import { Paginated, ServerResponse } from "@/models/shared.model";
 import { getCategories } from "@/actions/categories/getCategories";
 import { CategoriesPayload, Category } from "@/models/category.model";
+import useRequest from "@/hooks/useRequest";
+import Filter from "@/components/Categories/Filter";
+import Table from "@/components/Categories/Table";
+import PageLayout from "@/components/PageLayout";
 
 const CategoriesPage = () => {
   const [page, setPage] = useState(1);

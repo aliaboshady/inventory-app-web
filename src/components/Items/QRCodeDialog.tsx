@@ -11,12 +11,12 @@ import {
 } from "../ui/dialog";
 import { Button } from "../ui/button";
 import { Label } from "../ui/label";
-import Dropdown from "../Dropdown";
 import { EditItemPayload, Item, ItemStatus } from "@/models/item.model";
 import { useTranslation } from "react-i18next";
-import useRequest from "@/hooks/useRequest";
 import { editItem } from "@/actions/items/editItem";
 import { ServerResponse } from "@/models/shared.model";
+import Dropdown from "../Dropdown";
+import useRequest from "@/hooks/useRequest";
 
 type Props = {
   item: Item;
@@ -26,7 +26,7 @@ type Props = {
 const QRCodeDialog = ({ item, onAction }: Props) => {
   const { t } = useTranslation();
   const qrRef = useRef<HTMLCanvasElement | null>(null);
-  const qrValue = `http://localhost:3000?id=${item?._id}`;
+  const qrValue = `${window.location.origin}?id=${item?._id}`;
   const [status, setStatus] = useState<ItemStatus>(item?.status || "UNKNOWN");
 
   const { request: editItemReq, isLoading } = useRequest<

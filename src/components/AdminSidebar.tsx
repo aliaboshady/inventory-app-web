@@ -88,7 +88,7 @@ export function AdminSidebar({ me }: { me: User }) {
   return (
     <div className="relative bg-transparent">
       {isMobile && (
-        <div className="absolute top-4 -end-12 z-10">
+        <div className="absolute top-4 -end-12 z-50">
           <SideBarButton dir={i18n.dir()} />
         </div>
       )}

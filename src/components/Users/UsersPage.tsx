@@ -1,15 +1,15 @@
 "use client";
 
 import { useEffect } from "react";
-import useRequest from "@/hooks/useRequest";
 import { getUsers } from "@/actions/users/getUsers";
-import Filter from "@/components/Users/Filter";
-import Table from "@/components/Users/Table";
-import PageLayout from "@/components/PageLayout";
 import { useState } from "react";
 import { useDebounce } from "@/hooks/useDebounce";
 import { User, UserRole, UsersPayload } from "@/models/user.model";
 import { Paginated, ServerResponse } from "@/models/shared.model";
+import useRequest from "@/hooks/useRequest";
+import Filter from "@/components/Users/Filter";
+import Table from "@/components/Users/Table";
+import PageLayout from "@/components/PageLayout";
 
 const UsersPage = ({ me }: { me: User }) => {
   const [page, setPage] = useState(1);

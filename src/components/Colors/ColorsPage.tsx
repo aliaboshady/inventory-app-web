@@ -1,15 +1,15 @@
 "use client";
 
 import { useEffect } from "react";
-import useRequest from "@/hooks/useRequest";
-import Filter from "@/components/Colors/Filter";
-import Table from "@/components/Colors/Table";
-import PageLayout from "@/components/PageLayout";
 import { useState } from "react";
 import { useDebounce } from "@/hooks/useDebounce";
 import { getColors } from "@/actions/colors/getColors";
 import { Color, ColorsPayload } from "@/models/color.model";
 import { ServerResponse } from "@/models/shared.model";
+import useRequest from "@/hooks/useRequest";
+import Filter from "@/components/Colors/Filter";
+import Table from "@/components/Colors/Table";
+import PageLayout from "@/components/PageLayout";
 
 const ColorsPage = () => {
   const [name, setName] = useState<string>("");
@@ -39,7 +39,7 @@ const ColorsPage = () => {
         setName={setName}
         onAddUser={() => fetch({ search: debouncedSearch })}
       />
-      <div className="h-[calc(100vh-15rem)]">
+      <div className="h-[calc(100vh-18.7rem)] md:h-[calc(100vh-15rem)] overflow-auto">
         <Table data={data?.data} fetch={fetch} name={debouncedSearch} />
       </div>
     </PageLayout>
