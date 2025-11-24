@@ -1,6 +1,6 @@
-import { cookies } from "next/headers";
-import { jwtDecode } from "jwt-decode";
-import { COOKIES_KEYS } from "./staticKeys";
+import { cookies } from 'next/headers';
+import { jwtDecode } from 'jwt-decode';
+import { COOKIES_KEYS } from './staticKeys';
 
 interface JwtPayload {
   sub: string;
@@ -17,8 +17,9 @@ export const saveTokens = async (accessToken: string): Promise<void> => {
   const cookieStore = await cookies();
   cookieStore.set(COOKIES_KEYS.accessToken, accessToken, {
     httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
-    sameSite: "strict",
+    secure: process.env.NODE_ENV === 'production',
+    sameSite: 'strict',
+    maxAge: 60 * 60 * 24 * 7, // 7 days
   });
 };
 
