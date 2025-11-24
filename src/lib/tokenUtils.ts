@@ -16,9 +16,9 @@ export const getAccessToken = async (): Promise<string | null> => {
 export const saveTokens = async (accessToken: string): Promise<void> => {
   const cookieStore = await cookies();
   cookieStore.set(COOKIES_KEYS.accessToken, accessToken, {
-    httpOnly: true,
     secure: process.env.NODE_ENV === 'production',
-    sameSite: 'strict',
+    sameSite: 'lax',
+    httpOnly: true,
     maxAge: 60 * 60 * 24 * 7, // 7 days
   });
 };
