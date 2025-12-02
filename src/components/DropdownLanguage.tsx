@@ -55,23 +55,26 @@ export function DropdownLanguage() {
         </Button>
       </DropdownMenuTrigger>
 
-      <DropdownMenuContent className="min-w-0 w-fit" onCloseAutoFocus={(e => e.preventDefault())}>
+      <DropdownMenuContent
+        className="min-w-0 w-fit"
+        onCloseAutoFocus={(e) => e.preventDefault()}
+      >
         <DropdownMenuRadioGroup
           value={currentLocale}
           onValueChange={handleChange}
         >
           <DropdownMenuRadioItem
             value="en"
-            className="text-primary hover:!text-primary font-medium [&>span]:hidden p-2 flex justify-center
-                       data-[state=checked]:bg-secondary data-[state=checked]:text-primary"
+            className="text-primary hover:data-[state=checked]:!text-white font-medium [&>span]:hidden p-2 flex justify-center
+                       data-[state=checked]:bg-primary data-[state=checked]:text-white font-googlesans"
           >
             {t("ENGLISH")}
           </DropdownMenuRadioItem>
 
           <DropdownMenuRadioItem
             value="ar"
-            className="text-primary hover:!text-primary font-medium [&>span]:hidden p-2 flex justify-center
-                       data-[state=checked]:bg-secondary data-[state=checked]:text-primary"
+            className="text-primary hover:data-[state=checked]:!text-white font-medium [&>span]:hidden p-2 flex justify-center
+                       data-[state=checked]:bg-primary data-[state=checked]:text-white font-quicksand"
           >
             {t("ARABIC")}
           </DropdownMenuRadioItem>

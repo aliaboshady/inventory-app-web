@@ -12,21 +12,20 @@ type Props = {
   label: string;
   type: UploadType;
   className?: string;
+  expandImage?: boolean;
 };
 
-const Avatar = ({ src, label, type, className }: Props) => {
+const Avatar = ({ src, label, type, className, expandImage = true }: Props) => {
   const [open, setOpen] = useState(false);
 
   return (
     <>
       <div className="flex flex-row gap-5 items-center">
-        <button
-          disabled={!src}
-          onClick={src ? () => setOpen(true) : null}
-          className={twMerge(
-            "relative bg-neutral-300 w-10 h-10 overflow-hidden rounded-full flex justify-center items-center",
-            className
-          )}
+        <ImageButton
+          src={src}
+          className={className}
+          setOpen={setOpen}
+          expandImage={expandImage}
         >
           {src ? (
             <Image
@@ -40,7 +39,7 @@ const Avatar = ({ src, label, type, className }: Props) => {
           ) : (
             <ArmchairIcon className="w-full h-full p-2" />
           )}
-        </button>
+        </ImageButton>
         {label}
       </div>
 
@@ -67,5 +66,34 @@ const ImageFullscreen = ({
         <Image src={src} alt="Item" fill className="object-contain" />
       </DialogContent>
     </Dialog>
+  );
+};
+
+const ImageButton = ({
+  src,
+  className,
+  setOpen,
+  children,
+  expandImage = true,
+}: {
+  setOpen: (val: boolean) => void;
+  children: React.ReactNode;
+  src: string;
+  className?: string;
+  expandImage?: boolean;
+}) => {
+  const defaultClassName =
+    "relative bg-neutral-300 w-10 h-10 overflow-hidden rounded-full flex justify-center items-center";
+
+  return expandImage ? (
+    <button
+      disabled={!src}
+      onClick={src ? () => setOpen(true) : null}
+      className={twMerge(defaultClassName, className)}
+    >
+      {children}
+    </button>
+  ) : (
+    <div className={twMerge(defaultClassName, className)}>{children}</div>
   );
 };

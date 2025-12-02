@@ -53,7 +53,14 @@ const ItemsPage = ({
     categories?.map((c) => ({
       value: c._id,
       label: c.name,
-      labelNode: <Avatar label={c?.name} src={c?.imageURL} type="category" />,
+      labelNode: (
+        <Avatar
+          label={c?.name}
+          src={c?.imageURL}
+          type="category"
+          expandImage={false}
+        />
+      ),
     })) || [];
 
   const { request: fetch, data } = useRequest<
@@ -104,7 +111,7 @@ const ItemsPage = ({
   );
 
   return (
-    <PageLayout title="ITEMS">
+    <PageLayout title="PROPS">
       <Filter
         name={name}
         setName={setName}

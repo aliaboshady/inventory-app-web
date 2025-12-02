@@ -54,7 +54,7 @@ const EditItemDialog = ({
   const { request: createItemReq, isLoading: isLoadingCreatingItem } =
     useRequest<CreateItemPayload, ServerResponse<Item>>(createItem, {
       showSuccessToast: true,
-      successToastMessage: "ITEM_CREATE_SUCCESSFUL",
+      successToastMessage: "PROP_CREATE_SUCCESSFUL",
     });
 
   const { request: editItemReq, isLoading: isLoadingEditingItem } = useRequest<
@@ -62,7 +62,7 @@ const EditItemDialog = ({
     ServerResponse<Item>
   >(editItem, {
     showSuccessToast: true,
-    successToastMessage: "ITEM_EDIT_SUCCESSFUL",
+    successToastMessage: "PROP_EDIT_SUCCESSFUL",
   });
 
   const statuses = [
@@ -115,7 +115,7 @@ const EditItemDialog = ({
       <DialogContent className="sm:max-w-[800px] w-[calc(100%-2rem)] max-h-[calc(100%-2rem)] rounded-lg overflow-auto">
         <DialogHeader className="text-left">
           <DialogTitle className="text-xl">
-            {t(item ? "EDIT_ITEM" : "ADD_ITEM")}
+            {t(item ? "EDIT_PROP" : "ADD_PROP")}
           </DialogTitle>
         </DialogHeader>
 

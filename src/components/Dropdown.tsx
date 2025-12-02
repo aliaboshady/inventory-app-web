@@ -113,10 +113,9 @@ export default function Dropdown({
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild disabled={disabled}>
-        <Button
-          variant="outline"
+        <button
           className={twMerge(
-            `h-12 max-w-full min-w-0 group justify-between outline-none font-normal border-2 focus-visible:outline-none focus-visible:ring-0 ${
+            `h-12 flex flex-row items-center px-4 rounded-lg max-w-full min-w-0 group justify-between outline-none font-normal border-2 focus-visible:outline-none focus-visible:ring-0 ${
               !selected && "text-neutral-500"
             } ${error ? "border-danger focus:border-danger" : ""}`,
             className
@@ -132,7 +131,7 @@ export default function Dropdown({
               aria-hidden="true"
             />
           )}
-        </Button>
+        </button>
       </DropdownMenuTrigger>
 
       <DropdownMenuContent
@@ -183,10 +182,10 @@ export default function Dropdown({
                     }
                   }}
                   className={twMerge(
-                    "w-full justify-center hover:!bg-secondary/30 hover:!text-primary",
+                    "w-full justify-center hover:!bg-primary/20 hover:!text-primary",
                     (!selected ||
                       (Array.isArray(selected) && selected.length === 0)) &&
-                      "bg-secondary text-primary"
+                      "bg-primary text-white"
                   )}
                 >
                   {t(noneOptionValue)}
@@ -202,10 +201,10 @@ export default function Dropdown({
                     (setSelected as (val: string[]) => void)(allValues);
                   }}
                   className={twMerge(
-                    "w-full justify-center hover:!bg-secondary/30 hover:!text-primary",
+                    "w-full justify-center hover:!bg-primary/20 hover:!text-primary",
                     Array.isArray(selected) &&
                       selected.length === items?.length &&
-                      "bg-secondary text-primary"
+                      "bg-primary text-white"
                   )}
                 >
                   {t(allOptionValue)}
@@ -213,7 +212,7 @@ export default function Dropdown({
               )}
             </div>
 
-            <DropdownMenuSeparator className="bg-secondary" />
+            <DropdownMenuSeparator className="bg-primary/20" />
           </>
         )}
 
@@ -233,8 +232,8 @@ export default function Dropdown({
                   handleSelectMultiple(item?.value);
                 }}
                 className={twMerge(
-                  "font-medium px-2 py-2 cursor-pointer flex rtl:justify-end hover:!bg-secondary/30 hover:!text-primary",
-                  isSelected ? "bg-secondary text-primary" : ""
+                  "font-medium px-2 py-2 cursor-pointer flex rtl:justify-end hover:!bg-primary/20 hover:!text-primary",
+                  isSelected ? "bg-primary text-white" : ""
                 )}
               >
                 {item.labelNode ? (
@@ -253,8 +252,8 @@ export default function Dropdown({
                 key={item.value}
                 onClick={() => handleSelectSingle(item.value)}
                 dir="auto"
-                className={`truncate hover:!bg-secondary/30 hover:!text-primary ${
-                  selected === item.value && "bg-secondary text-primary"
+                className={`truncate hover:!bg-primary/20 hover:!text-primary ${
+                  selected === item.value && "bg-primary text-white"
                 }`}
               >
                 {item.labelNode ? (

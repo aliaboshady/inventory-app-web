@@ -53,7 +53,7 @@ const Table = ({
     deleteItem,
     {
       showSuccessToast: true,
-      successToastMessage: "ITEM_DELETE_SUCCESSFUL",
+      successToastMessage: "PROP_DELETE_SUCCESSFUL",
     }
   );
 

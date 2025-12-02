@@ -31,6 +31,7 @@ import { ROUTES } from "@/lib/staticKeys";
 import { User } from "@/models/user.model";
 import { DropdownLanguage } from "./DropdownLanguage";
 import AdminProfileDialog from "./AdminProfileDialog";
+import Image from "next/image";
 
 const items = [
   {
@@ -103,6 +104,14 @@ export function AdminSidebar({ me }: { me: User }) {
         </div>
 
         <SidebarHeader className="items-center py-4">
+          <Image
+            src="/images/logo-11.png"
+            alt="Logo"
+            width={170}
+            height={170}
+            className="object-contain"
+          />
+          
           <AdminProfileDialog me={me} />
         </SidebarHeader>
 

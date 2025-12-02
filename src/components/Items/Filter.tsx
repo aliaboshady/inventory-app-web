@@ -113,7 +113,7 @@ const Filter = ({
         />
 
         <Button onClick={() => setOpenAddAdmin(true)} className="h-12 text-lg">
-          <PlusIcon color="white" weight="bold" /> {t("ADD_ITEM")}
+          <PlusIcon color="white" weight="bold" /> {t("ADD_PROP")}
         </Button>
       </div>
 

@@ -34,7 +34,7 @@ const LoginForm = () => {
   });
 
   return (
-    <form onSubmit={formik.handleSubmit} className="flex flex-col gap-8">
+    <form onSubmit={formik.handleSubmit} className="flex flex-col gap-6">
       <TextInput
         label={t("EMAIL")}
         placeholder={t("ENTER_EMAIL")}

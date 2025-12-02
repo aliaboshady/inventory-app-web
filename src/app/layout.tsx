@@ -13,6 +13,12 @@ const quicksand = localFont({
   display: "swap",
 });
 
+const googlesans = localFont({
+  src: "../../public/fonts/GoogleSansFlex-VariableFont_GRAD,ROND,opsz,slnt,wdth,wght.ttf",
+  variable: "--font-googlesans",
+  display: "swap",
+});
+
 export const metadata: Metadata = {
   title: "EGC",
   description: "EGC",
@@ -26,7 +32,7 @@ export default async function RootLayout({
   return (
     <html lang={locale} dir={i18n.dir()}>
       <body
-        className={`${quicksand.variable} font-quicksand antialiased bg-white`}
+        className={`${quicksand.variable} ${googlesans.variable} ltr:font-googlesans rtl:font-quicksand antialiased bg-white`}
       >
         <TranslationsProvider
           resources={resources}

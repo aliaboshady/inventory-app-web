@@ -34,7 +34,7 @@ const QRCodeDialog = ({ item, onAction }: Props) => {
     ServerResponse<Item>
   >(editItem, {
     showSuccessToast: true,
-    successToastMessage: "ITEM_EDIT_SUCCESSFUL",
+    successToastMessage: "PROP_EDIT_SUCCESSFUL",
   });
 
   const handleSubmit = async () => {
