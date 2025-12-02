@@ -1,27 +1,27 @@
-import type { Metadata } from "next";
-import localFont from "next/font/local";
-import "./globals.css";
-import getTranslation from "../../i18n";
-import TranslationsProvider from "@/components/providers/TranslationsProvider";
-import NextTopLoader from "nextjs-toploader";
-import { getTailwindColor } from "@/lib/utils";
-import { ToastContainer } from "react-toastify";
+import type { Metadata } from 'next';
+import localFont from 'next/font/local';
+import './globals.css';
+import getTranslation from '../../i18n';
+import TranslationsProvider from '@/components/providers/TranslationsProvider';
+import NextTopLoader from 'nextjs-toploader';
+import { getTailwindColor } from '@/lib/utils';
+import { ToastContainer } from 'react-toastify';
 
 const quicksand = localFont({
-  src: "../../public/fonts/Quicksand-VariableFont_wght.ttf",
-  variable: "--font-quicksand",
-  display: "swap",
+  src: '../../public/fonts/Quicksand-VariableFont_wght.ttf',
+  variable: '--font-quicksand',
+  display: 'swap',
 });
 
 const googlesans = localFont({
-  src: "../../public/fonts/GoogleSansFlex-VariableFont_GRAD,ROND,opsz,slnt,wdth,wght.ttf",
-  variable: "--font-googlesans",
-  display: "swap",
+  src: '../../public/fonts/GoogleSansFlex-VariableFont_GRAD,ROND,opsz,slnt,wdth,wght.ttf',
+  variable: '--font-googlesans',
+  display: 'swap',
 });
 
 export const metadata: Metadata = {
-  title: "EGC",
-  description: "EGC",
+  title: 'Anan Fathi Warehouse',
+  description: 'Anan Fathi Warehouse',
 };
 
 export default async function RootLayout({
@@ -37,9 +37,9 @@ export default async function RootLayout({
         <TranslationsProvider
           resources={resources}
           locale={locale}
-          namespaces={["locale"]}
+          namespaces={['locale']}
         >
-          <NextTopLoader showSpinner color={getTailwindColor("primary")} />
+          <NextTopLoader showSpinner color={getTailwindColor('primary')} />
           {children}
           <ToastContainer position="bottom-center" autoClose={2000} />
         </TranslationsProvider>
